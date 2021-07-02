@@ -60,6 +60,40 @@
     </div>
 
     <script>
+        function getCookies() {
+            const cookies = Object.fromEntries(
+                document.cookie.split('; ').map((entry) => entry.split('='))
+            );
+            return cookies;
+        }
+
+        let cookies = getCookies();
+
+        const lockButtons = document.getElementsByClassName('lock');
+        const saveCodeContainer = document.getElementById('save-code');
+        const newButton = document.getElementById('new');
+        const shuffleButton = document.getElementById('shuffle');
+        let lockedEntries = cookies.locked ? cookies.locked.split('-') : [];
+        let saveCode = '<?= $kipbingo->getSaveCode(); ?>';
+
+        if (!cookies.savecode) {
+            document.cookie = `savecode=${saveCode}; path=/;`;
+            cookies = getCookies();
+        }
+
+
+        saveCode = cookies.savecode;
+
+        let saveCodeArr = saveCode.split('-');
+        saveCodeArr.forEach((code) => {
+            if (code.includes('a')) {
+                code = code.replace('a', '');
+                console.log(code);
+                let cell = document.querySelector(`.cell-wrapper[data-id='${code}']`);
+                cell.classList.add('ticked');
+            }
+        })
+
         const newOptionForm = document.getElementById('new-option');
 
         newOptionForm.addEventListener('submit', (e) => {
@@ -90,18 +124,29 @@
             multiLine: true,
         });
 
-        const cookies = Object.fromEntries(
-            document.cookie.split('; ').map((entry) => entry.split('='))
-        );
+        for (let i = 0; i < cells.length; i++) {
+            let cell = cells[i];
+            cell.addEventListener('click', (e) => {
+                if (cell.classList.contains('ticked')) {
+                    saveCode = saveCode.split('-');
+                    let index = saveCode.indexOf(cell.dataset.id + 'a');
+                    saveCode.splice(index, 1, cell.dataset.id);
+                    saveCode = saveCode.join('-');
+                    cell.classList.remove('ticked');
+                    document.cookie = `savecode=${saveCode}; path=/;`;
+                    saveCodeContainer.innerText = saveCode;
+                } else {
+                    saveCode = saveCode.split('-');
+                    let index = saveCode.indexOf(cell.dataset.id);
+                    saveCode.splice(index, 1, cell.dataset.id + 'a');
+                    saveCode = saveCode.join('-');
+                    cell.classList.add('ticked');
+                    document.cookie = `savecode=${saveCode}; path=/;`;
+                    saveCodeContainer.innerText = saveCode;
+                }
+            })
+        }
 
-        const lockButtons = document.getElementsByClassName('lock');
-        const saveCodeContainer = document.getElementById('save-code');
-        const newButton = document.getElementById('new');
-        const shuffleButton = document.getElementById('shuffle');
-        let saveCode = '<?= $kipbingo->getSaveCode(); ?>';
-        let lockedEntries = cookies.locked ? cookies.locked.split('-') : [];
-
-        document.cookie = `savecode=${saveCode}; path=/;`;
         saveCodeContainer.innerText = saveCode;
 
         saveCodeContainer.addEventListener('click', () => {
@@ -128,8 +173,8 @@
 
         newButton.addEventListener('click', () => {
             if (lockedEntries.length > 0) {
-                document.cookie = `savecode=${lockedEntries.join('-')};`;
-                document.cookie = `locked=${lockedEntries.join('-')};`;
+                document.cookie = `savecode=${lockedEntries.join('-')}; path=/`;
+                document.cookie = `locked=${lockedEntries.join('-')}; path=/`;
             } else {
                 document.cookie = `savecode=; expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
                 document.cookie = `locked=; expires=Thu, 01 Jan 1970 00:00:01 GMT;`;

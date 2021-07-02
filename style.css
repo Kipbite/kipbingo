@@ -21,6 +21,10 @@
     white-space: pre-line;
 }
 
+.cell-wrapper.ticked {
+    background-color: #f6a1a2;
+}
+
 img {
     max-width: 100%;
 }

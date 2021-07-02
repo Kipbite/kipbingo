@@ -110,12 +110,22 @@
             }
         }
 
+        function getID($text) {
+            foreach ($this->data as $datum) {
+                $el = array_search($text, $datum) ? $datum : null;
+                
+                if ($el) {
+                    return $el['id'];
+                }
+            }
+        }
+
         function displayGrid() {
             $this->list = array_slice($this->list, 0, 24);
             array_splice($this->list, 12, 0, "<img src='/images/freespace.png' class='freespace'>");
 
             for ($i = 0; $i < count($this->list); $i++) {
-                echo "<div class='cell-wrapper'><div class='cell'>".$this->list[$i]."</div></div>";
+                echo "<div class='cell-wrapper' data-id='".$this->getID($this->list[$i])."'><div class='cell'>".$this->list[$i]."</div></div>";
             }
 
             $positions = [
