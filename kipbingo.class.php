@@ -1,6 +1,7 @@
 <?php
+    include_once('twitchAPI.class.php');
 
-    class kipbingo
+    class kipbingo extends twitchAPI
     {
         public $collection;
         public $list;
@@ -9,6 +10,8 @@
         public $data;
 
         function __construct() {
+            parent::__construct();
+
             $mongo = 1;
 
             if ($mongo) {
@@ -50,7 +53,6 @@
                     throw new \PDOException($e->getMessage(), (int)$e->getCode());
                 }
             }
-
         }
 
         function getList($code = null) {
