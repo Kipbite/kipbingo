@@ -127,7 +127,7 @@
             array_splice($this->list, 12, 0, "<img src='/images/freespace.png' class='freespace'>");
 
             for ($i = 0; $i < count($this->list); $i++) {
-                echo "<div class='cell-wrapper' data-id='".$this->getID($this->list[$i])."'><div class='cell'>".$this->list[$i]."</div></div>";
+                echo "<div class='cell-wrapper' data-id='".$this->getID($this->list[$i])."'><div class='cell-bg'></div><div class='cell'>".$this->list[$i]."</div></div>";
             }
 
             $positions = [

@@ -49,7 +49,7 @@
 
             <form id="new-option">
                 <input type="text" name="new" id="new-option-input" placeholder="add something new!"></input>
-                <button><img src="/images/pog.png" class="pog"></button>
+                <button id="new-option-button"><img src="/images/pog.png" class="pog"></button>
             </form>
 
             <div class="save">
@@ -69,6 +69,7 @@
 
         let cookies = getCookies();
 
+        const emotes = JSON.parse('<?= $kipbingo->getEmotes(); ?>');
         const lockButtons = document.getElementsByClassName('lock');
         const saveCodeContainer = document.getElementById('save-code');
         const newButton = document.getElementById('new');
@@ -81,16 +82,20 @@
             cookies = getCookies();
         }
 
-
         saveCode = cookies.savecode;
+
+        function getRandomEmote() {
+            let randomInt = Math.floor(Math.random() * (emotes.length));
+            return emotes[randomInt].images.url_4x;
+        }
 
         let saveCodeArr = saveCode.split('-');
         saveCodeArr.forEach((code) => {
             if (code.includes('a')) {
                 code = code.replace('a', '');
-                console.log(code);
                 let cell = document.querySelector(`.cell-wrapper[data-id='${code}']`);
                 cell.classList.add('ticked');
+                cell.querySelector('.cell-bg').style.backgroundImage = `url('${getRandomEmote()}')`;
             }
         })
 
@@ -135,6 +140,7 @@
                     cell.classList.remove('ticked');
                     document.cookie = `savecode=${saveCode}; path=/;`;
                     saveCodeContainer.innerText = saveCode;
+                    cell.querySelector('.cell-bg').style.backgroundImage = '';
                 } else {
                     saveCode = saveCode.split('-');
                     let index = saveCode.indexOf(cell.dataset.id);
@@ -143,6 +149,7 @@
                     cell.classList.add('ticked');
                     document.cookie = `savecode=${saveCode}; path=/;`;
                     saveCodeContainer.innerText = saveCode;
+                    cell.querySelector('.cell-bg').style.backgroundImage = `url('${getRandomEmote()}')`;
                 }
             })
         }

@@ -61,16 +61,12 @@
             //execute post
             $response = curl_exec($ch);
 
-            if ($JSONencode) {
-                return $response;
-            } else {
-                return json_decode($response);
-            }
+            return $JSONencode ? $response : json_decode($response);
         }
 
-        function getEmotes() {
+        function getEmotes($JSONencode = true) {
             $response = $this->sendRequest("https://api.twitch.tv/helix/chat/emotes?broadcaster_id=".$this->env['TWITCH_CHANNEL_ID'], false);
             $emotes = $response->data;
-            return $emotes;
+            return $JSONencode ? json_encode($emotes) : $emotes;
         }
     }
