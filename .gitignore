@@ -2,3 +2,4 @@ vendor
 images
 .DS_Store
 .env
+test.php

@@ -5,35 +5,46 @@
         private $env;
     
         function __construct() {
-            include_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
-            $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+            error_reporting(E_ALL);
+            include_once($_SERVER['DOCUMENT_ROOT'] . '/../vendor/autoload.php');
+            $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
             $dotenv->load();
             $this->env = $_ENV;
         }
 
+        /**
+         * Returns a Twitch app access token
+         * Doesn't require user verification
+         * 
+         * @return object Object with token at access_token
+         */
         function getAuthToken() {
-            //The url you wish to send the POST request to
             $url = "https://id.twitch.tv/oauth2/token?client_id=".$this->env['TWITCH_CLIENT_ID']."&client_secret=".$this->env['TWITCH_SECRET']."&grant_type=client_credentials";
 
-            //open connection
             $ch = curl_init();
 
-            //set the url, number of POST vars, POST data
             curl_setopt($ch,CURLOPT_URL, $url);
             curl_setopt($ch,CURLOPT_POST, true);
-
-            //So that curl_exec returns the contents of the cURL; rather than echoing it
             curl_setopt($ch,CURLOPT_RETURNTRANSFER, true); 
 
-            //execute post
             $response = curl_exec($ch);
             $oauthToken = json_decode($response);
 
             return $oauthToken;
         }
 
+        /**
+         * Send an API request
+         * 
+         * @param string $url The URL to send to
+         * @param bool $JSONencode Whether or not JSON should be returned
+         * @param string $type GET, POST etc.
+         * @param array $headers Array of headers to send with request
+         * 
+         * @return string/mixed Server response, may be JSON depending on the value
+         * of $JSONencode
+         */
         function sendRequest($url, $JSONencode = true, $type = "GET", $headers = null, $data = null) {
-            //open connection
             $ch = curl_init();
 
             if (!$headers) {
@@ -42,31 +53,33 @@
                     'Client-ID: ' . $this->env['TWITCH_CLIENT_ID'],
                 ];
             }
-            
-            //set the url, number of POST vars, POST data
             curl_setopt($ch,CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);            
-
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             if ($type == "POST" && $data) {
-                //The data you want to send via POST
-                //url-ify the data for the POST
                 $dataStr = http_build_query($data);
                 curl_setopt($ch,CURLOPT_POST, true);
                 curl_setopt($ch,CURLOPT_POSTFIELDS, $dataStr);
             }
-
-            //So that curl_exec returns the contents of the cURL; rather than echoing it
             curl_setopt($ch,CURLOPT_RETURNTRANSFER, true); 
-
-            //execute post
             $response = curl_exec($ch);
 
             return $JSONencode ? $response : json_decode($response);
         }
 
-        function getEmotes($JSONencode = true) {
-            $response = $this->sendRequest("https://api.twitch.tv/helix/chat/emotes?broadcaster_id=".$this->env['TWITCH_CHANNEL_ID'], false);
+        /**
+         * Gets list of emotes available
+         * 
+         * @param bool $JSONencode Whether or not JSON should be returned
+         * @param string $id ID of twitch channel to get emotes from
+         * 
+         * @return string/mixed Object with emote data, may be JSON 
+         * depending on the value of $JSONencode
+         */
+        function getEmotes($JSONencode = true, $id = null) {
+            $id = $id ?? $this->env['TWITCH_CHANNEL_ID'];
+            $response = $this->sendRequest("https://api.twitch.tv/helix/chat/emotes?broadcaster_id=".$id, false);
             $emotes = $response->data;
+
             return $JSONencode ? json_encode($emotes) : $emotes;
         }
     }

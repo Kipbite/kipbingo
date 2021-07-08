@@ -70,6 +70,11 @@
         let cookies = getCookies();
 
         const emotes = JSON.parse('<?= $kipbingo->getEmotes(); ?>');
+        emotes.forEach((emote) => {
+            let img = new Image();
+            img.src = emote.images.url_4x;
+        });
+
         const lockButtons = document.getElementsByClassName('lock');
         const saveCodeContainer = document.getElementById('save-code');
         const newButton = document.getElementById('new');

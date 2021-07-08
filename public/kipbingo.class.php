@@ -15,7 +15,7 @@
             $mongo = 1;
 
             if ($mongo) {
-                include($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
+                include($_SERVER['DOCUMENT_ROOT'] . '/../vendor/autoload.php');
                 $client = new MongoDB\Client(
                     'mongodb+srv://chester:Rzzk4YIx5b9EGEOs@wyvernhole.2ydpn.mongodb.net/wyvernhole?retryWrites=true&w=majority'
                 );
