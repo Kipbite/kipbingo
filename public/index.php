@@ -76,6 +76,7 @@
         });
 
         const lockButtons = document.getElementsByClassName('lock');
+        const binButtons = document.getElementsByClassName('bin');
         const saveCodeContainer = document.getElementById('save-code');
         const newButton = document.getElementById('new');
         const shuffleButton = document.getElementById('shuffle');
@@ -194,6 +195,32 @@
 
             window.location = "/";
         });
+
+        for (let i = 0; i < binButtons.length; i++) {
+            let entry = binButtons[i];
+
+            entry.addEventListener('click', () => {
+                let formData = new FormData();
+                formData.append('item', entry.dataset.id);
+    
+                fetch('/delete-possibility.php', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                    },
+                    body: formData,
+                })
+                    .then(response => response.text())
+                    .then((response) => {
+                        location.reload();
+                    })
+                    .catch((response) => {
+                        console.log('uh oh');
+                        console.log(response);
+                    })
+            })
+
+        }
 
         for (let i = 0; i < lockButtons.length; i++) {
             let entry = lockButtons[i];

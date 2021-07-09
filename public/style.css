@@ -90,6 +90,10 @@ img {
     background-repeat: no-repeat;
 }
 
+.possibilities li span {
+    margin-left: 5px;
+}
+
 .table {
     position: relative;
     margin: 0 auto 20px;

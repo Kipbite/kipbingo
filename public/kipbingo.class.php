@@ -12,47 +12,23 @@
         function __construct() {
             parent::__construct();
 
-            $mongo = 1;
+            include($_SERVER['DOCUMENT_ROOT'] . '/../vendor/autoload.php');
+            $client = new MongoDB\Client(
+                'mongodb+srv://chester:Rzzk4YIx5b9EGEOs@wyvernhole.2ydpn.mongodb.net/wyvernhole?retryWrites=true&w=majority'
+            );
+            $database = $client->kipbingo;
+            $collection = $database->possibilities;
+            $this->collection = $collection;
 
-            if ($mongo) {
-                include($_SERVER['DOCUMENT_ROOT'] . '/../vendor/autoload.php');
-                $client = new MongoDB\Client(
-                    'mongodb+srv://chester:Rzzk4YIx5b9EGEOs@wyvernhole.2ydpn.mongodb.net/wyvernhole?retryWrites=true&w=majority'
-                );
-                $database = $client->kipbingo;
-                $collection = $database->possibilities;
-                $this->collection = $collection;
-    
-                $results = $collection->find([]);
-                foreach ($results as $result) {
-                    $data []= [
-                        'id' => $result->id,
-                        'text' => $result->text,
-                    ];
-                }
-    
-                $this->data = $data;
-            } else {
-                $host = "localhost:8889";
-                $username = "root";
-                $password = "root";
-                $dbname = "kipbingo";
-            
-                // Create PDO connection
-                $dsn = "mysql:host=$host;dbname=$dbname;charset=utf8mb4";
-                $options = [
-                    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                    PDO::ATTR_EMULATE_PREPARES   => false,
+            $results = $collection->find([]);
+            foreach ($results as $result) {
+                $data []= [
+                    'id' => $result->id,
+                    'text' => $result->text,
                 ];
-                try {
-                    $this->pdo = new PDO($dsn, $username, $password, $options);
-                    $data = $this->pdo->query('SELECT * FROM possibilities')->fetchAll();
-                    $this->data = $data;
-                } catch (\PDOException $e) {
-                    throw new \PDOException($e->getMessage(), (int)$e->getCode());
-                }
             }
+
+            $this->data = $data;
         }
 
         function getList($code = null) {
@@ -106,8 +82,9 @@
                     echo "<li>";
                 }
                 echo "<img src='/images/unlocked.png' class='mod lock unlocked' data-id='".$item['id']."'>";
+                echo "<img src='/images/bin.png' class='mod bin' data-id='".$item['id']."'>";
                 // echo "<img src='/images/bin.png' class='mod delete'>";
-                echo $item['text'];
+                echo "<span>".$item['text']."</span>";
                 echo "</li>";
             }
         }
@@ -192,9 +169,21 @@
                 }
             }
 
-            $result = $this->collection->insertOne([
+            $this->collection->insertOne([
                 'id' => $biggest + 1,
                 'text' => $possibility,
+            ]);
+        }
+
+        function deletePossibility($possibility) {
+            if (!$possibility) {
+                return;
+            }
+
+            $id = intval($possibility);
+
+            $deleted = $this->collection->deleteOne([
+                'id' => $id
             ]);
         }
     }
