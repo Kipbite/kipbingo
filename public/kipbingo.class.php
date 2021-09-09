@@ -3,7 +3,7 @@
 
     class kipbingo extends twitchAPI
     {
-        public $collection;
+        public $database;
         public $list;
         public $fullList;
         public $listUnshuffled;
@@ -17,10 +17,9 @@
                 'mongodb+srv://chester:Rzzk4YIx5b9EGEOs@wyvernhole.2ydpn.mongodb.net/wyvernhole?retryWrites=true&w=majority'
             );
             $database = $client->kipbingo;
-            $collection = $database->possibilities;
-            $this->collection = $collection;
+            $this->database = $database;
 
-            $results = $collection->find([]);
+            $results = $database->possibilities->find([]);
             foreach ($results as $result) {
                 $data []= [
                     'id' => $result->id,
@@ -64,14 +63,14 @@
                     $list []= $diffedList[$i];
                     $i++;
                 }
-                $this->list = $list;
             } else {
                 foreach ($this->data as $row) {
                     $list []= $row['text'];
                 }
                 shuffle($list);
-                $this->list = $list;
             }
+            $this->list = $list;
+            return $list;
         }
 
         function displayList() {
@@ -169,7 +168,7 @@
                 }
             }
 
-            $this->collection->insertOne([
+            $this->database->possibilities->insertOne([
                 'id' => $biggest + 1,
                 'text' => $possibility,
             ]);
@@ -182,8 +181,25 @@
 
             $id = intval($possibility);
 
-            $deleted = $this->collection->deleteOne([
+            $deleted = $this->database->possibilities->deleteOne([
                 'id' => $id
             ]);
+        }
+
+        function saveSession($code, $name) {
+            $this->database->sessions->insertOne([
+                'session_name' => $name,
+                'code' => $code,
+            ]);
+        }
+
+        function getSession($name = null) {
+            if ($name) {
+                $results = $this->database->sessions->findOne(['name' => $name]);
+            } else {
+                $results = $this->database->sessions->findOne([]);
+            }
+
+            return $results->code;
         }
     }

@@ -240,3 +240,8 @@ img {
 .addon:hover {
     opacity: .3;
 }
+
+#save-session-container {
+    display: flex;
+    flex-direction: column;
+}
