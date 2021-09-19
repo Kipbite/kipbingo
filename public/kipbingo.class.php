@@ -187,18 +187,28 @@
         }
 
         function saveSession($code, $name) {
-            $this->database->sessions->insertOne([
-                'session_name' => $name,
-                'code' => $code,
-                'last_updated' => date(),
-            ]);
+            $this->database->sessions->updateOne(
+                ['session_name' => $name],
+                [
+                    '$set' => [
+                        'code' => $code,
+                        'last_updated' => time()
+                    ]
+                ],
+                ['upsert' => true]
+            );
         }
 
         function getSession($name = null) {
             if ($name) {
                 $results = $this->database->sessions->findOne(['name' => $name]);
             } else {
-                $results = $this->database->sessions->findOne([]);
+                $results = $this->database->sessions->findOne(
+                    [],
+                    [
+                        'sort' => ['last_updated' => -1]
+                    ]
+                );
             }
 
             return $results->code;
