@@ -1,5 +1,4 @@
-
-<script type="text/javascript" src="words.js"></script>
+<script type="text/javascript" src="/words.js"></script>
 <script>
     function getCookies() {
         const cookies = Object.fromEntries(

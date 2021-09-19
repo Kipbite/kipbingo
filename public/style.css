@@ -191,7 +191,7 @@ img {
     opacity: 1;
 }
 
-#new-option {
+.submit-form {
     margin-top: 20px;
     display: flex;
     align-items: center;
@@ -199,7 +199,7 @@ img {
     gap: 10px;
 }
 
-#new-option input {
+.submit-form input {
     width: 100%;
     padding: 10px 20px;
     border: 3px solid #000;
@@ -207,11 +207,11 @@ img {
     font-size: 20px;
 }
 
-#new-option input:focus {
+.submit-form input:focus {
     outline: none;
 }
 
-#new-option button {
+.submit-form button {
     border-radius: 10px;
     border: 3px solid #000;
     background: #f6a1a2;
@@ -224,7 +224,7 @@ img {
     justify-content: center;
 }
 
-#new-option button:hover {
+.submit-form button:hover {
     background: #000;
     color: #fff;
 }
@@ -282,13 +282,13 @@ img {
     font-size: 25px;
     background: #fff;
     border: 3px solid #000;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
     width: 100%;
 }
 
 .session-item:hover {
-    background: #f6a1a2;
+    background: #ededed;
 }
 
 #sessions-popup-close {

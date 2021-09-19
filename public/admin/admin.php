@@ -1,6 +1,4 @@
 <?php
-    include_once('header.php');
-
     if (!empty($_GET['savecode'])) {
         $kipbingo->getList($_GET['savecode']);
     } elseif (!empty($_COOKIE['savecode'])) {
@@ -33,7 +31,7 @@
             ?>
         </ul>
 
-        <form id="new-option">
+        <form id="new-option" class="submit-form">
             <input type="text" name="new" id="new-option-input" placeholder="add something new!"></input>
             <button id="new-option-button"><img src="/images/pog.png" class="pog"></button>
         </form>
@@ -59,5 +57,5 @@
 </div>
 
 <?php
-    include('js.php');
+    include_once('../js.php');
 ?>
