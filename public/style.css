@@ -244,4 +244,64 @@ img {
 #save-session-container {
     display: flex;
     flex-direction: column;
+    width: 100%;
+}
+
+#save-session-container input {
+    font-size: 20px;
+    background: #fff;
+    border: 3px solid #000;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+#sessions-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 1px 8px 20px 3px #00000061;
+    padding: 25px;
+    background-color: #fff;
+    border-radius: 10px;
+    border: 3px solid #000;
+}
+
+#sessions-popup.active {
+    display: block;
+}
+
+#sessions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.session-item {
+    font-size: 25px;
+    background: #fff;
+    border: 3px solid #000;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.session-item:hover {
+    background: #f6a1a2;
+}
+
+#sessions-popup-close {
+    font-size: 16px;
+    border: 0;
+    background: none;
+    color: #f6a1a2;
+    text-decoration: underline;
+    margin: 20px auto 0;
+    display: block;
+    cursor: pointer;
+}
+
+#sessions-popup-close:hover {
+    text-decoration: none;
 }

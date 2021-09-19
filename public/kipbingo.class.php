@@ -80,7 +80,7 @@
                 } else {
                     echo "<li>";
                 }
-                echo "<img src='/images/unlocked.png' class='mod lock unlocked' data-id='".$item['id']."'>";
+                // echo "<img src='/images/unlocked.png' class='mod lock unlocked' data-id='".$item['id']."'>";
                 echo "<img src='/images/bin.png' class='mod bin' data-id='".$item['id']."'>";
                 // echo "<img src='/images/bin.png' class='mod delete'>";
                 echo "<span>".$item['text']."</span>";
@@ -190,6 +190,7 @@
             $this->database->sessions->insertOne([
                 'session_name' => $name,
                 'code' => $code,
+                'last_updated' => date(),
             ]);
         }
 
@@ -201,5 +202,14 @@
             }
 
             return $results->code;
+        }
+
+        function getAllSessions() {
+            $results = $this->database->sessions->find([]);
+            $sessions = [];
+            foreach ($results as $result) {
+                $sessions[] = $result;
+            }
+            return $sessions;
         }
     }

@@ -78,7 +78,8 @@
         function getEmotes($JSONencode = true, $id = null) {
             $id = $id ?? $this->env['TWITCH_CHANNEL_ID'];
             $response = $this->sendRequest("https://api.twitch.tv/helix/chat/emotes?broadcaster_id=".$id, false);
-            $emotes = $response->data;
+
+            $emotes = $response->data ?? null;
 
             return $JSONencode ? json_encode($emotes) : $emotes;
         }
