@@ -12,6 +12,7 @@
 
 .cell {
     display: flex;
+    flex-direction: column-reverse;
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -20,6 +21,16 @@
     font-family: sans-serif;
     white-space: pre-line;
     position: relative;
+}
+
+.cell small {
+    padding: 5px;
+    background-color: #444;
+    color: #fff;
+    font-size: 12px!important;
+    position: absolute;
+    top: 2px;
+    left: 2px;
 }
 
 img {

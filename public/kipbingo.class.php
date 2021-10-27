@@ -102,8 +102,10 @@
             $this->list = array_slice($this->list, 0, 24);
             array_splice($this->list, 12, 0, "<img src='/images/freespace.png' class='freespace'>");
 
+            $coordArr = ['1a', '1b', '1c', '1d', '1e', '2a', '2b', '2c', '2d', '2e', '3a', '3b', '3c', '3d', '3e', '4a', '4b', '4c', '4d', '4e', '5a', '5b', '5c', '5d', '5e'];
+
             for ($i = 0; $i < count($this->list); $i++) {
-                echo "<div class='cell-wrapper' data-id='".$this->getID($this->list[$i])."'><div class='cell-bg'></div><div class='cell'>".$this->list[$i]."</div></div>";
+                echo "<div class='cell-wrapper' data-coord='".$coordArr[$i]."' data-id='".$this->getID($this->list[$i])."'><div class='cell-bg'></div><div class='cell'>".$this->list[$i]."<small>".$this->getID($this->list[$i])."</small></div></div>";
             }
 
             $positions = [

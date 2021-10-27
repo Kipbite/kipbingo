@@ -84,10 +84,18 @@
         multiLine: true,
     });
 
+    let coordsHor = {};
+    let coordsVer = {};
+
+    
+
     for (let i = 0; i < cells.length; i++) {
         let cell = cells[i];
+        let cellCoord = cell.dataset.coord;
         cell.addEventListener('click', (e) => {
             if (cell.classList.contains('ticked')) {
+                delete coordsHor[cellCoord.charAt(0)][cellCoord.charAt(1)];
+                delete coordsVer[cellCoord.charAt(1)][cellCoord.charAt(0)];
                 saveCode = saveCode.split('-');
                 let index = saveCode.indexOf(cell.dataset.id + 'a');
                 saveCode.splice(index, 1, cell.dataset.id);
@@ -97,6 +105,8 @@
                 saveCodeContainer.innerText = saveCode;
                 cell.querySelector('.cell-bg').style.backgroundImage = '';
             } else {
+                coordsHor[cellCoord.charAt(0)][cellCoord.charAt(1)] = true;
+                coordsVer[cellCoord.charAt(1)][cellCoord.charAt(0)] = true;
                 saveCode = saveCode.split('-');
                 let index = saveCode.indexOf(cell.dataset.id);
                 saveCode.splice(index, 1, cell.dataset.id + 'a');
@@ -110,7 +120,39 @@
             if (currentSession != '') {
                 saveSession(saveCode, currentSession, false);
             }
+
+            bingoChecker(coordsHor, 'hor');
+            bingoChecker(coordsVer, 'ver');
         })
+
+        if (!coordsHor[cellCoord.charAt(0)]) {
+            coordsHor[cellCoord.charAt(0)] = {};
+        }
+        if (!coordsVer[cellCoord.charAt(1)]) {
+            coordsVer[cellCoord.charAt(1)] = {};
+        }
+
+        if (cell.classList.contains('ticked')) {
+            coordsHor[cellCoord.charAt(0)][cellCoord.charAt(1)] = true;
+            coordsVer[cellCoord.charAt(1)][cellCoord.charAt(0)] = true;
+        } else {
+            delete coordsHor[cellCoord.charAt(0)][cellCoord.charAt(1)];
+            delete coordsVer[cellCoord.charAt(1)][cellCoord.charAt(0)];
+        }
+    }
+    bingoChecker(coordsHor, 'hor');
+    bingoChecker(coordsVer, 'ver');
+
+    function bingoChecker(coords, angle) {
+        for (const [key, value] of Object.entries(coords)) {
+            if (Object.keys(value).length == 5) {
+                if (angle == 'hor') {
+                    console.log('horizontal bingo on line '+key);
+                } else {
+                    console.log('vertical bingo on col '+key);
+                }
+            }
+        }
     }
 
     saveCodeContainer.innerText = saveCode;
