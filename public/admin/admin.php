@@ -17,7 +17,11 @@
             ?>
         </div>
 
-        <div id="session-title"></div>
+        <div id="session-title">
+            <?=
+                !empty($_GET['sessionname']) ? "<h2>".$_GET['sessionname']."</h2>" : "";
+            ?>
+        </div>
 
         <div class="buttons">
             <img class="btn" id="new" src="/images/new.png" alt="new">

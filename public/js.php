@@ -138,13 +138,8 @@
     });
 
     newButton.addEventListener('click', () => {
-        if (lockedEntries.length > 0) {
-            document.cookie = `savecode=${lockedEntries.join('-')}; path=/`;
-            document.cookie = `locked=${lockedEntries.join('-')}; path=/`;
-        } else {
-            document.cookie = `savecode=; expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
-            document.cookie = `locked=; expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
-        }
+        document.cookie = `savecode=; expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
+        document.cookie = `locked=; expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
 
         window.location = window.location.href.split('?')[0];
     });
@@ -219,7 +214,7 @@
     saveInput.style.display = 'none';
     document.getElementById('save-session-container').prepend(saveInput);
 
-    let currentSession = '';
+    let currentSession = '<?= $_GET['sessionname'] ?? ""; ?>';
 
     function saveSession(saveCode, sessionName, updateButton = false) {
         const sessionTitle = document.querySelector('#session-title');
@@ -283,7 +278,8 @@
                         sessionElement.innerText = session.session_name;
                         sessionElement.addEventListener('click', () => {
                             // fetch to update
-                            window.location = '?savecode=' + session.code;
+                            let url = `?savecode=${session.code}&sessionname=${session.session_name}`;
+                            window.location = url;
                         });
                         sessionsList.appendChild(sessionElement);
                     });
