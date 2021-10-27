@@ -102,4 +102,68 @@
     closeSessionsPopup.addEventListener('click', () => {
         sessionsPopup.classList.remove('active');
     });
+
+    let coords = {
+        horizontal: {},
+        vertical: {}
+    };
+
+    let bingos = {};
+
+    for (let i = 0; i < cells.length; i++) {
+        let cell = cells[i];
+        let cellCoord = cell.dataset.coord;
+        if (!coords.horizontal[cellCoord.charAt(0)]) {
+            coords.horizontal[cellCoord.charAt(0)] = {};
+        }
+        if (!coords.vertical[cellCoord.charAt(1)]) {
+            coords.vertical[cellCoord.charAt(1)] = {};
+        }
+
+        if (cell.classList.contains('ticked')) {
+            console.log(cell);
+            coords.horizontal[cellCoord.charAt(0)][cellCoord.charAt(1)] = true;
+            coords.vertical[cellCoord.charAt(1)][cellCoord.charAt(0)] = true;
+        } else {
+            delete coords.horizontal[cellCoord.charAt(0)][cellCoord.charAt(1)];
+            delete coords.vertical[cellCoord.charAt(1)][cellCoord.charAt(0)];
+        }
+    }
+
+    function bingoChecker(obj) {
+        for (const [angle, coords] of Object.entries(obj)) {
+            for (const [key, value] of Object.entries(coords)) {
+                if (Object.keys(value).length == 5) {
+                    console.log(`bingo on ${angle}: ${key}`);
+                    bingos[key] = true;
+                } else {
+                    delete bingos[key];
+                }
+            }
+        }
+
+        for (let i = 0; i < cells.length; i++) {
+            cells[i].classList.remove('bingo');
+        }
+
+        for (const [key, value] of Object.entries(bingos)) {
+            for (let i = 0; i < cells.length; i++) {
+                let cellCoord = cells[i].dataset.coord;
+                if (cellCoord.includes(key)) {
+                    cells[i].classList.add('bingo');
+                    console.log('bingo added on ' + key);
+                }
+            }
+        }
+    }
+
+    if (bingoChecker(coords)) {
+        let key = bingoChecker(coords);
+        for (let i = 0; i < cells.length; i++) {
+            let cellCoord = cells[i].dataset.coord;
+            if (cellCoord.includes(key)) {
+                cells[i].classList.add('bingo');
+            }
+        }
+    }
 </script>

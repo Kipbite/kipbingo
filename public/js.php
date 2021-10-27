@@ -84,18 +84,20 @@
         multiLine: true,
     });
 
-    let coordsHor = {};
-    let coordsVer = {};
+    let coords = {
+        horizontal: {},
+        vertical: {}
+    };
 
-    
+    let bingos = {};
 
     for (let i = 0; i < cells.length; i++) {
         let cell = cells[i];
         let cellCoord = cell.dataset.coord;
         cell.addEventListener('click', (e) => {
             if (cell.classList.contains('ticked')) {
-                delete coordsHor[cellCoord.charAt(0)][cellCoord.charAt(1)];
-                delete coordsVer[cellCoord.charAt(1)][cellCoord.charAt(0)];
+                delete coords.horizontal[cellCoord.charAt(0)][cellCoord.charAt(1)];
+                delete coords.vertical[cellCoord.charAt(1)][cellCoord.charAt(0)];
                 saveCode = saveCode.split('-');
                 let index = saveCode.indexOf(cell.dataset.id + 'a');
                 saveCode.splice(index, 1, cell.dataset.id);
@@ -105,8 +107,8 @@
                 saveCodeContainer.innerText = saveCode;
                 cell.querySelector('.cell-bg').style.backgroundImage = '';
             } else {
-                coordsHor[cellCoord.charAt(0)][cellCoord.charAt(1)] = true;
-                coordsVer[cellCoord.charAt(1)][cellCoord.charAt(0)] = true;
+                coords.horizontal[cellCoord.charAt(0)][cellCoord.charAt(1)] = true;
+                coords.vertical[cellCoord.charAt(1)][cellCoord.charAt(0)] = true;
                 saveCode = saveCode.split('-');
                 let index = saveCode.indexOf(cell.dataset.id);
                 saveCode.splice(index, 1, cell.dataset.id + 'a');
@@ -121,35 +123,57 @@
                 saveSession(saveCode, currentSession, false);
             }
 
-            bingoChecker(coordsHor, 'hor');
-            bingoChecker(coordsVer, 'ver');
+            bingoChecker(coords);
         })
 
-        if (!coordsHor[cellCoord.charAt(0)]) {
-            coordsHor[cellCoord.charAt(0)] = {};
+        if (!coords.horizontal[cellCoord.charAt(0)]) {
+            coords.horizontal[cellCoord.charAt(0)] = {};
         }
-        if (!coordsVer[cellCoord.charAt(1)]) {
-            coordsVer[cellCoord.charAt(1)] = {};
+        if (!coords.vertical[cellCoord.charAt(1)]) {
+            coords.vertical[cellCoord.charAt(1)] = {};
         }
 
         if (cell.classList.contains('ticked')) {
-            coordsHor[cellCoord.charAt(0)][cellCoord.charAt(1)] = true;
-            coordsVer[cellCoord.charAt(1)][cellCoord.charAt(0)] = true;
+            coords.horizontal[cellCoord.charAt(0)][cellCoord.charAt(1)] = true;
+            coords.vertical[cellCoord.charAt(1)][cellCoord.charAt(0)] = true;
         } else {
-            delete coordsHor[cellCoord.charAt(0)][cellCoord.charAt(1)];
-            delete coordsVer[cellCoord.charAt(1)][cellCoord.charAt(0)];
+            delete coords.horizontal[cellCoord.charAt(0)][cellCoord.charAt(1)];
+            delete coords.vertical[cellCoord.charAt(1)][cellCoord.charAt(0)];
         }
     }
-    bingoChecker(coordsHor, 'hor');
-    bingoChecker(coordsVer, 'ver');
+    
+    if (bingoChecker(coords)) {
+        let key = bingoChecker(coords);
+        for (let i = 0; i < cells.length; i++) {
+            let cellCoord = cells[i].dataset.coord;
+            if (cellCoord.includes(key)) {
+                cells[i].classList.add('bingo');
+            }
+        }
+    }
 
-    function bingoChecker(coords, angle) {
-        for (const [key, value] of Object.entries(coords)) {
-            if (Object.keys(value).length == 5) {
-                if (angle == 'hor') {
-                    console.log('horizontal bingo on line '+key);
+    function bingoChecker(obj) {
+        for (const [angle, coords] of Object.entries(obj)) {
+            for (const [key, value] of Object.entries(coords)) {
+                if (Object.keys(value).length == 5) {
+                    console.log(`bingo on ${angle}: ${key}`);
+                    bingos[key] = true;
                 } else {
-                    console.log('vertical bingo on col '+key);
+                    delete bingos[key];
+                }
+            }
+        }
+
+        for (let i = 0; i < cells.length; i++) {
+            cells[i].classList.remove('bingo');
+        }
+
+        for (const [key, value] of Object.entries(bingos)) {
+            for (let i = 0; i < cells.length; i++) {
+                let cellCoord = cells[i].dataset.coord;
+                if (cellCoord.includes(key)) {
+                    cells[i].classList.add('bingo');
+                    console.log('bingo added on ' + key);
                 }
             }
         }

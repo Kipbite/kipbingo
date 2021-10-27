@@ -88,6 +88,10 @@ img {
         0 0 6px #000;
 }
 
+.cell-wrapper.bingo {
+    background-color: #f1d885;
+}
+
 .cell-bg {
     position: absolute;
     top: 0;
