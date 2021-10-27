@@ -17,6 +17,8 @@
             ?>
         </div>
 
+        <div id="session-title"></div>
+
         <div class="buttons">
             <img class="btn" id="new" src="/images/new.png" alt="new">
             <img class="btn" id="shuffle" src="/images/shuffle.png" alt="shuffle">

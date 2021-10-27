@@ -222,6 +222,9 @@
     let currentSession = '';
 
     function saveSession(saveCode, sessionName, updateButton = false) {
+        const sessionTitle = document.querySelector('#session-title');
+        sessionTitle.innerHTML = '<h2>'+sessionName+'</h2>';
+
         fetch(`/save-session.php?code=${saveCode}&name=${sessionName}`, {
             method: 'GET',
             headers: {

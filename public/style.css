@@ -305,3 +305,18 @@ img {
 #sessions-popup-close:hover {
     text-decoration: none;
 }
+
+#session-title h2 {
+    text-align: center;
+    font-size: 30px;
+    margin-top: -5px;
+}
+
+#session-title h2::before {
+    content: "Current session:";
+    font-weight: normal;
+    font-size: 16px;
+    margin-right: 5px;
+    font-style: italic;
+    display: block;
+}

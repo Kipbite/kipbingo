@@ -2,6 +2,7 @@
     include_once('header.php');
 
     $sessionCode = $_GET['savecode'] ?? $kipbingo->getSession();
+    $sessionName = $_GET['sessionname'] ?? $kipbingo->getSessionName();
     $kipbingo->getList($sessionCode);
 ?>
 
@@ -12,6 +13,10 @@
             <?php
                 $kipbingo->displayGrid();
             ?>
+        </div>
+
+        <div id="session-title">
+            <h2><?= $sessionName; ?></h2>
         </div>
 
         <button class="session-item" id="load">Load session</button>
@@ -83,7 +88,7 @@
                         sessionElement.innerText = session.session_name;
                         sessionElement.addEventListener('click', () => {
                             // fetch to update
-                            window.location = '?savecode=' + session.code;
+                            window.location = '?savecode=' + session.code + '&sessionname=' + session.session_name;
                         });
                         sessionsList.appendChild(sessionElement);
                     });

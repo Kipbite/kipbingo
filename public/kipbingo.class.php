@@ -214,6 +214,17 @@
             return $results->code;
         }
 
+        function getSessionName() {
+            $results = $this->database->sessions->findOne(
+                [],
+                [
+                    'sort' => ['last_updated' => -1]
+                ]
+            );
+
+            return $results->session_name;
+        }
+
         function getAllSessions() {
             $results = $this->database->sessions->find([]);
             $sessions = [];
