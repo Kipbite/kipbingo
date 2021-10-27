@@ -106,6 +106,10 @@
                 saveCodeContainer.innerText = saveCode;
                 cell.querySelector('.cell-bg').style.backgroundImage = `url('${getRandomEmote()}')`;
             }
+
+            if (currentSession != '') {
+                saveSession(saveCode, currentSession, false);
+            }
         })
     }
 
@@ -215,32 +219,41 @@
     saveInput.style.display = 'none';
     document.getElementById('save-session-container').prepend(saveInput);
 
-    saveButton.addEventListener('click', () => {
-        let sessionName = saveInput.value;
-        if (saveInputActive) {
-            fetch(`/save-session.php?code=${saveCode}&name=${sessionName}`, {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                },
-            })
-                .then((response) => {
+    let currentSession = '';
+
+    function saveSession(saveCode, sessionName, updateButton = false) {
+        fetch(`/save-session.php?code=${saveCode}&name=${sessionName}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            },
+        })
+            .then((response) => {
+                if (updateButton) {
                     saveInput.style.display = 'none'
                     saveButton.innerText = 'Saved!';
                     saveInputActive = false;
                     setTimeout(() => {
                         saveButton.innerText = 'Save session';
                     }, 1000);
+                }
+            })
+            .catch((response) => {
+                alert('Something went wrong, sorry!');
+                response.text().then((response) => {
+                    console.log(response);
                 })
-                .catch((response) => {
-                    alert('Something went wrong, sorry!');
-                    response.text().then((response) => {
-                        console.log(response);
-                    })
-                })
+            })
+    }
+
+    saveButton.addEventListener('click', () => {
+        let sessionName = saveInput.value;
+        if (saveInputActive) {
+            currentSession = sessionName;
+            saveSession(saveCode, sessionName, true);
         } else {
             saveInputActive = true;
-            saveInput.style.display = 'block'
+            saveInput.style.display = 'block';
         }
     });
 

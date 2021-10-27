@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/images/pog.png">
     <title>Kipyu Bingo!</title>
-    <link href="style.css?v=<?= time(); ?>" rel="stylesheet">
-    <script src="textFit.min.js"></script>
+    <link href="/style.css?v=<?= time(); ?>" rel="stylesheet">
+    <script src="/textFit.min.js"></script>
 </head>
 <body>
 
