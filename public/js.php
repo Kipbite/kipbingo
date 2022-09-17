@@ -55,15 +55,19 @@
     })
 
     const newOptionForm = document.getElementById('new-option');
+	console.log(newOptionForm);
 
     newOptionForm.addEventListener('submit', (e) => {
+		console.log('new option');
         e.preventDefault();
 
-        let item = document.getElementById('new-option-input').value;
+        const item = document.getElementById('new-option-input').value;
+        const game = document.getElementById('new-option-input').dataset.game;
 
-        if (item) {
+        if (item && game) {
             let formData = new FormData();
             formData.append('item', item);
+			formData.append('game', game);
 
             fetch('/new-possibility.php', {
                 method: 'POST',
@@ -240,7 +244,7 @@
         let entry = lockButtons[i];
 
         if (lockedEntries.includes(entry.dataset.id)) {
-            entry.src = "/images/locked.png";
+            entry.src = "https://kipbite-assets.fra1.digitaloceanspaces.com/locked.png";
             entry.classList.add('locked');
             entry.classList.remove('unlocked');
         }
@@ -248,13 +252,13 @@
         entry.addEventListener('click', () => {
             if (entry.classList.contains('unlocked')) {
                 lockedEntries.push(entry.dataset.id);
-                entry.src = "/images/locked.png";
+                entry.src = "https://kipbite-assets.fra1.digitaloceanspaces.com/locked.png";
                 entry.classList.add('locked');
                 entry.classList.remove('unlocked');
             } else {
                 let index = lockedEntries.indexOf(entry.dataset.id);
                 index > -1 ? lockedEntries.splice(index, 1) : null;
-                entry.src = "/images/unlocked.png";
+                entry.src = "https://kipbite-assets.fra1.digitaloceanspaces.com/unlocked.png";
                 entry.classList.add('unlocked');
                 entry.classList.remove('locked');
             }
@@ -359,5 +363,14 @@
     closeSessionsPopup.addEventListener('click', () => {
         sessionsPopup.classList.remove('active');
     });
+
+	const gameSelector = document.querySelector('.game-selector');
+
+	gameSelector.addEventListener('change', () => {
+		let date = new Date();
+		date.setTime(date.getTime() + (30*24*60*60*1000));
+		document.cookie = `game=${gameSelector.value}; expires=${date.toUTCString()}; path=/`;
+		document.location.reload();
+	});
 
 </script>

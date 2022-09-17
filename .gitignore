@@ -3,3 +3,4 @@ images
 .DS_Store
 .env
 test.php
+node_modules

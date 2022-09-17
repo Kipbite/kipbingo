@@ -10,7 +10,7 @@
 
 <div class="container">
     <div>
-        <img src="/images/bingo-header.png" class="header">
+        <img src="<?= $kipbingo->game->header; ?>" class="header">
         <div class='table'>
             <?php
                 $kipbingo->displayGrid();
@@ -24,13 +24,13 @@
         </div>
 
         <div class="buttons">
-            <img class="btn" id="new" src="/images/new.png" alt="new">
-            <img class="btn" id="shuffle" src="/images/shuffle.png" alt="shuffle">
+            <img class="btn" id="new" src="https://kipbite-assets.fra1.digitaloceanspaces.com/new.png" alt="new">
+            <img class="btn" id="shuffle" src="https://kipbite-assets.fra1.digitaloceanspaces.com/shuffle.png" alt="shuffle">
         </div>
     </div>
 
     <div class="possibilities">
-        <img src="/images/possibilities.png" class="header">
+        <img src="https://kipbite-assets.fra1.digitaloceanspaces.com/possibilities.png" class="header">
         <ul>
             <?php
                 $kipbingo->displayList();
@@ -38,8 +38,8 @@
         </ul>
 
         <form id="new-option" class="submit-form">
-            <input type="text" name="new" id="new-option-input" placeholder="add something new!"></input>
-            <button id="new-option-button"><img src="/images/pog.png" class="pog"></button>
+            <input type="text" name="new" id="new-option-input" placeholder="add something new!" data-game="<?= $kipbingo->game->name; ?>"></input>
+            <button id="new-option-button"><img src="https://kipbite-assets.fra1.digitaloceanspaces.com/pog.png" class="pog"></button>
         </form>
 
         <div class="buttons" id="save-session">
@@ -48,6 +48,17 @@
             </div>
             <button class="session-item" id="load">Load session</button>
         </div>
+
+		<div class="game-selector-container">
+			<select class="game-selector">
+				<?php
+					foreach ($kipbingo->allGames as $game) {
+						$selected = $game->name == $kipbingo->game->name ? 'selected' : '';
+						echo "<option value='$game->name' $selected>$game->name</option>";
+					}
+				?>
+			</select>
+		</div>
 
         <div class="save">
             Save code: <span id="save-code"></span>

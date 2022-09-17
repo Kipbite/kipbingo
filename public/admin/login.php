@@ -2,7 +2,7 @@
     <div>
         <form id="password-form" class="submit-form">
             <input type="password" id="password" placeholder="what's da password">
-            <button id="submit"><img src="/images/pog.png" class="pog"></button>
+            <button id="submit"><img src="https://kipbite-assets.fra1.digitaloceanspaces.com/pog.png" class="pog"></button>
         </form>
     </div>
 </div>

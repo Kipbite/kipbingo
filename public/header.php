@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="/images/pog.png">
-    <title>Kipyu Bingo!</title>
+    <link rel="shortcut icon" href="https://kipbite-assets.fra1.digitaloceanspaces.com/pog.png">
+    <title>Kipbite Bingo!</title>
     <link href="/style.css?v=<?= time(); ?>" rel="stylesheet">
     <script src="/textFit.min.js"></script>
 </head>

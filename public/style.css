@@ -24,6 +24,7 @@
 }
 
 .cell small {
+    display: none;
     padding: 5px;
     background-color: #444;
     color: #fff;
@@ -214,7 +215,8 @@ img {
     gap: 10px;
 }
 
-.submit-form input {
+.submit-form input,
+select {
     width: 100%;
     padding: 10px 20px;
     border: 3px solid #000;
@@ -334,4 +336,8 @@ img {
     margin-right: 5px;
     font-style: italic;
     display: block;
+}
+
+.game-selector-container {
+    margin-top: 20px;
 }
