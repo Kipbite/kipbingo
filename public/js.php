@@ -49,8 +49,10 @@
         if (code.includes('a')) {
             code = code.replace('a', '');
             let cell = document.querySelector(`.cell-wrapper[data-id='${code}']`);
-            cell.classList.add('ticked');
-            cell.querySelector('.cell-bg').style.backgroundImage = `url('${getRandomEmote()}')`;
+			if (cell) {
+				cell.classList.add('ticked');
+				cell.querySelector('.cell-bg').style.backgroundImage = `url('${getRandomEmote()}')`;
+			}
         }
     })
 
@@ -365,7 +367,6 @@
     });
 
 	const gameSelector = document.querySelector('.game-selector');
-
 	gameSelector.addEventListener('change', () => {
 		let date = new Date();
 		date.setTime(date.getTime() + (30*24*60*60*1000));
