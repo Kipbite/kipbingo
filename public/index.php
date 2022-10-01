@@ -8,7 +8,7 @@
 
 <div class="container">
     <div>
-        <img src="https://kipbite-assets.fra1.digitaloceanspaces.com/bingo-header.png" class="header">
+        <img src="https://kipbite-assets.fra1.digitaloceanspaces.com/kipbingo/bingo-header.png" class="header">
         <div class='table'>
             <?php
                 $kipbingo->displayGrid();

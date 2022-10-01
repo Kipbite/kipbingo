@@ -246,7 +246,7 @@
         let entry = lockButtons[i];
 
         if (lockedEntries.includes(entry.dataset.id)) {
-            entry.src = "https://kipbite-assets.fra1.digitaloceanspaces.com/locked.png";
+            entry.src = "https://kipbite-assets.fra1.digitaloceanspaces.com/kipbingo/locked.png";
             entry.classList.add('locked');
             entry.classList.remove('unlocked');
         }
@@ -254,13 +254,13 @@
         entry.addEventListener('click', () => {
             if (entry.classList.contains('unlocked')) {
                 lockedEntries.push(entry.dataset.id);
-                entry.src = "https://kipbite-assets.fra1.digitaloceanspaces.com/locked.png";
+                entry.src = "https://kipbite-assets.fra1.digitaloceanspaces.com/kipbingo/locked.png";
                 entry.classList.add('locked');
                 entry.classList.remove('unlocked');
             } else {
                 let index = lockedEntries.indexOf(entry.dataset.id);
                 index > -1 ? lockedEntries.splice(index, 1) : null;
-                entry.src = "https://kipbite-assets.fra1.digitaloceanspaces.com/unlocked.png";
+                entry.src = "https://kipbite-assets.fra1.digitaloceanspaces.com/kipbingo/unlocked.png";
                 entry.classList.add('unlocked');
                 entry.classList.remove('locked');
             }
@@ -370,7 +370,7 @@
 	gameSelector.addEventListener('change', () => {
 		let date = new Date();
 		date.setTime(date.getTime() + (30*24*60*60*1000));
-		document.cookie = `game=${gameSelector.value}; expires=${date.toUTCString()}; path=/`;
+		document.cookie = `game=${gameSelector.value}; expires=${date.toUTCString()};`;
 		document.location.reload();
 	});
 

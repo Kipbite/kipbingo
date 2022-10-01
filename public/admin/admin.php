@@ -24,13 +24,13 @@
         </div>
 
         <div class="buttons">
-            <img class="btn" id="new" src="https://kipbite-assets.fra1.digitaloceanspaces.com/new.png" alt="new">
-            <img class="btn" id="shuffle" src="https://kipbite-assets.fra1.digitaloceanspaces.com/shuffle.png" alt="shuffle">
+            <img class="btn" id="new" src="https://kipbite-assets.fra1.digitaloceanspaces.com/kipbingo/new.png" alt="new">
+            <img class="btn" id="shuffle" src="https://kipbite-assets.fra1.digitaloceanspaces.com/kipbingo/shuffle.png" alt="shuffle">
         </div>
     </div>
 
     <div class="possibilities">
-        <img src="https://kipbite-assets.fra1.digitaloceanspaces.com/possibilities.png" class="header">
+        <img src="https://kipbite-assets.fra1.digitaloceanspaces.com/kipbingo/possibilities.png" class="header">
         <ul>
             <?php
                 $kipbingo->displayList();
@@ -39,7 +39,7 @@
 
         <form id="new-option" class="submit-form">
             <input type="text" name="new" id="new-option-input" placeholder="add something new!" data-game="<?= $kipbingo->game->name; ?>"></input>
-            <button id="new-option-button"><img src="https://kipbite-assets.fra1.digitaloceanspaces.com/pog.png" class="pog"></button>
+            <button id="new-option-button"><img src="https://kipbite-assets.fra1.digitaloceanspaces.com/kipbingo/pog.png" class="pog"></button>
         </form>
 
         <div class="buttons" id="save-session">

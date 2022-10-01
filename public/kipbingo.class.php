@@ -92,9 +92,9 @@ class kipbingo extends twitchAPI {
 			} else {
 				echo '<li>';
 			}
-			// echo "<img src='https://kipbite-assets.fra1.digitaloceanspaces.com/unlocked.png' class='mod lock unlocked' data-id='".$item['id']."'>";
-			echo "<img src='https://kipbite-assets.fra1.digitaloceanspaces.com/bin.png' class='mod bin' data-id='" . $item['id'] . "'>";
-			// echo "<img src='https://kipbite-assets.fra1.digitaloceanspaces.com/bin.png' class='mod delete'>";
+			// echo "<img src='https://kipbite-assets.fra1.digitaloceanspaces.com/kipbingo/unlocked.png' class='mod lock unlocked' data-id='".$item['id']."'>";
+			echo "<img src='https://kipbite-assets.fra1.digitaloceanspaces.com/kipbingo/bin.png' class='mod bin' data-id='" . $item['id'] . "'>";
+			// echo "<img src='https://kipbite-assets.fra1.digitaloceanspaces.com/kipbingo/bin.png' class='mod delete'>";
 			echo '<span>' . $item['text'] . '</span>';
 			echo '</li>';
 		}
@@ -118,7 +118,7 @@ class kipbingo extends twitchAPI {
 		$count = count($this->list) < 24 ? count($this->list) : 24;
 
 		$this->list = array_slice( $this->list, 0, $count );
-		array_splice( $this->list, 12, 0, "<img src='https://kipbite-assets.fra1.digitaloceanspaces.com/freespace.png' class='freespace'>" );
+		array_splice( $this->list, 12, 0, "<img src='https://kipbite-assets.fra1.digitaloceanspaces.com/kipbingo/freespace.png' class='freespace'>" );
 
 		$coordArr = array( '1a', '1b', '1c', '1d', '1e', '2a', '2b', '2c', '2d', '2e', '3a', '3b', '3c', '3d', '3e', '4a', '4b', '4c', '4d', '4e', '5a', '5b', '5c', '5d', '5e' );
 
@@ -152,18 +152,18 @@ class kipbingo extends twitchAPI {
 		switch ( $game_name ) {
 			case 'yakuza':
 				$images = array(
-					'https://kipbite-assets.fra1.digitaloceanspaces.com/majima.png',
-					'https://kipbite-assets.fra1.digitaloceanspaces.com/kiryu.png',
-					'https://kipbite-assets.fra1.digitaloceanspaces.com/knifey.png',
-					'https://kipbite-assets.fra1.digitaloceanspaces.com/gun.png',
+					'https://kipbite-assets.fra1.digitaloceanspaces.com/kipbingo/majima.png',
+					'https://kipbite-assets.fra1.digitaloceanspaces.com/kipbingo/kiryu.png',
+					'https://kipbite-assets.fra1.digitaloceanspaces.com/kipbingo/knifey.png',
+					'https://kipbite-assets.fra1.digitaloceanspaces.com/kipbingo/gun.png',
 				);
 				break;
 			case 'horror':
 				$images = array(
-					'https://kipbite-assets.fra1.digitaloceanspaces.com/ghosty.png',
-					'https://kipbite-assets.fra1.digitaloceanspaces.com/ghosty-too.png',
-					'https://kipbite-assets.fra1.digitaloceanspaces.com/knifey.png',
-					'https://kipbite-assets.fra1.digitaloceanspaces.com/skully.png',
+					'https://kipbite-assets.fra1.digitaloceanspaces.com/kipbingo/ghosty.png',
+					'https://kipbite-assets.fra1.digitaloceanspaces.com/kipbingo/ghosty-too.png',
+					'https://kipbite-assets.fra1.digitaloceanspaces.com/kipbingo/knifey.png',
+					'https://kipbite-assets.fra1.digitaloceanspaces.com/kipbingo/skully.png',
 				);
 				break;
 			default:
