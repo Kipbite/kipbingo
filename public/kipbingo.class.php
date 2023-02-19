@@ -287,4 +287,40 @@ class kipbingo extends twitchAPI {
 		}
 		return $sessions;
 	}
+
+	function sendPostRequest($url, $fields) {
+		$fieldsString = http_build_query($fields);
+		$ch = curl_init();
+		curl_setopt($ch,CURLOPT_URL, $url);
+		curl_setopt($ch,CURLOPT_POST, true);
+		curl_setopt($ch,CURLOPT_POSTFIELDS, $fieldsString);
+		curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
+		$result = curl_exec($ch);
+		curl_close($ch);
+		return $result;
+	}
+
+	function sendWebhook() {
+		$cellName = $_GET['cell'];
+		$mixitupURL = $_ENV['MIXITUP_WEBHOOK_URL'];
+
+		$fields = ['data' => json_encode([
+			'square' => $cellName,
+			'event' => 'mark',
+		])];
+
+		$this->sendPostRequest($mixitupURL, $fields);
+	}
+
+	function sendBingoWebhook() {
+		$mixitupURL = $_ENV['MIXITUP_WEBHOOK_URL'];
+
+		$fields = [
+			'data' => json_encode([
+				'event' => 'bingo'
+			])
+		];
+
+		$this->sendPostRequest($mixitupURL, $fields);
+	}
 }

@@ -1,5 +1,7 @@
 <script type="text/javascript" src="/words.js"></script>
 <script>
+	let activeBingo = false;
+
     function getCookies() {
         const cookies = Object.fromEntries(
             document.cookie.split('; ').map((entry) => entry.split('='))
@@ -102,6 +104,7 @@
         let cellCoord = cell.dataset.coord;
         cell.addEventListener('click', (e) => {
             if (cell.classList.contains('ticked')) {
+				// Unticking cell
                 delete coords.horizontal[cellCoord.charAt(0)][cellCoord.charAt(1)];
                 delete coords.vertical[cellCoord.charAt(1)][cellCoord.charAt(0)];
                 saveCode = saveCode.split('-');
@@ -113,6 +116,7 @@
                 saveCodeContainer.innerText = saveCode;
                 cell.querySelector('.cell-bg').style.backgroundImage = '';
             } else {
+				// Ticking cell
                 coords.horizontal[cellCoord.charAt(0)][cellCoord.charAt(1)] = true;
                 coords.vertical[cellCoord.charAt(1)][cellCoord.charAt(0)] = true;
                 saveCode = saveCode.split('-');
@@ -123,6 +127,8 @@
                 document.cookie = `savecode=${saveCode}; path=/;`;
                 saveCodeContainer.innerText = saveCode;
                 cell.querySelector('.cell-bg').style.backgroundImage = `url('${getRandomEmote()}')`;
+
+				fetch(`/run-function.php?function=sendWebhook&cell=${cell.innerText}`);
             }
 
             if (currentSession != '') {
@@ -164,6 +170,10 @@
                 if (Object.keys(value).length == 5) {
                     console.log(`bingo on ${angle}: ${key}`);
                     bingos[key] = true;
+
+					if (!activeBingo) {
+						fetch('/run-function.php?function=sendBingoWebhook');
+					}
                 } else {
                     delete bingos[key];
                 }
@@ -183,6 +193,12 @@
                 }
             }
         }
+
+		if (document.querySelector('.bingo')) {
+			activeBingo = true;
+		} else {
+			activeBingo = false;
+		}
     }
 
     saveCodeContainer.innerText = saveCode;
