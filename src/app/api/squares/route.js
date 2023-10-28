@@ -1,4 +1,5 @@
 import clientPromise from "@/app/lib/mongodb";
+import { ObjectId } from "bson";
 import { NextResponse } from "next/server";
 
 export async function GET(request) {
@@ -8,15 +9,42 @@ export async function GET(request) {
 
     const response = await db
       .collection('sheets')
-      .find({})
+      .findOne({});
+
+    const data = response;
+
+    const squareIds = [];
+    Object.keys(data.squares).map((squareRef) => {
+      const square = data.squares[squareRef];
+      squareIds.push(new ObjectId(square));
+    });
+
+    const foundSquares = await db
+      .collection('squares')
+      .find({
+        "_id": {
+          "$in": squareIds
+        }
+      })
       .toArray();
+    
+    let unfoldedSquares = {};
+    Object.keys(data.squares).forEach((gridRef) => {
+      const dataSquare = data.squares[gridRef];
 
-    const data = response[0];
+      const foundIndex = foundSquares.findIndex((foundSquare) => {
+        return foundSquare._id.toString() === dataSquare;
+      });
 
-    // res.status(200).json({ squares });
-    return NextResponse.json({ data });
+      if (foundIndex !== -1) {
+        unfoldedSquares[gridRef] = foundSquares[foundIndex];
+      } else {
+        unfoldedSquares[gridRef] = null;
+      }
+    });
+
+    return NextResponse.json(unfoldedSquares);
   } catch (e) {
-    // res.status(500).json({ error: 'failed to load data' });
-    console.error(e);
+    return NextResponse.json({ error: 'failed to load data' });
   }
 }

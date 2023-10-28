@@ -1,4 +1,5 @@
 import { use } from "react";
+import Grid from "./components/Grid";
 
 async function getSheet() {
   return await fetch("http://localhost:3000/api/squares", {
@@ -6,25 +7,12 @@ async function getSheet() {
   }).then((res) => res.json());
 }
 
-
 export default function Home({}) {
-  const { data } = use(getSheet());
-  const { rows } = data;
-
-  let i = 0;
+  const squares = use(getSheet());
 
   return (
     <main>
-      {rows.map((row) => {
-        i++;
-        return(
-        <div key={`row-${i}`}>
-          <br />
-          {row.map((square) => {
-            return <span key={square}> {square} </span>
-          })}
-        </div>
-)      })}
+      <Grid squares={squares} />
     </main>
   )
 }
