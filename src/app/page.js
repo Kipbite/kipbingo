@@ -1,17 +1,19 @@
 import { use } from "react";
 import Grid from "./components/Grid";
-
-async function getSheet() {
-  return await fetch("http://localhost:3000/api/squares", {
-    cache: "no-store",
-  }).then((res) => res.json());
-}
+import { getGame, getSquares } from "./lib/utilities";
+import GameHeader from "./components/GameHeader";
 
 export default function Home({}) {
-  const squares = use(getSheet());
+  const squares = use(getSquares());
+  const game = use(getGame('yakuza'));
+
+  if (!squares) {
+    return 'Failed to fetch squares, check console for errors';
+  }
 
   return (
     <main>
+      <GameHeader game={game} />
       <Grid squares={squares} />
     </main>
   )

@@ -1,4 +1,3 @@
-import { nextLetter } from "../lib/utilities";
 import GridSquare from "./GridSquare";
 
 export default function Grid({ squares }) {

@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 export async function GET(request) {
   try {
     const client = await clientPromise;
-    const db = client.db("kipbingo_2");
+    const db = client.db(process.env.DATABASE);
 
     const response = await db
       .collection('sheets')
