@@ -9,6 +9,7 @@ export default function GameHeader({ game }) {
       width={500}
       height={105}
       className="header"
+      priority
     />
   );
 }

@@ -3,23 +3,42 @@ import { ObjectId } from "bson";
 import { NextResponse } from "next/server";
 
 export async function GET(request) {
+  
+  const client = await clientPromise;
+  const db = client.db(process.env.DATABASE);
+  
+  const { searchParams } = new URL(request.url);
+  const game = searchParams.get('game');
+  const sheetId = searchParams.get('sheetId');
+  
+  let findParams =
+    sheetId ? { _id: new ObjectId(sheetId) } :
+    game ? { game: game } :
+    {};
+    
+  let response;
   try {
-    const client = await clientPromise;
-    const db = client.db(process.env.DATABASE);
+    response = await db
+    .collection( 'sheets' )
+    .findOne( findParams );
+  } catch(e) {
+    return NextResponse.json({
+      message: "Couldn't fetch sheets data",
+      error: e,
+    })
+  }
 
-    const response = await db
-      .collection('sheets')
-      .findOne({});
+  const data = response;
 
-    const data = response;
+  const squareIds = [];
+  Object.keys(data.squares).map((squareRef) => {
+    const square = data.squares[squareRef];
+    squareIds.push(new ObjectId(square));
+  });
 
-    const squareIds = [];
-    Object.keys(data.squares).map((squareRef) => {
-      const square = data.squares[squareRef];
-      squareIds.push(new ObjectId(square));
-    });
-
-    const foundSquares = await db
+  let foundSquares;
+  try {
+    foundSquares = await db
       .collection('squares')
       .find({
         "_id": {
@@ -27,24 +46,27 @@ export async function GET(request) {
         }
       })
       .toArray();
-    
-    let unfoldedSquares = {};
-    Object.keys(data.squares).forEach((gridRef) => {
-      const dataSquare = data.squares[gridRef];
+  } catch(e) {
+    return NextResponse.json({
+      message: "Couldn't fetch squares data",
+      error: e,
+    })
+  }
 
-      const foundIndex = foundSquares.findIndex((foundSquare) => {
-        return foundSquare._id.toString() === dataSquare;
-      });
+  let unfoldedSquares = {};
+  Object.keys(data.squares).forEach((gridRef) => {
+    const dataSquare = data.squares[gridRef];
 
-      if (foundIndex !== -1) {
-        unfoldedSquares[gridRef] = foundSquares[foundIndex];
-      } else {
-        unfoldedSquares[gridRef] = null;
-      }
+    const foundIndex = foundSquares.findIndex((foundSquare) => {
+      return foundSquare._id.toString() === dataSquare;
     });
 
-    return NextResponse.json(unfoldedSquares);
-  } catch (e) {
-    return NextResponse.json({ error: 'failed to load data' });
-  }
+    if (foundIndex !== -1) {
+      unfoldedSquares[gridRef] = foundSquares[foundIndex];
+    } else {
+      unfoldedSquares[gridRef] = null;
+    }
+  });
+
+  return NextResponse.json(unfoldedSquares);
 }
