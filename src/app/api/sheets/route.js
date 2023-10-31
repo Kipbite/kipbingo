@@ -1,6 +1,8 @@
 import clientPromise from "@/app/lib/mongodb";
+import { emptyGridRefs, makeId } from "@/app/lib/utilities";
 import { ObjectId } from "bson";
 import { NextResponse } from "next/server";
+import { useId } from "react";
 
 export async function GET(request) {
   const client = await clientPromise;
@@ -14,7 +16,7 @@ export async function GET(request) {
     sheetId ? { _id: new ObjectId(sheetId) } :
     game ? { game: game } :
     {};
-    
+
   const response = await db
     .collection( 'sheets' )
     .findOne( findParams );
@@ -52,4 +54,29 @@ export async function GET(request) {
   });
 
   return NextResponse.json(unfoldedSquares);
+}
+
+export async function POST(request) {
+  const client = await clientPromise;
+  const db = client.db(process.env.DATABASE);
+  const body = await request.json();
+  
+  const insertDoc = {};
+  
+  const squaresTemplate = emptyGridRefs;
+  Object.keys(squaresTemplate).forEach((key) => {
+    squaresTemplate[key] = body?.squares?.[key] ?? null;
+  });
+
+  
+  const randomId = makeId(8);
+  insertDoc.game = body?.game?.toString() ?? 'Unknown Game';
+  insertDoc.name = body?.name?.toString() ?? body?.game?.toString() + ' ' + randomId;
+  insertDoc.squares = squaresTemplate;
+  
+  const response = await db
+    .collection( 'sheets' )
+    .insertOne( insertDoc )
+
+  return NextResponse.json(response);
 }

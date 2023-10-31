@@ -20,39 +20,65 @@ export function isJsonString(str) {
   return true;
 }
 
-export async function getSheetSquares({ sheetId = null, game = null }) {
-  let urlParams = '?';
+export function makeId(length) {
+  let result = '';
+  const characters = 
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-  if (sheetId) {
-    urlParams += `sheetId=${sheetId}&`;
+  let counter = 0;
+  while (counter < length) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
+    counter += 1;
   }
 
-  if (game) {
-    urlParams += `game=${game}&`;
+  return result;
+}
+
+export async function sendApiRequest(
+  method,
+  endpoint,
+  urlParams = null,
+  body = null
+) {
+  urlParams = urlParams ? new URLSearchParams( urlParams ) : '';
+
+  const options = {
+    cache: "no-store",
+    method
+  };
+
+  if (method === 'POST' && body) {
+    options.body = JSON.stringify(body);
   }
 
   return await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/api/sheet-squares${urlParams}`,
-    { cache: "no-store" }
+    `${process.env.NEXT_PUBLIC_SITE_URL}/api/${endpoint}?${urlParams}`,
+    options
   )
     .then((res) => res.json())
     .catch((e) => console.error(e))
+}
+
+export async function getSheetSquares({ sheetId = null, game = null }) {
+  const urlParams = {};
+  if (sheetId) {
+    urlParams.sheetId = sheetId;
+  }
+  if (game) {
+    urlParams.game = game;
+  }
+
+  return await sendApiRequest( 'GET', '/sheets', urlParams );
 }
 
 export async function getGame(game) {
-  return await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/api/games?game=${game}`,
-    { cache: "no-store" }
-  )
-    .then((res) => res.json())
-    .catch((e) => console.error(e))
+  return await sendApiRequest( 'GET', '/games', { game } );
 }
 
 export async function getSquares(game) {
-  return await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/api/squares?game=${game}`,
-    { cache: "no-store" }
-  )
-    .then((res) => res.json())
-    .catch((e) => console.error(e))
+  return await sendApiRequest( 'GET', '/squares', { game } );
+}
+
+export async function saveSheet(body) {
+  return await sendApiRequest( 'POST', '/sheets', null, body );
 }
