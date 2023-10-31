@@ -20,7 +20,7 @@ export function isJsonString(str) {
   return true;
 }
 
-export async function getSquares({ sheetId = null, game = null }) {
+export async function getSheetSquares({ sheetId = null, game = null }) {
   let urlParams = '?';
 
   if (sheetId) {
@@ -31,19 +31,28 @@ export async function getSquares({ sheetId = null, game = null }) {
     urlParams += `game=${game}&`;
   }
 
-  return await fetch( `${process.env.NEXT_PUBLIC_SITE_URL}/api/squares${urlParams}`, { cache: "no-store" } )
+  return await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/api/sheet-squares${urlParams}`,
+    { cache: "no-store" }
+  )
     .then((res) => res.json())
     .catch((e) => console.error(e))
 }
 
 export async function getGame(game) {
-  let urlParams = '?';
+  return await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/api/games?game=${game}`,
+    { cache: "no-store" }
+  )
+    .then((res) => res.json())
+    .catch((e) => console.error(e))
+}
 
-  if (game) {
-    urlParams += `game=${game}&`;
-  }
-
-  return await fetch( `${process.env.NEXT_PUBLIC_SITE_URL}/api/games${urlParams}`, { cache: "no-store" } )
+export async function getSquares(game) {
+  return await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/api/squares?game=${game}`,
+    { cache: "no-store" }
+  )
     .then((res) => res.json())
     .catch((e) => console.error(e))
 }
