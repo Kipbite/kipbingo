@@ -4,10 +4,12 @@ import Image from "next/image";
 import Trashcan from "./Trashcan";
 
 export default function EditableGridSquare({ square }) {
-  const { activeSquares, setActiveSquares, draggedSquare } = useContext(AdminContext);
+  const { activeSquares, setActiveSquares, draggedSquare, setDraggedSquare } = useContext(AdminContext);
 
-  function updateSquare(e, newValue) {
-    e.preventDefault();
+  function updateSquare(e = null, newValue) {
+    if (e) {
+      e.preventDefault();
+    }
 
     const newActiveSquares = { ...activeSquares };
     newActiveSquares[square.gridRef] = newValue;
@@ -21,7 +23,19 @@ export default function EditableGridSquare({ square }) {
       onDragOver={ (e) => { e.preventDefault() } }
       onDrop={ (e) => { updateSquare(e, draggedSquare) } }
     >
-      <div className="cell">
+      <div
+        className="cell"
+        onDrag={(e) => {
+          e.preventDefault();
+          const newSquare = { ...square };
+          delete newSquare.gridRef;
+          setDraggedSquare(newSquare);
+        }}
+        onDragEnd={(e) => {
+          updateSquare(e, null);
+        }}
+        draggable
+      >
         {square.text &&
           <div
             className="delete-button"
@@ -31,6 +45,9 @@ export default function EditableGridSquare({ square }) {
           </div>
         }
         {square?.text}
+        <div className="grid-ref">
+          {square.gridRef}
+        </div>
       </div>
     </div>
   );
