@@ -11,6 +11,14 @@ export const emptyGridRefs = {
   E0: null, E1: null, E2: null, E3: null, E4: null,
 };
 
+export function formatDate(date = new Date) {
+  const dd = String(date.getDate()).padStart(2, '0');
+  const mm = String(date.getMonth() + 1).padStart(2, '0');
+  const yyyy = date.getFullYear();
+
+  return mm + '/' + dd + '/' + yyyy;
+}
+
 export function isJsonString(str) {
   try {
       JSON.parse(str);
@@ -18,20 +26,6 @@ export function isJsonString(str) {
       return false;
   }
   return true;
-}
-
-export function makeId(length) {
-  let result = '';
-  const characters = 
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-  let counter = 0;
-  while (counter < length) {
-    result += characters.charAt(Math.floor(Math.random() * characters.length));
-    counter += 1;
-  }
-
-  return result;
 }
 
 export async function sendApiRequest(

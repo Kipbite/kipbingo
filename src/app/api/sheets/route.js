@@ -1,5 +1,5 @@
 import clientPromise from "@/app/lib/mongodb";
-import { emptyGridRefs, makeId } from "@/app/lib/utilities";
+import { emptyGridRefs, formatDate, makeId } from "@/app/lib/utilities";
 import { ObjectId } from "bson";
 import { NextResponse } from "next/server";
 import { useId } from "react";
@@ -68,10 +68,8 @@ export async function POST(request) {
     squaresTemplate[key] = body?.squares?.[key] ?? null;
   });
 
-  
-  const randomId = makeId(8);
-  insertDoc.game = body?.game?.toString() ?? 'Unknown Game';
-  insertDoc.name = body?.name?.toString() ?? body?.game?.toString() + ' ' + randomId;
+  insertDoc.game = body.game ? body.game.toString() : 'Unknown Game';
+  insertDoc.name = body.name ? body.name.toString() : insertDoc.game + ' ' + formatDate();
   insertDoc.squares = squaresTemplate;
   
   const response = await db

@@ -6,14 +6,15 @@ import GameHeader from "../../components/GameHeader";
 import Grid from "../../components/Grid";
 import SquarePickerList from "../../components/SquarePickerList";
 import AdminContext from "../../context";
-import SaveAsButton from "@/app/components/SaveAsButton";
+import SaveButton from "@/app/components/SaveButton";
+import NameInput from "@/app/components/NameInput";
 
 export default function AdminPage({}) {
   const [ gameType, setGameType ] = useState('yakuza');
   const [ game, setGame ] = useState(null);
   const [ activeSquares, setActiveSquares ] = useState(emptyGridRefs);
   const [ draggedSquare, setDraggedSquare ] = useState(null);
-  const [ sheetName, setSheetName ] = useState('test-name');
+  const [ sheetName, setSheetName ] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -37,7 +38,10 @@ export default function AdminPage({}) {
         <div>
           <GameHeader game={game} />
           <Grid squares={activeSquares} variant="edit" />
-          <SaveAsButton />
+          <div className="save-form">
+            <NameInput />
+            <SaveButton />
+          </div>
         </div>
         
         <div>

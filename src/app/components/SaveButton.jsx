@@ -2,14 +2,14 @@ import { useContext } from "react";
 import AdminContext from "../context";
 import { saveSheet } from "../lib/utilities";
 
-export default function SaveAsButton({}) {
+export default function SaveButton({}) {
   const { activeSquares, sheetName, game } = useContext(AdminContext);
 
   return (
     <button
       onClick={async () => {
         const response = await saveSheet({
-          name: 'foo',
+          name: sheetName,
           game: game.name,
           squares: activeSquares,
         });
@@ -17,7 +17,7 @@ export default function SaveAsButton({}) {
         console.log(response);
       }}
     >
-      Save as
+      Save
     </button>
   );
 }
