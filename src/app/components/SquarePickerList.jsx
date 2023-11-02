@@ -9,7 +9,7 @@ export default function SquarePickerList({ game }) {
 
   useEffect(() => {
     (async () => {
-      const tempSquares = await getSquares(game.name);
+      const tempSquares = await getSquares(game);
       const optionList = [];
       tempSquares.forEach(square => {
         optionList.push(<SquarePicker key={square._id} square={square} />);

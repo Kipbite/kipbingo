@@ -67,7 +67,7 @@ export async function getSheet({ sheetId = null, game = null }) {
   return await sendApiRequest( 'GET', '/sheets', urlParams );
 }
 
-export async function getGrid({ sheetId = null, game = null }) {
+export async function getUnfoldedSheet({ sheetId = null, game = null }) {
   const urlParams = {};
 
   if (sheetId) {
@@ -78,7 +78,7 @@ export async function getGrid({ sheetId = null, game = null }) {
     urlParams.game = game;
   }
 
-  return await sendApiRequest( 'GET', '/grid', urlParams );
+  return await sendApiRequest( 'GET', '/sheets/unfolded', urlParams );
 }
 
 export async function getGame(game) {

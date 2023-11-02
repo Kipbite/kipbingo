@@ -32,7 +32,7 @@ export default function AdminPage({}) {
       activeSquares, setActiveSquares,
       draggedSquare, setDraggedSquare,
       sheetName, setSheetName,
-      game, setGame,
+      gameType, setGameType,
     }}>
       <main className="container">
         <div>
@@ -45,7 +45,7 @@ export default function AdminPage({}) {
         </div>
         
         <div>
-          <SquarePickerList game={game} />
+          <SquarePickerList game={gameType} />
         </div>
       </main>
     </AdminContext.Provider>

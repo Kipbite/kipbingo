@@ -1,33 +1,31 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { emptyGridRefs, getGame, getGrid } from "./lib/utilities";
+import { emptyGridRefs, getGame, getUnfoldedSheet } from "./lib/utilities";
 import Grid from "./components/Grid";
 import GameHeader from "./components/GameHeader";
 
 export default function HomePage({}) {
-  const [ gameType, setGameType ] = useState('yakuza');
-  const [ game, setGame ] = useState(null);
-  const [ squares, setSquares ] = useState(emptyGridRefs);
+  const [ sheet, setSheet ] = useState({ squares: emptyGridRefs });
 
   useEffect(() => {
     (async () => {
-      const tempSquares = await getGrid({ game: gameType });
-      setSquares(tempSquares);
+      const gameType = 'yakuza';
 
-      const tempGame = await getGame(gameType);
-      setGame(tempGame);
+      const tempSheet = await getUnfoldedSheet({ game: gameType });
+      setSheet(tempSheet);
     })();
-  }, [ gameType ]);
+  }, []);
 
-  if (!squares) {
-    return 'Failed to fetch squares, check console for errors';
+  if (!sheet.squares) {
+    return 'Failed to fetch squares';
   }
 
   return (
     <main>
-      <GameHeader game={game} />
-      <Grid squares={squares} />
+      <GameHeader game={sheet.game} />
+      <Grid squares={sheet.squares} />
+      <h2 style={{textAlign: 'center'}}>{sheet.name}</h2>
     </main>
   )
 }

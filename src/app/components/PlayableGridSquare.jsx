@@ -2,7 +2,7 @@ import { useContext } from "react";
 import AdminContext from "../context";
 
 export default function PlayableGridSquare({ square }) {
-  const { squares, setSquares, sheetName, game } = useContext(AdminContext);
+  const { squares, setSquares, sheet } = useContext(AdminContext);
 
   return (
     <div
@@ -12,7 +12,11 @@ export default function PlayableGridSquare({ square }) {
           const newSquares = { ...squares };
           newSquares[square.gridRef].ticked = !square.ticked;
           setSquares(newSquares);
-          updateSheet({ sheetName, game, squares: newSquares });
+          updateSheet({
+            name: sheet.name,
+            game: sheet.game.name,
+            squares: newSquares
+          });
         }
       }}
     >

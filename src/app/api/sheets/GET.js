@@ -19,37 +19,5 @@ export default async function sheetsEndpointGet(request) {
     .collection( 'sheets' )
     .findOne( findParams );
 
-  const data = response;
-
-  const squareIds = [];
-  Object.keys(data.squares).map((squareRef) => {
-    const square = data.squares[squareRef];
-    squareIds.push(new ObjectId(square));
-  });
-
-  const foundSquares = await db
-    .collection('squares')
-    .find({
-      "_id": {
-        "$in": squareIds
-      }
-    })
-    .toArray();
-
-  let unfoldedSquares = {};
-  Object.keys(data.squares).forEach((gridRef) => {
-    const dataSquare = data.squares[gridRef];
-
-    const foundIndex = foundSquares.findIndex((foundSquare) => {
-      return foundSquare._id.toString() === dataSquare;
-    });
-
-    if (foundIndex !== -1) {
-      unfoldedSquares[gridRef] = foundSquares[foundIndex];
-    } else {
-      unfoldedSquares[gridRef] = null;
-    }
-  });
-
-  return NextResponse.json(unfoldedSquares);
+  return NextResponse.json(response);
 }
