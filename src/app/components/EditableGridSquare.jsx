@@ -12,7 +12,7 @@ export default function EditableGridSquare({ square }) {
     }
 
     const newActiveSquares = { ...activeSquares };
-    newActiveSquares[square.gridRef] = newValue;
+    newActiveSquares[square.gridRef] = { ticked: false, ...newValue };
     setActiveSquares(newActiveSquares);
   }
 
@@ -21,7 +21,7 @@ export default function EditableGridSquare({ square }) {
       className='cell-wrapper editable'
       data-grid-ref={square.gridRef}
       onDragOver={ (e) => { e.preventDefault() } }
-      onDrop={ (e) => { updateSquare( e, { ticked: false, ...draggedSquare } ) } }
+      onDrop={ (e) => { updateSquare( e, draggedSquare ) } }
     >
       <div
         className="cell"

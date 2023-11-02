@@ -21,6 +21,8 @@ export default async function unfoldedSheetsEndpointGet(request) {
     .findOne( findParams );
 
   const data = response;
+
+  return NextResponse.json(data);
   
   if (fields === 'all' || fields === 'squares' || fields.includes('squares')) {
     const squareIds = [];

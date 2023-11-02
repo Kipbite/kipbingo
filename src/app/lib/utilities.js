@@ -41,12 +41,12 @@ export async function sendApiRequest(
     method
   };
 
-  if (method === 'POST' && body) {
+  if ([ 'POST', 'PATCH' ].includes(method) && body) {
     options.body = JSON.stringify(body);
   }
 
   return await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/api/${endpoint}?${urlParams}`,
+    `${process.env.NEXT_PUBLIC_SITE_URL}/api${endpoint}?${urlParams}`,
     options
   )
     .then((res) => res.json())
