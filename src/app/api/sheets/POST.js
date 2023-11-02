@@ -11,7 +11,10 @@ export default async function sheetsEndpointPost(request) {
   
   const squaresTemplate = emptyGridRefs;
   Object.keys(squaresTemplate).forEach((key) => {
-    squaresTemplate[key] = body?.squares?.[key]?._id ?? null;
+    squaresTemplate[key] = {
+      id: body.squares[key]?._id,
+      ticked: body.squares[key]?.ticked ?? false
+    }
   });
 
   insertDoc.game = body.game ? body.game.toString() : 'Unknown Game';

@@ -3,18 +3,16 @@ import AdminContext from "../context";
 import { saveSheet } from "../lib/utilities";
 
 export default function SaveButton({}) {
-  const { activeSquares, sheetName, game } = useContext(AdminContext);
+  const { activeSquares, sheetName, gameType } = useContext(AdminContext);
 
   return (
     <button
       onClick={async () => {
         const response = await saveSheet({
           name: sheetName,
-          game: game.name,
+          game: gameType,
           squares: activeSquares,
         });
-
-        console.log(response);
       }}
     >
       Save

@@ -17,7 +17,7 @@ export default function HomePage({}) {
     })();
   }, []);
 
-  if (!sheet.squares) {
+  if (!sheet?.squares) {
     return 'Failed to fetch squares';
   }
 

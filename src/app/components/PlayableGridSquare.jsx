@@ -3,20 +3,23 @@ import AdminContext from "../context";
 import { updateSheet } from "../lib/utilities";
 
 export default function PlayableGridSquare({ square }) {
-  const { squares, setSquares, sheet } = useContext(AdminContext);
+  const { squares, setSquares } = useContext(AdminContext);
 
   return (
     <div
       className={`cell-wrapper playable ${square.ticked ? 'ticked' : ''}`}
       onClick={async () => {
         if (squares[square.gridRef]) {
+          const response = await updateSquare({
+            id: square._id,
+            ticked: !square.ticked
+          });
+          console.log(response);
+          return;
+
           const newSquares = { ...squares };
           newSquares[square.gridRef].ticked = !square.ticked;
           setSquares(newSquares);
-          // const response = await updateSheet({
-          //   id: sheet._id,
-          //   squares: newSquares
-          // });
         }
       }}
     >

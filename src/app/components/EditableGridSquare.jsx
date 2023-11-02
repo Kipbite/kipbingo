@@ -12,7 +12,7 @@ export default function EditableGridSquare({ square }) {
     }
 
     const newActiveSquares = { ...activeSquares };
-    newActiveSquares[square.gridRef] = { ticked: false, ...newValue };
+    newActiveSquares[square.gridRef] = newValue ? { ticked: false, ... newValue } : null;
     setActiveSquares(newActiveSquares);
   }
 

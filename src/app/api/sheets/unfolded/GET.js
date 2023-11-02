@@ -21,14 +21,12 @@ export default async function unfoldedSheetsEndpointGet(request) {
     .findOne( findParams );
 
   const data = response;
-
-  return NextResponse.json(data);
   
   if (fields === 'all' || fields === 'squares' || fields.includes('squares')) {
     const squareIds = [];
     Object.keys(data.squares).map((squareRef) => {
       const square = data.squares[squareRef];
-      squareIds.push(new ObjectId(square));
+      squareIds.push(new ObjectId(square.id));
     });
 
     const foundSquares = await db
@@ -46,16 +44,19 @@ export default async function unfoldedSheetsEndpointGet(request) {
         const dataSquare = data.squares[gridRef];
     
         const foundIndex = foundSquares.findIndex((foundSquare) => {
-          return foundSquare._id.toString() === dataSquare;
+          return foundSquare._id.toString() === dataSquare.id;
         });
     
         if (foundIndex !== -1) {
-          unfoldedSquares[gridRef] = foundSquares[foundIndex];
+          unfoldedSquares[gridRef] = {
+            ticked: dataSquare.ticked,
+            ...foundSquares[foundIndex]
+          };
         } else {
           unfoldedSquares[gridRef] = null;
         }
       });
-    
+
       data.squares = unfoldedSquares;
     }
   }
