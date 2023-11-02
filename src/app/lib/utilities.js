@@ -53,16 +53,32 @@ export async function sendApiRequest(
     .catch((e) => console.error(e))
 }
 
-export async function getSheetSquares({ sheetId = null, game = null }) {
+export async function getSheet({ sheetId = null, game = null }) {
   const urlParams = {};
+
   if (sheetId) {
     urlParams.sheetId = sheetId;
   }
+
   if (game) {
     urlParams.game = game;
   }
 
   return await sendApiRequest( 'GET', '/sheets', urlParams );
+}
+
+export async function getGrid({ sheetId = null, game = null }) {
+  const urlParams = {};
+
+  if (sheetId) {
+    urlParams.sheetId = sheetId;
+  }
+
+  if (game) {
+    urlParams.game = game;
+  }
+
+  return await sendApiRequest( 'GET', '/grid', urlParams );
 }
 
 export async function getGame(game) {
@@ -75,4 +91,8 @@ export async function getSquares(game) {
 
 export async function saveSheet(body) {
   return await sendApiRequest( 'POST', '/sheets', null, body );
+}
+
+export async function updateSheet(body) {
+  return await sendApiRequest( 'PATCH', '/sheets', null, body );
 }

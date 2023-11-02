@@ -18,10 +18,10 @@ export default function EditableGridSquare({ square }) {
 
   return (
     <div
-      className='cell-wrapper'
+      className='cell-wrapper editable'
       data-grid-ref={square.gridRef}
       onDragOver={ (e) => { e.preventDefault() } }
-      onDrop={ (e) => { updateSquare(e, draggedSquare) } }
+      onDrop={ (e) => { updateSquare( e, { ticked: false, ...draggedSquare } ) } }
     >
       <div
         className="cell"
@@ -31,9 +31,7 @@ export default function EditableGridSquare({ square }) {
           delete newSquare.gridRef;
           setDraggedSquare(newSquare);
         }}
-        onDragEnd={(e) => {
-          updateSquare(e, null);
-        }}
+        onDragEnd={(e) => { updateSquare(e, null) }}
         draggable
       >
         {square.text &&
