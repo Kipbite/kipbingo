@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { emptyGridRefs, getGame, getSheet, getUnfoldedSheet } from "../../lib/utilities";
+import { emptyGridRefs, sendApiRequest } from "../../lib/utilities";
 import AdminContext from "../../context";
 import Grid from "../../components/Grid";
 import GameHeader from "../../components/GameHeader";
@@ -14,8 +14,11 @@ export default function PlayPage({}) {
   useEffect(() => {
     (async () => {
       const gameType = 'yakuza';
-
-      const tempSheet = await getUnfoldedSheet({ game: gameType });
+      const tempSheet = await sendApiRequest(
+        'GET',
+        '/sheets/unfolded',
+        { game: gameType },
+      );
       setSheet(tempSheet);
       setSquares(tempSheet.squares);
     })();

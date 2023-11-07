@@ -32,13 +32,15 @@ export async function sendApiRequest(
   method,
   endpoint,
   urlParams = null,
-  body = null
+  body = null,
+  options = {}
 ) {
   urlParams = urlParams ? new URLSearchParams( urlParams ) : '';
 
-  const options = {
+  options = {
     cache: "no-store",
-    method
+    method,
+    ...options
   };
 
   if ([ 'POST', 'PATCH' ].includes(method) && body) {
@@ -51,48 +53,4 @@ export async function sendApiRequest(
   )
     .then((res) => res.json())
     .catch((e) => console.error(e))
-}
-
-export async function getSheet({ sheetId = null, game = null }) {
-  const urlParams = {};
-
-  if (sheetId) {
-    urlParams.sheetId = sheetId;
-  }
-
-  if (game) {
-    urlParams.game = game;
-  }
-
-  return await sendApiRequest( 'GET', '/sheets', urlParams );
-}
-
-export async function getUnfoldedSheet({ sheetId = null, game = null }) {
-  const urlParams = {};
-
-  if (sheetId) {
-    urlParams.sheetId = sheetId;
-  }
-
-  if (game) {
-    urlParams.game = game;
-  }
-
-  return await sendApiRequest( 'GET', '/sheets/unfolded', urlParams );
-}
-
-export async function getGame(game) {
-  return await sendApiRequest( 'GET', '/games', { game } );
-}
-
-export async function getSquares(game) {
-  return await sendApiRequest( 'GET', '/squares', { game } );
-}
-
-export async function saveSheet(body) {
-  return await sendApiRequest( 'POST', '/sheets', null, body );
-}
-
-export async function updateSheet(body) {
-  return await sendApiRequest( 'PATCH', '/sheets', null, body );
 }

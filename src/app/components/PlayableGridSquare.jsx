@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import AdminContext from "../context";
-import { updateSheet } from "../lib/utilities";
+import { sendApiRequest } from "../lib/utilities";
 
 export default function PlayableGridSquare({ square }) {
   const { squares, setSquares, sheet } = useContext(AdminContext);
@@ -25,10 +25,18 @@ export default function PlayableGridSquare({ square }) {
 
           setSquares( newSquares );
 
-          const response = await updateSheet({
-            id: sheet._id,
-            squares: newSheetSquares
-          });
+          const response = await sendApiRequest(
+            'PATCH',
+            '/sheets',
+            null,
+            {
+              id: sheet._id,
+              squares: newSheetSquares
+            }
+          );
+          
+          // TODO: Handle response properly
+          console.log(response);
         }
       }}
     >

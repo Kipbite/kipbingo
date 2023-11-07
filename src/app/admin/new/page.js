@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { emptyGridRefs, getGame } from "../../lib/utilities";
+import { emptyGridRefs, sendApiRequest } from "../../lib/utilities";
 import AdminContext from "../../context";
 import GameHeader from "../../components/GameHeader";
 import Grid from "../../components/Grid";
@@ -18,7 +18,11 @@ export default function AdminPage({}) {
 
   useEffect(() => {
     (async () => {
-      const tempGame = await getGame(gameType);
+      const tempGame = await sendApiRequest(
+        'GET',
+        '/games',
+        { game: gameType }
+      );
       setGame(tempGame);
     })();
   }, [ gameType ]);
