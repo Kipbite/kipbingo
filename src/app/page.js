@@ -9,15 +9,24 @@ export default function HomePage({}) {
   const [ sheet, setSheet ] = useState({ squares: emptyGridRefs });
 
   useEffect(() => {
-    (async () => {
+    const refreshTime = 1000 * 60 * 10 // 10 mins
+
+    const refreshData = async function() {
       const gameType = 'yakuza';
       const tempSheet = await sendApiRequest(
         'GET',
         '/sheets/unfolded',
         { game: gameType },
+        null
       );
       setSheet(tempSheet);
-    })();
+
+      setTimeout(() => {
+        refreshData();
+      }, refreshTime);
+    }
+
+    refreshData();
   }, []);
 
   if (!sheet?.squares) {
