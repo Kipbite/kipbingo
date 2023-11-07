@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { emptyGridRefs, getGame, getUnfoldedSheet } from "./lib/utilities";
+import { emptyGridRefs, getUnfoldedSheet } from "./lib/utilities";
 import Grid from "./components/Grid";
 import GameHeader from "./components/GameHeader";
 

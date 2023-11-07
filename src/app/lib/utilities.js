@@ -4,11 +4,11 @@ export function nextLetter(letter) {
 }
 
 export const emptyGridRefs = {
-  A0: null, A1: null, A2: null, A3: null, A4: null,
-  B0: null, B1: null, B2: null, B3: null, B4: null,
-  C0: null, C1: null, C2: null, C3: null, C4: null,
-  D0: null, D1: null, D2: null, D3: null, D4: null,
-  E0: null, E1: null, E2: null, E3: null, E4: null,
+  A0: { id: null, ticked: false }, A1: { id: null, ticked: false }, A2: { id: null, ticked: false }, A3: { id: null, ticked: false }, A4: { id: null, ticked: false },
+  B0: { id: null, ticked: false }, B1: { id: null, ticked: false }, B2: { id: null, ticked: false }, B3: { id: null, ticked: false }, B4: { id: null, ticked: false },
+  C0: { id: null, ticked: false }, C1: { id: null, ticked: false }, C2: { id: null, ticked: false }, C3: { id: null, ticked: false }, C4: { id: null, ticked: false },
+  D0: { id: null, ticked: false }, D1: { id: null, ticked: false }, D2: { id: null, ticked: false }, D3: { id: null, ticked: false }, D4: { id: null, ticked: false },
+  E0: { id: null, ticked: false }, E1: { id: null, ticked: false }, E2: { id: null, ticked: false }, E3: { id: null, ticked: false }, E4: { id: null, ticked: false },
 };
 
 export function formatDate(date = new Date) {
