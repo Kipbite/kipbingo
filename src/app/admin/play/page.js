@@ -5,9 +5,10 @@ import { emptyGridRefs, sendApiRequest } from "../../lib/utilities";
 import AdminContext from "../../context";
 import Grid from "../../components/Grid";
 import GameHeader from "../../components/GameHeader";
+import SheetSwitcher from "@/app/components/SheetSwitcher";
 
 export default function PlayPage({}) {
-  const [ sheet, setSheet ] = useState({ squares: emptyGridRefs });
+  const [ sheet, setSheet ] = useState();
   const [ squares, setSquares ] = useState(emptyGridRefs);
   const [ draggedSquare, setDraggedSquare ] = useState(null);
 
@@ -20,9 +21,13 @@ export default function PlayPage({}) {
         { game: gameType },
       );
       setSheet(tempSheet);
-      setSquares(tempSheet.squares);
     })();
   }, []);
+
+  useEffect(() => {
+    const newSquares = sheet?.squares ?? emptyGridRefs;
+    setSquares(newSquares);
+  }, [ sheet ]);
 
   if (!squares) {
     return 'Failed to fetch squares, check console for errors';
@@ -37,7 +42,7 @@ export default function PlayPage({}) {
       <main>
         <GameHeader game={sheet?.game} />
         <Grid squares={squares} variant="play" />
-        <h2 style={{textAlign: 'center'}}>{sheet?.name}</h2>
+        {sheet && <SheetSwitcher sheet={sheet} />}
       </main>
     </AdminContext.Provider>
   )

@@ -252,43 +252,6 @@ select {
 	}
 }
 
-#save-session-container {
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-
-	input {
-		font-size: 20px;
-		background: #fff;
-		border: 3px solid #000;
-		border-radius: 5px;
-		margin-bottom: 5px;
-	}
-}
-
-#sessions-popup {
-	display: none;
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	box-shadow: 1px 8px 20px 3px #00000061;
-	padding: 25px;
-	background-color: $background-color_6;
-	border-radius: 10px;
-	border: 3px solid #000;
-}
-
-#sessions-popup.active {
-	display: block;
-}
-
-#sessions-list {
-	display: flex;
-	flex-direction: column;
-	gap: 5px;
-}
-
 .session-item {
 	font-size: 25px;
 	background: #fff;
@@ -317,14 +280,15 @@ select {
 	}
 }
 
-#session-title {
+.sheet-name {
 	h2 {
 		text-align: center;
 		font-size: 2em;
 		margin-top: -5px;
+    cursor: pointer;
 
 		&::before {
-			content: "Current session:";
+			content: "Current sheet:";
 			font-weight: normal;
 			font-size: 16px;
 			margin-right: 5px;
@@ -439,4 +403,48 @@ select {
   background-color: #ffffff;
   border-radius: 5px;
   box-shadow: 0px 2px 10px -3px #00000042;
+}
+
+.sheet-selector {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: #fff;
+  padding: 5px;
+  border-radius: 5px;
+  border: 2px solid #000;
+  transform: translate(-50%, -50%);
+  
+  .sheet-switcher-option {
+    padding: 3px 20px;
+    border-radius: 3px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #d8d8d8;
+    }
+
+    &.active {
+      background-color: #f6a1a2;
+    }
+  }
+}
+
+.close-button {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: -15px;
+  right: -15px;
+  background: #fff;
+  border-radius: 100%;
+  border: 2px solid #000;
+  height: 30px;
+  width: 30px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #d8d8d8;
+  }
 }

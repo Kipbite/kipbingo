@@ -7,17 +7,17 @@ export default async function sheetsEndpointGet(request) {
   const db = client.db(process.env.DATABASE);
   
   const { searchParams } = new URL(request.url);
-  const game = searchParams.get('game');
-  const sheetId = searchParams.get('sheetId');
-  
-  let findParams =
-    sheetId ? { _id: new ObjectId(sheetId) } :
-    game ? { game: game } :
-    {};
+  const limit = parseInt( searchParams.get('limit') ) ?? 1;
 
   const response = await db
     .collection( 'sheets' )
-    .findOne( findParams );
+    .find()
+    .limit( limit )
+    .toArray()
+
+  if ( limit === 1 ) {
+    return NextResponse.json(response[0]);
+  }
 
   return NextResponse.json(response);
 }
