@@ -1,5 +1,4 @@
 import clientPromise from "@/app/lib/mongodb";
-import { ObjectId } from "bson";
 import { NextResponse } from "next/server";
 
 export default async function sheetsEndpointGet(request) {

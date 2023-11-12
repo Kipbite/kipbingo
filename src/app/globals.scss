@@ -149,6 +149,9 @@ img {
     transition: .2s ease-in-out;
     margin-bottom: 10px;
     width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
     
 		&:not(.new-possibility) {
       cursor: grab;
@@ -159,8 +162,6 @@ img {
     }
 
     &.new-possibility {
-      display: flex;
-      justify-content: space-between;
       padding: 0;
 
       input {
@@ -188,6 +189,10 @@ img {
         }
       }
     }
+
+    .delete-possibility {
+      cursor: pointer;
+    }
 	}
 
 	.header {
@@ -203,7 +208,6 @@ img {
 	ul {
 		padding: 0;
 		margin: 0;
-		max-height: 500px;
 		list-style: none;
 		columns: 2;
 	}

@@ -16,6 +16,7 @@ export default function NewSquarePicker({}) {
         }}
         value={newSquare}
       />
+
       <button onClick={async () => {
         await sendApiRequest(
           'POST',
