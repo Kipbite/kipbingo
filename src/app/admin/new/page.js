@@ -19,6 +19,7 @@ export default function AdminPage({}) {
   const [ activeSquares, setActiveSquares ] = useState(emptyGridRefs);
   const [ draggedSquare, setDraggedSquare ] = useState(null);
   const [ sheetName, setSheetName ] = useState('');
+  const [ updateSquares, setUpdateSquares ] = useState(0);
 
   useEffect(() => {
     (async () => {
@@ -44,7 +45,7 @@ export default function AdminPage({}) {
       });
       setSquares(optionList);
     })();
-  }, [ game ]);
+  }, [ game, updateSquares ]);
 
   if (!game) {
     return "Loading...";
@@ -57,6 +58,7 @@ export default function AdminPage({}) {
       draggedSquare, setDraggedSquare,
       sheetName, setSheetName,
       gameType, setGameType,
+      updateSquares, setUpdateSquares,
     }}>
       <main className="container">
         <div>
