@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import AdminContext from "../context";
 import { sendApiRequest } from "../lib/utilities";
+import GridSquareText from "./GridSquareText";
 
 export default function PlayableGridSquare({ square }) {
   const { squares, setSquares, sheet } = useContext(AdminContext);
@@ -41,7 +42,7 @@ export default function PlayableGridSquare({ square }) {
       }}
     >
       <div className="cell">
-        {square?.text}
+        <GridSquareText text={square?.text} />
       </div>
     </div>
   );

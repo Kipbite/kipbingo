@@ -1,26 +1,8 @@
-"use client"
-
-import { useEffect, useState } from "react";
-import { sendApiRequest } from "../lib/utilities";
-import SquarePicker from "./SquarePicker";
+import { useContext } from "react";
+import AdminContext from "../context";
 
 export default function SquarePickerList({ game }) {
-  const [ squares, setSquares ] = useState();
-
-  useEffect(() => {
-    (async () => {
-      const tempSquares = await sendApiRequest(
-        'GET',
-        '/squares',
-        { game }
-      );
-      const optionList = [];
-      tempSquares.forEach(square => {
-        optionList.push(<SquarePicker key={square._id} square={square} />);
-      });
-      setSquares(optionList);
-    })();
-  }, [ game ]);
+  const { squares } = useContext(AdminContext);
 
   return (
     <div className="possibilities">

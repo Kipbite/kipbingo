@@ -22,10 +22,12 @@ export default function GamePicker({}) {
   }, []);
 
   return (
-    games && <select onChange={(e) => {
-      setGameType(e.target.value);
-    }}>
-      {games}
-    </select>
+    games && <div className="select-wrapper">
+      <select onChange={(e) => {
+        setGameType(e.target.value);
+      }}>
+        {games}
+      </select>
+    </div>
   );
 }

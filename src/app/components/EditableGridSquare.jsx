@@ -2,6 +2,7 @@ import { useContext } from "react";
 import AdminContext from "../context";
 import Image from "next/image";
 import Trashcan from "./Trashcan";
+import GridSquareText from "./GridSquareText";
 
 export default function EditableGridSquare({ square }) {
   const { activeSquares, setActiveSquares, draggedSquare, setDraggedSquare } = useContext(AdminContext);
@@ -12,7 +13,7 @@ export default function EditableGridSquare({ square }) {
     }
 
     const newActiveSquares = { ...activeSquares };
-    newActiveSquares[square.gridRef] = newValue ? { ticked: false, ... newValue } : null;
+    newActiveSquares[square.gridRef] = newValue ? { ticked: false, ...newValue } : null;
     setActiveSquares(newActiveSquares);
   }
 
@@ -42,7 +43,7 @@ export default function EditableGridSquare({ square }) {
             <Trashcan />
           </div>
         }
-        {square?.text}
+        <GridSquareText text={square?.text} />
         <div className="grid-ref">
           {square.gridRef}
         </div>

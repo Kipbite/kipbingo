@@ -9,10 +9,13 @@ import SquarePickerList from "../../components/SquarePickerList";
 import SaveButton from "@/app/components/SaveButton";
 import NameInput from "@/app/components/NameInput";
 import GamePicker from "@/app/components/GamePicker";
+import SquarePicker from "@/app/components/SquarePicker";
+import RandomiseButton from "@/app/components/RandomiseButton";
 
 export default function AdminPage({}) {
   const [ gameType, setGameType ] = useState('yakuza');
   const [ game, setGame ] = useState(null);
+  const [ squares, setSquares ] = useState();
   const [ activeSquares, setActiveSquares ] = useState(emptyGridRefs);
   const [ draggedSquare, setDraggedSquare ] = useState(null);
   const [ sheetName, setSheetName ] = useState('');
@@ -28,12 +31,28 @@ export default function AdminPage({}) {
     })();
   }, [ gameType ]);
 
+  useEffect(() => {
+    (async () => {
+      const tempSquares = await sendApiRequest(
+        'GET',
+        '/squares',
+        { game: game?.name }
+      );
+      const optionList = [];
+      tempSquares.forEach(square => {
+        optionList.push(<SquarePicker key={square._id} square={square} />);
+      });
+      setSquares(optionList);
+    })();
+  }, [ game ]);
+
   if (!game) {
     return "Loading...";
   }
 
   return (
     <AdminContext.Provider value={{
+      squares, setSquares,
       activeSquares, setActiveSquares,
       draggedSquare, setDraggedSquare,
       sheetName, setSheetName,
@@ -52,6 +71,7 @@ export default function AdminPage({}) {
         <div>
           <SquarePickerList game={gameType} />
           <GamePicker />
+          <RandomiseButton />
         </div>
       </main>
     </AdminContext.Provider>
