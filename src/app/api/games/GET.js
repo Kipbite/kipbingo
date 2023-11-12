@@ -8,9 +8,17 @@ export async function gamesEndpointGet(request, foo) {
   const { searchParams } = new URL(request.url);
   const game = searchParams.get('game');
   
-  const response = await db
-    .collection('games')
-    .findOne({ 'name': game });
+  let response = null;
+  if (game) {
+    response = await db
+      .collection('games')
+      .findOne({ name: game })
+  } else {
+    response = await db
+      .collection('games')
+      .find()
+      .toArray()
+  }
 
   return NextResponse.json(response);
 }

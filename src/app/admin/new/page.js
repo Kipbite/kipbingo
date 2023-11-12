@@ -8,6 +8,7 @@ import Grid from "../../components/Grid";
 import SquarePickerList from "../../components/SquarePickerList";
 import SaveButton from "@/app/components/SaveButton";
 import NameInput from "@/app/components/NameInput";
+import GamePicker from "@/app/components/GamePicker";
 
 export default function AdminPage({}) {
   const [ gameType, setGameType ] = useState('yakuza');
@@ -50,6 +51,7 @@ export default function AdminPage({}) {
         
         <div>
           <SquarePickerList game={gameType} />
+          <GamePicker />
         </div>
       </main>
     </AdminContext.Provider>

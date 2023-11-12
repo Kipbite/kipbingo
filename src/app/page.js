@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { emptyGridRefs, sendApiRequest } from "./lib/utilities";
 import Grid from "./components/Grid";
 import GameHeader from "./components/GameHeader";
+import AdminContext from "./context";
+import SheetSwitcher from "./components/SheetSwitcher";
 
 export default function HomePage({}) {
   const [ sheet, setSheet ] = useState({ squares: emptyGridRefs });
@@ -34,10 +36,14 @@ export default function HomePage({}) {
   }
 
   return (
-    <main>
-      <GameHeader game={sheet.game} />
-      <Grid squares={sheet.squares} />
-      <h2 style={{textAlign: 'center'}}>{sheet.name}</h2>
-    </main>
+    <AdminContext.Provider value={{
+      setSheet
+    }}>
+      <main>
+        <GameHeader game={sheet.game} />
+        <Grid squares={sheet.squares} />
+        <SheetSwitcher sheet={sheet} />
+      </main>
+    </AdminContext.Provider>
   )
 }
