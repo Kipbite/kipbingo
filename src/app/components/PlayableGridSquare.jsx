@@ -8,7 +8,7 @@ export default function PlayableGridSquare({ square }) {
 
   return (
     <div
-      className={`cell-wrapper playable ${square.ticked ? 'ticked' : ''}`}
+      className={`cell playable ${square.ticked ? 'ticked' : ''}`}
       onClick={async () => {
         if (squares[square.gridRef]) {
           const newSheetSquares = {};
@@ -41,9 +41,7 @@ export default function PlayableGridSquare({ square }) {
         }
       }}
     >
-      <div className="cell">
-        <GridSquareText text={square?.text} />
-      </div>
+      <GridSquareText text={square?.text} />
     </div>
   );
 }

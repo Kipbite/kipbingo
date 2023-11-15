@@ -7,15 +7,17 @@ export default function SquarePicker({ square }) {
   const { setDraggedSquare, updateSquares, setUpdateSquares } = useContext(AdminContext);
 
   return (
-    <li
-      className="possibility"
-      onDrag={(e) => {
-        e.preventDefault();
-        setDraggedSquare(square);
-      }}
-      draggable
-    >
-      <span>{square.text}</span>
+    <div className="possibility-wrapper">
+      <li
+        className="possibility"
+        onDrag={(e) => {
+          e.preventDefault();
+          setDraggedSquare(square);
+        }}
+        draggable
+      >
+        <span>{square.text}</span>
+      </li>
       <span className="delete-possibility" onClick={async () => {
         // TODO: Handle response properly
         const response = await sendApiRequest(
@@ -28,6 +30,6 @@ export default function SquarePicker({ square }) {
       }}>
         <Trashcan />
       </span>
-    </li>
+    </div>
   );
 }
