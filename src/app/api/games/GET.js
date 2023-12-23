@@ -1,7 +1,7 @@
 import clientPromise from "@/app/lib/mongodb";
 import { NextResponse } from "next/server";
 
-export async function gamesEndpointGet(request, foo) {
+export async function gamesEndpointGet(request) {
   const client = await clientPromise;
   const db = client.db(process.env.DATABASE);
 

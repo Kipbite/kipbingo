@@ -98,6 +98,10 @@ img {
       2px -1px 0 #000,
       -2px -1px 0 #000,
       0 0 6px #000;
+    
+    &:hover {
+      background-color: $background-color_3;
+    }
   }
 
   .delete-button {
@@ -463,11 +467,16 @@ select {
   color: #d8d8d8;
 }
 
-.admin-label {
-  @include button-like();
+.admin-menu {
+  display: flex;
+  gap: 5px;
   position: fixed;
   left: 5px;
   top: 5px;
+}
+
+.admin-label {
+  @include button-like();
 }
 
 .sheet-selector {
