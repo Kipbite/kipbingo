@@ -1,28 +1,12 @@
-"use client";
-
-import { useCookies } from 'next-client-cookies';
-import AdminLabel from "../components/AdminLabel";
-import AdminLogin from "../components/AdminLogin";
-import { useState } from 'react';
+import { CookiesProvider } from 'next-client-cookies/server';
+import AdminInterstitial from "../components/AdminInterstitial";
 
 export default function AdminLayout({ children }) {
-  const [ loggedIn, setLoggedIn ] = useState(false);
-  const cookies = useCookies();
-  const cookie = cookies.get('logged-in');
-
-  if ( cookie ) {
-    return (
-      <>
-        <AdminLabel />
+  return (
+    <CookiesProvider>
+      <AdminInterstitial>
         {children}
-      </>
-    )
-  } else {
-    return (
-      <>
-        <AdminLabel />
-        <AdminLogin setLoggedIn={setLoggedIn} />
-      </>
-    )
-  }
+      </AdminInterstitial>
+    </CookiesProvider>
+  )
 }
