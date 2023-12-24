@@ -47,6 +47,7 @@ export default function PlayPage({}) {
 
   return (
     <AdminContext.Provider value={{
+      isAdmin: true,
       sheet, setSheet,
       squares, setSquares,
       draggedSquare, setDraggedSquare,

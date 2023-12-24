@@ -23,7 +23,6 @@ export default function SaveButton({}) {
         );
 
         if (response.acknowledged && response.insertedId) {
-          console.log(`/admin/play?sheetId=${response.insertedId}`);
           router.push(`/admin/play?sheetId=${response.insertedId}`);
         }
       }}

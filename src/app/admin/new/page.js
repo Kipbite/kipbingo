@@ -53,6 +53,7 @@ export default function AdminPage({}) {
 
   return (
     <AdminContext.Provider value={{
+      isAdmin: true,
       squares, setSquares,
       activeSquares, setActiveSquares,
       draggedSquare, setDraggedSquare,
