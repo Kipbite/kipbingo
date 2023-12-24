@@ -1,8 +1,11 @@
+
 import { useContext } from "react";
 import AdminContext from "../context";
 import { sendApiRequest } from "../lib/utilities";
+import { useRouter } from "next/navigation";
 
 export default function SaveButton({}) {
+  const router = useRouter();
   const { activeSquares, sheetName, gameType } = useContext(AdminContext);
 
   return (
@@ -19,8 +22,10 @@ export default function SaveButton({}) {
           }
         );
 
-        // TODO: Handle response properly
-        console.log(response);
+        if (response.acknowledged && response.insertedId) {
+          console.log(`/admin/play?sheetId=${response.insertedId}`);
+          router.push(`/admin/play?sheetId=${response.insertedId}`);
+        }
       }}
     >
       Save
