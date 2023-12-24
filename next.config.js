@@ -8,6 +8,12 @@ const nextConfig = {
         port: '',
         pathname: '/kipbingo/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'placekitten.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 }

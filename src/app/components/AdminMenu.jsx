@@ -18,6 +18,11 @@ export default function AdminMenu({}) {
           New
         </Link>
       </div>
+      <div className="admin-label">
+        <Link href="/admin/games">
+          Games
+        </Link>
+      </div>
     </div>
   );
 }

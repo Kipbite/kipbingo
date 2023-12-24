@@ -1,7 +1,7 @@
 "use client";
 
 import { useCookies } from 'next-client-cookies';
-import AdminLabel from "../components/AdminLabel";
+import AdminMenu from "./AdminMenu";
 import AdminLogin from "../components/AdminLogin";
 import { useState } from 'react';
 
@@ -13,14 +13,14 @@ export default function AdminInterstitial({ children }) {
   if ( cookie ) {
     return (
       <>
-        <AdminLabel />
+        <AdminMenu />
         {children}
       </>
     )
   } else {
     return (
       <>
-        <AdminLabel />
+        <AdminMenu />
         <AdminLogin setLoggedIn={setLoggedIn} />
       </>
     )
