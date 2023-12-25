@@ -41,6 +41,53 @@ export default function PlayPage({}) {
     setSquares(newSquares);
   }, [ sheet ]);
 
+  function checkForBingo( gridRefs ) {
+    let bingo = true;
+    for (const gridRef of gridRefs) {
+      if (!squares[gridRef]?.ticked) {
+        bingo = false;
+      }
+    }
+
+    console.log(gridRefs, bingo);
+    return bingo;
+  }
+
+  useEffect(() => {
+    let rows = {
+      'A': false, 'B': false, 'C': false, 'D': false, 'E': false
+    };
+
+    let columns = {
+      0: false, 1: false, 2: false, 3: false, 4: false
+    };
+
+    let winConditions = {
+      ...rows,
+      ...columns
+    };
+
+    for (let row in rows) {
+      let gridRefs = [];
+      for (let column in columns) {
+        gridRefs.push(`${row}${column}`);
+      }
+
+      winConditions[row] = checkForBingo(gridRefs);
+    }
+
+    for (let column in columns) {
+      let gridRefs = [];
+      for (let row in rows) {
+        gridRefs.push(`${row}${column}`);
+      }
+
+      winConditions[column] = checkForBingo(gridRefs);
+    }
+
+    console.log(winConditions);
+  }, [ squares ])
+
   if (!squares) {
     return 'Failed to fetch squares, check console for errors';
   }

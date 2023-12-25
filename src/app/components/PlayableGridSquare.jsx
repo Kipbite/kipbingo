@@ -37,11 +37,14 @@ export default function PlayableGridSquare({ square }) {
           );
           
           // TODO: Handle response properly
-          console.log(response);
+          // console.log(response);
         }
       }}
     >
       <GridSquareText text={square?.text} />
+      <div className="grid-ref">
+        {square.gridRef}
+      </div>
     </div>
   );
 }
