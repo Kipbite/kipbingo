@@ -1,11 +1,13 @@
 "use client";
 
 import Trashcan from "@/app/components/Trashcan";
+import { uploadImage } from "@/app/lib/aws";
 import { sendApiRequest } from "@/app/lib/utilities";
 import { useEffect, useState } from "react";
 
 export default function GameManagementPage() {
   const [ gameTypes, setGameTypes ] = useState([]);
+  const [ file, setFile ] = useState();
   const [ newGameType, setNewGameType ] = useState('');
   const [ updateGameType, setUpdateGameType ] = useState(0);
 
@@ -35,29 +37,58 @@ export default function GameManagementPage() {
             )
           })}
 
-          <div className="possibility new-possibility">
-            <input
-              type="text"
-              placeholder="New game type"
-              onChange={(e) => {
-                setNewGameType(e.target.value);
-              }}
-              value={newGameType}
-            />
+          <div className="game-type possibility new-possibility">
+            <div>
+              <input
+                type="text"
+                placeholder="New game type"
+                onChange={(e) => {
+                  setNewGameType(e.target.value);
+                }}
+                value={newGameType}
+              />
+
+              <input
+                type="file"
+                name="file"
+                accept="image/*"
+                onChange={(e) => {
+                  setFile(e.target.files?.[0]);
+                  console.log(e.target.files?.[0]);
+                }}
+              />
+            </div>
 
             <button onClick={async () => {
+              if (!file || newGameType === '') {
+                alert('Please fill out the name field and upload an image');
+                return;
+              }
+
+              if (!file.type.includes('image')) {
+                alert('Invalid file type, please upload an image');
+                return;
+              }
+
+              await uploadImage(file);
               await sendApiRequest(
                 'POST',
                 '/games',
                 null,
-                { name: newGameType }
+                {
+                  name: newGameType,
+                  image: `https://kipbite-assets.fra1.digitaloceanspaces.com/kipbingo/${file.name}`
+                }
               );
-              
+
               setNewGameType('');
               setUpdateGameType(updateGameType + 1);
             }}>
               Add
             </button>
+          </div>
+          <div className="filesize-label">
+            Header image should be 500x105px
           </div>
         </ul>
       </div>

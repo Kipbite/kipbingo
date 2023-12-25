@@ -9,7 +9,7 @@ export default async function gamesEndpointPost(request) {
   const insertDoc = {};
 
   insertDoc.name = body.name ? body.name.toString() : '';
-  insertDoc.header = 'https://placekitten.com/1080/227';
+  insertDoc.header = body.image ? body.image.toString() : 'https://placekitten.com/1080/227';
 
   const response = await db
     .collection( 'games' )

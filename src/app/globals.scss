@@ -154,6 +154,15 @@ img {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
+
+  &.new-possibility {
+    align-items: normal;
+
+    input {
+      height: auto;
+      border-bottom: 1px solid $background-color_2;
+    }
+  }
 }
 
 .possibilities {
@@ -570,4 +579,12 @@ select {
   align-items: center;
   justify-content: center;
   gap: 2px;
+}
+
+.filesize-label {
+  @include button-like();
+  width: fit-content;
+  font-size: 12px;
+  font-style: italic;
+  margin-top: -8px;
 }
