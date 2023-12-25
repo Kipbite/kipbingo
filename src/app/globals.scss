@@ -105,6 +105,12 @@ img {
     }
   }
 
+  &.golden,
+  &.golden:hover {
+    background-color: gold;
+    outline-color: goldenrod;
+  }
+
   .delete-button {
     display: none;
     position: absolute;

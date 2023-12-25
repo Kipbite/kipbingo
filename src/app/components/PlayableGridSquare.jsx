@@ -4,11 +4,13 @@ import { sendApiRequest } from "../lib/utilities";
 import GridSquareText from "./GridSquareText";
 
 export default function PlayableGridSquare({ square }) {
-  const { squares, setSquares, sheet } = useContext(AdminContext);
+  const { squares, setSquares, sheet, goldenSquares } = useContext(AdminContext);
+
+  let golden = goldenSquares.includes(square.gridRef);
 
   return (
     <div
-      className={`cell playable ${square.ticked ? 'ticked' : ''}`}
+      className={`cell playable ${square.ticked ? 'ticked' : ''} ${golden ? 'golden' : ''}`}
       onClick={async () => {
         if (squares[square.gridRef]) {
           const newSheetSquares = {};

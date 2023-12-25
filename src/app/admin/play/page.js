@@ -14,6 +14,7 @@ export default function PlayPage({}) {
   const [ sheet, setSheet ] = useState();
   const [ squares, setSquares ] = useState(emptyGridRefs);
   const [ draggedSquare, setDraggedSquare ] = useState(null);
+  const [ goldenSquares, setGoldenSquares ] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -41,28 +42,30 @@ export default function PlayPage({}) {
     setSquares(newSquares);
   }, [ sheet ]);
 
-  function checkForBingo( gridRefs ) {
-    let bingo = true;
-    for (const gridRef of gridRefs) {
-      if (!squares[gridRef]?.ticked) {
-        bingo = false;
+  // Check for if bingo has been achieved
+  useEffect(() => {
+    let tempGoldenSquares = [];
+
+    function checkForBingo( gridRefs ) {
+      let bingo = true;
+      for (const gridRef of gridRefs) {
+        if (!squares[gridRef]?.ticked) {
+          bingo = false;
+        }
       }
+
+      return bingo;
     }
 
-    console.log(gridRefs, bingo);
-    return bingo;
-  }
-
-  useEffect(() => {
     let rows = {
       'A': false, 'B': false, 'C': false, 'D': false, 'E': false
     };
-
+  
     let columns = {
       0: false, 1: false, 2: false, 3: false, 4: false
     };
 
-    let winConditions = {
+    let tempWins = {
       ...rows,
       ...columns
     };
@@ -73,7 +76,11 @@ export default function PlayPage({}) {
         gridRefs.push(`${row}${column}`);
       }
 
-      winConditions[row] = checkForBingo(gridRefs);
+      if (checkForBingo(gridRefs)) {
+        gridRefs.forEach((gridRef) => {
+          tempGoldenSquares.push(gridRef);
+        })
+      }
     }
 
     for (let column in columns) {
@@ -82,10 +89,14 @@ export default function PlayPage({}) {
         gridRefs.push(`${row}${column}`);
       }
 
-      winConditions[column] = checkForBingo(gridRefs);
+      if (checkForBingo(gridRefs)) {
+        gridRefs.forEach((gridRef) => {
+          tempGoldenSquares.push(gridRef);
+        })
+      }
     }
 
-    console.log(winConditions);
+    setGoldenSquares([ ...tempGoldenSquares ]);
   }, [ squares ])
 
   if (!squares) {
@@ -98,6 +109,7 @@ export default function PlayPage({}) {
       sheet, setSheet,
       squares, setSquares,
       draggedSquare, setDraggedSquare,
+      goldenSquares,
     }}>
       <main>
         <GameHeader game={sheet?.game} />
