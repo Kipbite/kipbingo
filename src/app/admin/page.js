@@ -9,6 +9,9 @@ export default function AdminPage({}) {
       <Link href="/admin/play" className="admin-nav">
         Play bingo
       </Link>
+      <Link href="/admin/games" className="admin-nav">
+        Edit game types
+      </Link>
     </main>
   )
 }

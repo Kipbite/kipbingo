@@ -54,7 +54,6 @@ export default function GameManagementPage() {
                 accept="image/*"
                 onChange={(e) => {
                   setFile(e.target.files?.[0]);
-                  console.log(e.target.files?.[0]);
                 }}
               />
             </div>
