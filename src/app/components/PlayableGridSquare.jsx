@@ -1,12 +1,11 @@
 import { useContext } from "react";
+import GridSquareText from "./GridSquareText";
 import AdminContext from "../context";
 import { sendApiRequest } from "../lib/utilities";
-import GridSquareText from "./GridSquareText";
 
 export default function PlayableGridSquare({ square }) {
   const { squares, setSquares, sheet, goldenSquares } = useContext(AdminContext);
-
-  let golden = goldenSquares.includes(square.gridRef);
+  const golden = goldenSquares.includes(square.gridRef);
 
   return (
     <div

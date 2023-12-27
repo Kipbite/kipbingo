@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import AdminContext from "../context";
-import Image from "next/image";
 import Trashcan from "./Trashcan";
 import GridSquareText from "./GridSquareText";
 
