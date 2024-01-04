@@ -10,7 +10,17 @@ export default function SheetSwitcher({ sheet }) {
 
   useEffect(() => {
     (async () => {
-      const sheets = await sendApiRequest( 'GET', '/sheets', { limit: 20 } );
+      const response = await sendApiRequest(
+        'GET',
+        '/sheets',
+        { limit: 20 }
+      );
+
+      if (!response.success) {
+        console.error('Error fetching sheets: ', response.message);
+      }
+
+      const sheets = response.message;
       setSheetList(sheets);
     })()
   }, []);

@@ -23,22 +23,35 @@ export default function AdminPage({}) {
 
   useEffect(() => {
     (async () => {
-      const tempGame = await sendApiRequest(
+      const response = await sendApiRequest(
         'GET',
         '/games',
         { game: gameType }
       );
-      setGame(tempGame);
+
+      if (!response.success) {
+        console.error('Error fetching games: ', response.message);
+        return;
+      }
+
+      setGame(response.message);
     })();
   }, [ gameType ]);
 
   useEffect(() => {
     (async () => {
-      const tempSquares = await sendApiRequest(
+      const response = await sendApiRequest(
         'GET',
         '/squares',
         { game: game?.name }
       );
+
+      if (!response.success) {
+        console.error('Error fetching squares: ', response.message);
+        return;
+      }
+
+      const tempSquares = response.message;
       const optionList = [];
       tempSquares.forEach(square => {
         optionList.push(<SquarePicker key={square._id} square={square} />);
@@ -48,7 +61,7 @@ export default function AdminPage({}) {
   }, [ game, updateSquares ]);
 
   if (!game) {
-    return "Loading...";
+    return <main className="container">Loading...</main>;
   }
 
   return (

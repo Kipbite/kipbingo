@@ -18,22 +18,27 @@ export default function PlayPage({}) {
 
   useEffect(() => {
     (async () => {
-      let tempSheet;
-
+      let response;
       if (sheetId) {
-        tempSheet = await sendApiRequest(
+        response = await sendApiRequest(
           'GET',
           '/sheets/unfolded',
           { sheetId },
         );
       } else {
-        tempSheet = await sendApiRequest(
+        response = await sendApiRequest(
           'GET',
           '/sheets/unfolded',
           { game: 'yakuza' },
         );
       }
-      setSheet(tempSheet);
+
+      if (!response.success) {
+        console.error('Error fetching unfolded sheets: ', response.message);
+        return;
+      }
+
+      setSheet(response.message);
     })();
   }, [ sheetId ]);
 

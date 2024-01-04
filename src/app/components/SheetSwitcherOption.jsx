@@ -14,8 +14,18 @@ export default function SheetSwitcherOption({ sheet, active }) {
     >
       <span onClick={async () => {
         setSheet(null);
-        const unfoldedSheet = await sendApiRequest('GET', '/sheets/unfolded', { sheetId: sheet._id });
-        setSheet(unfoldedSheet);
+        const response = await sendApiRequest(
+          'GET',
+          '/sheets/unfolded',
+          { sheetId: sheet._id }
+        );
+
+        if (!response.success) {
+          console.error('Error fetching unfolded sheets: ', response.message);
+          return;
+        }
+
+        setSheet(response.message);
       }}>
         {sheet.name}
       </span>
