@@ -14,6 +14,12 @@ export default function GameManagementPage() {
   useEffect(() => {
     (async () => {
       const response = await sendApiRequest( 'GET', '/games' );
+
+      if (!response.success) {
+        console.error('Error fetching games: ', response.message)
+        return;
+      }
+
       setGameTypes(response);
     })()
   }, [ updateGameType ]);

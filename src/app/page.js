@@ -15,12 +15,19 @@ export default function HomePage({}) {
 
     const refreshData = async function() {
       const gameType = 'yakuza';
-      const tempSheet = await sendApiRequest(
+      const response = await sendApiRequest(
         'GET',
         '/sheets/unfolded',
         { game: gameType },
         null
       );
+
+      if (!response.success) {
+        console.error('Error fetching unfolded sheets: ', response.message);
+        return;
+      }
+
+      const tempSheet = response.message;
       setSheet(tempSheet);
 
       setTimeout(() => {

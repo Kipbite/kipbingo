@@ -3,8 +3,12 @@ import { ObjectId } from "bson";
 import { NextResponse } from "next/server";
 
 export default async function unfoldedSheetsEndpointGet(request) {
-  const client = await clientPromise;
-  const db = client.db(process.env.DATABASE);
+  try {
+    const client = await clientPromise;
+    const db = client.db(process.env.DATABASE);
+  } catch (error) {
+    return NextResponse.json({ success: false, message: error });
+  }
 
   const { searchParams } = new URL(request.url);
   const game = searchParams.get('game');
@@ -16,9 +20,14 @@ export default async function unfoldedSheetsEndpointGet(request) {
     game ? { game: game } :
     {};
 
-  const response = await db
-    .collection( 'sheets' )
-    .findOne( findParams );
+  let response;
+  try {
+    response = await db
+      .collection( 'sheets' )
+      .findOne( findParams );
+  } catch (error) {
+    return NextResponse.json({ success: false, message: error });
+  }
 
   const data = response;
 
@@ -33,14 +42,18 @@ export default async function unfoldedSheetsEndpointGet(request) {
 
     let foundSquares = [];
     if (squareIds.length > 0) {
-      foundSquares = await db
-        .collection('squares')
-        .find({
-          "_id": {
-            "$in": squareIds
-          }
-        })
-        .toArray()
+      try {
+        foundSquares = await db
+          .collection('squares')
+          .find({
+            "_id": {
+              "$in": squareIds
+            }
+          })
+          .toArray()
+        } catch (error) {
+          return NextResponse.json({ success: false, message: error });
+        }
     }
 
     if (foundSquares.length > 0) {
@@ -67,16 +80,21 @@ export default async function unfoldedSheetsEndpointGet(request) {
   }
 
   if (fields === 'all' || fields === 'game' || fields.includes('game')) {
-    const foundGame = await db
-      .collection('games')
-      .findOne({
-        'name': data.game
-      })
+    let foundGame;
+    try {
+      foundGame = await db
+        .collection('games')
+        .findOne({
+          'name': data.game
+        })
+    } catch (error) {
+      return NextResponse.json({ success: false, message: error });
+    }
     
     if (foundGame) {
       data.game = foundGame;
     }
   }
 
-  return NextResponse.json(data);
+  return NextResponse.json({ success: true, message: data });
 }

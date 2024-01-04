@@ -8,7 +8,14 @@ export default function GamePicker({}) {
 
   useEffect(() => {
     (async () => {
-      const tempGames = await sendApiRequest('GET', '/games');
+      const response = await sendApiRequest('GET', '/games');
+
+      if (!response.success) {
+        console.error('Error with fetching games: ', response.message);
+        return;
+      }
+
+      const tempGames = response.message;
       const gameElements = tempGames.map((game) => {
         return(
           <option key={game._id} value={game.name}>
