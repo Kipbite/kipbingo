@@ -85,3 +85,59 @@ export async function sendApiRequest(
     .then((res) => res.json())
     .catch((e) => console.error(e))
 }
+
+export function winChecker( setGoldenSquares, squares ) {
+  let tempGoldenSquares = [];
+
+    function checkForBingo( gridRefs ) {
+      let bingo = true;
+      for (const gridRef of gridRefs) {
+        if (!squares[gridRef]?.ticked) {
+          bingo = false;
+        }
+      }
+
+      return bingo;
+    }
+
+    let rows = {
+      'A': false, 'B': false, 'C': false, 'D': false, 'E': false
+    };
+  
+    let columns = {
+      0: false, 1: false, 2: false, 3: false, 4: false
+    };
+
+    let tempWins = {
+      ...rows,
+      ...columns
+    };
+
+    for (let row in rows) {
+      let gridRefs = [];
+      for (let column in columns) {
+        gridRefs.push(`${row}${column}`);
+      }
+
+      if (checkForBingo(gridRefs)) {
+        gridRefs.forEach((gridRef) => {
+          tempGoldenSquares.push(gridRef);
+        })
+      }
+    }
+
+    for (let column in columns) {
+      let gridRefs = [];
+      for (let row in rows) {
+        gridRefs.push(`${row}${column}`);
+      }
+
+      if (checkForBingo(gridRefs)) {
+        gridRefs.forEach((gridRef) => {
+          tempGoldenSquares.push(gridRef);
+        })
+      }
+    }
+
+    setGoldenSquares([ ...tempGoldenSquares ]);
+}
