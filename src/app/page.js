@@ -36,11 +36,13 @@ export default function HomePage({}) {
   }, []);
 
   useEffect(() => {
-    winChecker( setGoldenSquares, sheet.squares );
-  }, [ sheet.squares ]);
+    if (sheet?.squares) {
+      winChecker( setGoldenSquares, sheet.squares );
+    }
+  }, [ sheet ]);
   
   if (!sheet?.squares) {
-    return 'Failed to fetch squares';
+    return <main className="container">Loading...</main>;
   }
 
   return (
