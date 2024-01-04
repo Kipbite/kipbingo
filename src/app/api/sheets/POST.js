@@ -7,7 +7,7 @@ export default async function sheetsEndpointPost(request) {
   const db = client.db(process.env.DATABASE);
   const body = await request.json();
   
-  const insertDoc = {};
+  const insertDoc = { updatedTime: Date.now() };
   
   const squaresTemplate = emptyGridRefs;
   Object.keys(squaresTemplate).forEach((key) => {

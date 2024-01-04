@@ -27,7 +27,11 @@ export default async function unfoldedSheetsEndpointGet(request) {
   try {
     response = await db
       .collection( 'sheets' )
-      .findOne( findParams );
+      .find( findParams )
+      .sort({ updatedTime: -1 })
+      .toArray()
+
+    response = response[0];
   } catch (error) {
     return NextResponse.json({ success: false, message: error });
   }

@@ -20,6 +20,7 @@ export default async function sheetsEndpointGet(request) {
     response = await db
       .collection( 'sheets' )
       .find()
+      .sort({ updatedTime: -1 })
       .limit( limit )
       .toArray()
 

@@ -15,12 +15,9 @@ export default function HomePage({}) {
     const refreshTime = 1000 * 60 * 10 // 10 mins
 
     const refreshData = async function() {
-      const gameType = 'yakuza';
       const response = await sendApiRequest(
         'GET',
-        '/sheets/unfolded',
-        { game: gameType },
-        null
+        '/sheets/unfolded'
       );
 
       if (!response.success) {

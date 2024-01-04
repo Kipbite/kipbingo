@@ -11,7 +11,10 @@ export default async function sheetsEndpointPatch(request) {
     .collection('sheets')
     .updateOne(
       { _id: new ObjectId( body.id ) },
-      { $set: { squares: body.squares } }
+      { $set: {
+        squares: body.squares,
+        updatedTime: Date.now()
+      }}
     )
   
   return NextResponse.json(response);
