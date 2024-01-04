@@ -38,8 +38,7 @@ export default function PlayPage({}) {
         return;
       }
 
-      const tempSheet = response.message;
-      setSheet(tempSheet);
+      setSheet(response.message);
     })();
   }, [ sheetId ]);
 

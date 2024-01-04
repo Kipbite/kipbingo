@@ -2,9 +2,12 @@ import clientPromise from "@/app/lib/mongodb";
 import { NextResponse } from "next/server";
 
 export default async function squaresEndpointGet(request) {
+  let client;
+  let db;
+
   try {
-    const client = await clientPromise;
-    const db = client.db(process.env.DATABASE);
+    client = await clientPromise;
+    db = client.db(process.env.DATABASE);
   } catch(error) {
     return NextResponse.json({ success: false, message: error });
   }

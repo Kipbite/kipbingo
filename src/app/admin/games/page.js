@@ -20,7 +20,7 @@ export default function GameManagementPage() {
         return;
       }
 
-      setGameTypes(response);
+      setGameTypes(response.message);
     })()
   }, [ updateGameType ]);
 
@@ -36,6 +36,8 @@ export default function GameManagementPage() {
                 <span onClick={async () => {
                   const response = await sendApiRequest('DELETE', '/games', { id: gameType._id });
                   setUpdateGameType(updateGameType + 1);
+
+                  // TODO: Deal with response properly
                 }}>
                   <Trashcan />
                 </span>
@@ -85,6 +87,7 @@ export default function GameManagementPage() {
                   image: `https://kipbite-assets.fra1.digitaloceanspaces.com/kipbingo/${file.name}`
                 }
               );
+              // TODO: Deal with response properly
 
               setNewGameType('');
               setUpdateGameType(updateGameType + 1);

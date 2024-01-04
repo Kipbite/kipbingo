@@ -34,8 +34,7 @@ export default function AdminPage({}) {
         return;
       }
 
-      const tempGame = response.message;
-      setGame(tempGame);
+      setGame(response.message);
     })();
   }, [ gameType ]);
 

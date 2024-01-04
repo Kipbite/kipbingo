@@ -27,8 +27,7 @@ export default function HomePage({}) {
         return;
       }
 
-      const tempSheet = response.message;
-      setSheet(tempSheet);
+      setSheet(response.message);
 
       setTimeout(() => {
         refreshData();
