@@ -9,7 +9,7 @@ export default async function gamesEndpointGet(request) {
     client = await clientPromise;
     db = client.db(process.env.DATABASE);
   } catch(error) {
-    return NextResponse.json({ success: false, message: "Error connecting to database: " . error });
+    return NextResponse.json({ success: false, message: "Error connecting to database: " + error });
   }
   
   const { searchParams } = new URL(request.url);

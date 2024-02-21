@@ -12,7 +12,7 @@ export default function HomePage({}) {
   const [ goldenSquares, setGoldenSquares ] = useState([]);
 
   useEffect(() => {
-    const refreshTime = 1000 * 60 * 10 // 10 mins
+    const refreshTime = 1000 * 60 // 1 min
 
     const refreshData = async function() {
       const response = await sendApiRequest(
