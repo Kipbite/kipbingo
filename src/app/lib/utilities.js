@@ -100,18 +100,18 @@ export function winChecker( setGoldenSquares, squares ) {
       return bingo;
     }
 
-    let rows = {
+    const rows = {
       'A': false, 'B': false, 'C': false, 'D': false, 'E': false
     };
   
-    let columns = {
+    const columns = {
       0: false, 1: false, 2: false, 3: false, 4: false
     };
 
-    let tempWins = {
-      ...rows,
-      ...columns
-    };
+    const diagonals = [
+      [ 'A0', 'B1', 'C2', 'D3', 'E4' ],
+      [ 'E0', 'D1', 'C2', 'B3', 'A4' ]
+    ]
 
     for (let row in rows) {
       let gridRefs = [];
@@ -131,6 +131,16 @@ export function winChecker( setGoldenSquares, squares ) {
       for (let row in rows) {
         gridRefs.push(`${row}${column}`);
       }
+
+      if (checkForBingo(gridRefs)) {
+        gridRefs.forEach((gridRef) => {
+          tempGoldenSquares.push(gridRef);
+        })
+      }
+    }
+
+    for (let diagonal in diagonals) {
+      const gridRefs = diagonals[diagonal]
 
       if (checkForBingo(gridRefs)) {
         gridRefs.forEach((gridRef) => {
