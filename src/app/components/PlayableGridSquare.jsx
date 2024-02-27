@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import GridSquareText from "./GridSquareText";
 import AdminContext from "../context";
-import { sendApiRequest } from "../lib/utilities";
+import { fireMixitupWebhook, sendApiRequest } from "../lib/utilities";
 
 export default function PlayableGridSquare({ square }) {
   const { squares, setSquares, sheet, goldenSquares } = useContext(AdminContext);
@@ -21,6 +21,14 @@ export default function PlayableGridSquare({ square }) {
           });
 
           newSheetSquares[square.gridRef].ticked = !square.ticked;
+
+          if (!square.ticked) {
+            const mixitupData = {
+              square: square.text,
+              event: 'mark'
+            }
+            fireMixitupWebhook(mixitupData);
+          }
 
           const newSquares = { ...squares };
           newSquares[square.gridRef].ticked = !square.ticked;

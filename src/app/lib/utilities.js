@@ -88,66 +88,91 @@ export async function sendApiRequest(
 
 export function winChecker( setGoldenSquares, squares ) {
   let tempGoldenSquares = [];
+  let hasBingo = false;
 
-    function checkForBingo( gridRefs ) {
-      let bingo = true;
-      for (const gridRef of gridRefs) {
-        if (!squares[gridRef]?.ticked) {
-          bingo = false;
-        }
-      }
-
-      return bingo;
-    }
-
-    const rows = {
-      'A': false, 'B': false, 'C': false, 'D': false, 'E': false
-    };
-  
-    const columns = {
-      0: false, 1: false, 2: false, 3: false, 4: false
-    };
-
-    const diagonals = [
-      [ 'A0', 'B1', 'C2', 'D3', 'E4' ],
-      [ 'E0', 'D1', 'C2', 'B3', 'A4' ]
-    ]
-
-    for (let row in rows) {
-      let gridRefs = [];
-      for (let column in columns) {
-        gridRefs.push(`${row}${column}`);
-      }
-
-      if (checkForBingo(gridRefs)) {
-        gridRefs.forEach((gridRef) => {
-          tempGoldenSquares.push(gridRef);
-        })
+  function checkForBingo( gridRefs ) {
+    let bingo = true;
+    for (const gridRef of gridRefs) {
+      if (!squares[gridRef]?.ticked) {
+        bingo = false;
       }
     }
 
+    return bingo;
+  }
+
+  const rows = {
+    'A': false, 'B': false, 'C': false, 'D': false, 'E': false
+  };
+
+  const columns = {
+    0: false, 1: false, 2: false, 3: false, 4: false
+  };
+
+  const diagonals = [
+    [ 'A0', 'B1', 'C2', 'D3', 'E4' ],
+    [ 'E0', 'D1', 'C2', 'B3', 'A4' ]
+  ]
+
+  for (let row in rows) {
+    let gridRefs = [];
     for (let column in columns) {
-      let gridRefs = [];
-      for (let row in rows) {
-        gridRefs.push(`${row}${column}`);
-      }
-
-      if (checkForBingo(gridRefs)) {
-        gridRefs.forEach((gridRef) => {
-          tempGoldenSquares.push(gridRef);
-        })
-      }
+      gridRefs.push(`${row}${column}`);
     }
 
-    for (let diagonal in diagonals) {
-      const gridRefs = diagonals[diagonal]
+    if (checkForBingo(gridRefs)) {
+      hasBingo = true;
+      gridRefs.forEach((gridRef) => {
+        tempGoldenSquares.push(gridRef);
+      })
+    }
+  }
 
-      if (checkForBingo(gridRefs)) {
-        gridRefs.forEach((gridRef) => {
-          tempGoldenSquares.push(gridRef);
-        })
-      }
+  for (let column in columns) {
+    let gridRefs = [];
+    for (let row in rows) {
+      gridRefs.push(`${row}${column}`);
     }
 
-    setGoldenSquares([ ...tempGoldenSquares ]);
+    if (checkForBingo(gridRefs)) {
+      hasBingo = true;
+      gridRefs.forEach((gridRef) => {
+        tempGoldenSquares.push(gridRef);
+      })
+    }
+  }
+
+  for (let diagonal in diagonals) {
+    const gridRefs = diagonals[diagonal]
+
+    if (checkForBingo(gridRefs)) {
+      hasBingo = true;
+      gridRefs.forEach((gridRef) => {
+        tempGoldenSquares.push(gridRef);
+      })
+    }
+  }
+
+  // if (hasBingo) {
+  //   const mixitupData = {
+  //     event: 'bingo'
+  //   }
+  //   fireMixitupWebhook(mixitupData);
+  // }
+  setGoldenSquares([ ...tempGoldenSquares ]);
+}
+
+export async function fireMixitupWebhook(data) {
+  const url = `${process.env.NEXT_PUBLIC_SITE_URL}/api/mixitup`;
+
+  return await fetch(
+    url,
+    {
+      cache: "no-store",
+      method: "POST",
+      body: JSON.stringify(data)
+    }
+  )
+    .then((res) => res.text())
+    .catch((e) => console.error(e))
 }
