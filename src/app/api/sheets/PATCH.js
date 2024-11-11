@@ -14,7 +14,7 @@ export default async function sheetsEndpointPatch(request) {
       { $set: {
         squares: body.squares,
         updatedTime: Date.now()
-      }}
+      } }
     )
   
   return NextResponse.json(response);

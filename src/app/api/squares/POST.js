@@ -10,6 +10,7 @@ export default async function squaresEndpointPost(request) {
 
   insertDoc.game = body.game ? body.game.toString() : 'Unknown Game';
   insertDoc.text = body.text ? body.text.toString() : '';
+  insertDoc.active = true;
 
   const response = await db
     .collection( 'squares' )

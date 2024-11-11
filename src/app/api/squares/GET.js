@@ -14,14 +14,16 @@ export default async function squaresEndpointGet(request) {
 
   
   const { searchParams } = new URL(request.url);
-  const game = searchParams.get('game');
+  const findParams = { "game": searchParams.get('game') };
+
+  if ( searchParams.get('active') !== null ) {
+    findParams.active = JSON.parse( searchParams.get('active') );
+  }
 
   try {
     const response = await db
       .collection('squares')
-      .find({
-        "game": game,
-      })
+      .find( findParams )
       .toArray()
     
     return NextResponse.json({ success: true, message: response });
