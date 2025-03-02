@@ -153,12 +153,12 @@ export function winChecker( setGoldenSquares, squares ) {
     }
   }
 
-  // if (hasBingo) {
-  //   const mixitupData = {
-  //     event: 'bingo'
-  //   }
-  //   fireMixitupWebhook(mixitupData);
-  // }
+  if (hasBingo) {
+    const mixitupData = {
+      event: 'bingo'
+    }
+    fireMixitupWebhook(mixitupData);
+  }
   setGoldenSquares([ ...tempGoldenSquares ]);
 }
 
