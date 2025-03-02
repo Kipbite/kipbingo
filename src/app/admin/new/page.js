@@ -43,7 +43,10 @@ export default function AdminPage({}) {
       const response = await sendApiRequest(
         'GET',
         '/squares',
-        { game: game?.name }
+        {
+          game: game?.name,
+          active: true
+        }
       );
 
       if (!response.success) {

@@ -3,7 +3,7 @@ import AdminContext from "../context";
 import NewSquarePicker from "./NewSquarePicker";
 
 export default function SquarePickerList({ game }) {
-  const { squares } = useContext(AdminContext);
+  const { squares } = useContext( AdminContext );
 
   return (
     <div className="possibilities">

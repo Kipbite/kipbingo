@@ -21,9 +21,13 @@ export default function SquarePicker({ square }) {
       <span className="delete-possibility" onClick={async () => {
         // TODO: Handle response properly
         const response = await sendApiRequest(
-          'DELETE',
+          'PATCH',
           '/squares',
-          { 'id': square._id }
+          null,
+          {
+            id: square._id,
+            active: false
+          }
         );
 
         setUpdateSquares(updateSquares + 1);
