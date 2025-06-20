@@ -86,7 +86,7 @@ export async function sendApiRequest(
     .catch((e) => console.error(e))
 }
 
-export function winChecker( setGoldenSquares, squares ) {
+export async function winChecker( setGoldenSquares, squares ) {
   let tempGoldenSquares = [];
   let hasBingo = false;
 
@@ -153,11 +153,11 @@ export function winChecker( setGoldenSquares, squares ) {
     }
   }
 
-  if (hasBingo) {
+  if ( hasBingo ) {
     const mixitupData = {
       event: 'bingo'
     }
-    fireMixitupWebhook(mixitupData);
+    // fireMixitupWebhook(mixitupData);
   }
   setGoldenSquares([ ...tempGoldenSquares ]);
 }
