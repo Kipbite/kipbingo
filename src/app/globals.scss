@@ -183,6 +183,28 @@ img {
     margin-bottom: 10px;
   }
 
+	.title {
+		display: flex;
+		align-items: center;
+		gap: 15px;
+
+		button {
+			@include button-like();
+			border: #fff 3px solid;
+			font-size: 2em;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 10px;
+			font-size: 16px;
+
+			&:hover {
+				border-color: #000;
+			}
+		}
+	}
+
 	.header {
 		max-width: 340px;
 		margin-top: 45px;

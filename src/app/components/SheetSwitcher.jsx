@@ -16,8 +16,14 @@ export default function SheetSwitcher({ sheet }) {
         { limit: 20 }
       );
 
+      if ( ! response ) {
+        console.error('Error fetching sheets: No response from /sheets API endpoint');
+        return;
+      }
+
       if (!response.success) {
         console.error('Error fetching sheets: ', response.message);
+        return;
       }
 
       const sheets = response.message;

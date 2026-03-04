@@ -20,6 +20,11 @@ export default function HomePage({}) {
         '/sheets/unfolded'
       );
 
+      if ( ! response ) {
+        console.error( 'Error fetching unfolded sheets: No response from /sheets/unfolded API endpoint' );
+        return;
+      }
+
       if (!response.success) {
         console.error('Error fetching unfolded sheets: ', response.message);
         return;
