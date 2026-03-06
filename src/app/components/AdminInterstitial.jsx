@@ -1,27 +1,40 @@
-"use client";
-
-import { useCookies } from 'next-client-cookies';
 import AdminMenu from "./AdminMenu";
 import AdminLogin from "../components/AdminLogin";
-import { useState } from 'react';
+import { auth } from "../auth";
+import SignIn from "./SignIn";
 
-export default function AdminInterstitial({ children }) {
-  const [ loggedIn, setLoggedIn ] = useState(false);
-  const cookies = useCookies();
-  const cookie = cookies.get('logged-in');
+export default async function AdminInterstitial({ children }) {
+  const session = await auth();
 
-  if ( cookie ) {
+  if ( ! session ) {
     return (
       <>
         <AdminMenu />
-        {children}
+        <AdminLogin />
+      </>
+    );
+  }
+
+  const validIds = process.env.VALID_DISCORD_IDS.split( ',' );
+  const validUser = session &&  validIds.includes( session.user.id );
+
+  if ( validUser ) {
+    return (
+      <>
+        <AdminMenu />
+        { children }
       </>
     )
   } else {
     return (
       <>
-        <AdminMenu />
-        <AdminLogin setLoggedIn={setLoggedIn} />
+        <AdminMenu/>
+        <main className="container invalid-user">
+          <span>
+            Sorry, you&apos;re not authorised to login. Click below to sign in again as a different user.
+          </span>
+          <SignIn />
+        </main>
       </>
     )
   }

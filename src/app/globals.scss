@@ -10,6 +10,7 @@ $background-color_5: #e4fde4;
 $background-color_6: $color_1;
 
 @mixin button-like {
+	cursor: pointer;
   padding: 5px 10px;
   background-color: #ffffff;
   border-radius: 5px;
@@ -534,6 +535,9 @@ select {
 
 .admin-label {
   @include button-like();
+	color: initial;
+	font-size: 16px;
+	text-decoration: none;
 }
 
 .sheet-selector {
@@ -615,4 +619,40 @@ select {
   font-size: 12px;
   font-style: italic;
   margin-top: -8px;
+}
+
+.invalid-user {
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+}
+
+.sign-in {
+	cursor: pointer;
+	border-radius: 30px;
+	border: none;
+	outline: none;
+	padding: 10px 15px;
+	font-size: 18px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	transition: .2s ease-in-out;
+	width: fit-content;
+	text-decoration: none;
+
+	&:hover {
+		transform: scale(1.02);
+		box-shadow: 0 10px 20px -14px #000;
+	}
+}
+
+.discord-sign-in {
+	background-color: #5865F2;
+	color: #ffffff;
+
+	.discord-logo {
+		width: 25px;
+	}
 }

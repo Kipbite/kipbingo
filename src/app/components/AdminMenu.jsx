@@ -1,28 +1,25 @@
 import Link from "next/link";
+import SignOut from "./SignOut";
+import { auth } from "../auth";
 
-export default function AdminMenu({}) {
+export default async function AdminMenu({}) {
+  const session = await auth();
+
   return (
     <div className="admin-menu">
-      <div className="admin-label">
-        <Link href="/admin">
-          Admin
-        </Link>
-      </div>
-      <div className="admin-label">
-        <Link href="/admin/play">
-          Play
-        </Link>
-      </div>
-      <div className="admin-label">
-        <Link href="/admin/new">
-          New
-        </Link>
-      </div>
-      <div className="admin-label">
-        <Link href="/admin/games">
-          Games
-        </Link>
-      </div>
+      <Link href="/admin" className="admin-label">
+        Admin
+      </Link>
+      <Link href="/admin/play" className="admin-label">
+        Play
+      </Link>
+      <Link href="/admin/new" className="admin-label">
+        New
+      </Link>
+      <Link href="/admin/games" className="admin-label">
+        Games
+      </Link>
+      { session?.user && <SignOut className="admin-label" /> }
     </div>
   );
 }
