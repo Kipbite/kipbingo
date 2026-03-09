@@ -8,8 +8,8 @@ const s3Client = new S3Client({
     forcePathStyle: false, // Configures to use subdomain/virtual calling format.
     region: "fra1", // Must be "us-east-1" when creating new Spaces. Otherwise, use the region in your endpoint (for example, nyc3).
     credentials: {
-      accessKeyId: 'DO009PVGKAUMQ8HCET3B', // Access key pair. You can create access key pairs using the control panel or API.
-      secretAccessKey: 'sN7R5zhliBaTYp7Y2jOrFH2a7uTro6FU50yR6Jop1W0' // Secret access key defined through an environment variable.
+      accessKeyId: process.env.SPACES_ACCESS_KEY_ID, // Access key pair. You can create access key pairs using the control panel or API.
+      secretAccessKey: process.env.S3_ACCESS_KEY // Secret access key defined through an environment variable.
     }
 });
 
