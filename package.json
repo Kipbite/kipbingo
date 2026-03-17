@@ -20,6 +20,8 @@
     "use-fit-text": "^2.4.0"
   },
   "devDependencies": {
+    "@types/node": "25.4.0",
+    "@types/react": "19.2.14",
     "eslint": "^8",
     "eslint-config-next": "14.0.0"
   }

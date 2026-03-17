@@ -1,3 +1,7 @@
+import { error } from "console";
+import { NextResponse } from "next/server";
+import { json } from "stream/consumers";
+
 /**
  * Returns the character immediately after the passed character
  * 
@@ -175,4 +179,12 @@ export async function fireMixitupWebhook(data) {
   )
     .then((res) => res.text())
     .catch((e) => console.error(e))
+}
+
+export function apiFail( message ) {
+  return NextResponse.json( { success: false, message } );
+}
+
+export function apiSuccess( message ) {
+  return NextResponse.json( { success: true, message } );
 }

@@ -1,21 +1,22 @@
 import clientPromise from "@/app/lib/mongodb";
+import { apiSuccess } from "@/app/lib/utilities";
 import { ObjectId } from "bson";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export default async function sheetsEndpointPatch(request) {
+export default async function sheetsEndpointPatch( request: NextRequest ) {
   const client = await clientPromise;
-  const db = client.db(process.env.DATABASE);
+  const db = client.db( process.env.DATABASE );
   const body = await request.json();
   
   const response = await db
-    .collection('sheets')
+    .collection( 'sheets' )
     .updateOne(
       { _id: new ObjectId( body.id ) },
       { $set: {
         squares: body.squares,
         updatedTime: Date.now()
       } }
-    )
-  
-  return NextResponse.json(response);
+    );
+
+  return apiSuccess( response );
 }

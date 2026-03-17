@@ -1,8 +1,9 @@
+import { apiFail, apiSuccess } from "@/app/lib/utilities";
 import { NextResponse } from "next/server";
 
-export async function POST( request ) {
+export async function POST( request: NextResponse ) {
   const body = await request.json();
-  const formBody = `data=${JSON.stringify(body)}`;
+  const formBody = `data=${ JSON.stringify( body ) }`;
 
   return await fetch(
     process.env.NEXT_PUBLIC_MIXITUP_WEBHOOK_URL,
@@ -15,14 +16,6 @@ export async function POST( request ) {
       body: formBody
     }
   )
-    .then((res) => {
-      return NextResponse.json({
-        success: true
-      });
-    })
-    .catch((e) => {
-      return NextResponse.json({
-        error: e
-      });
-    })
+    .then( apiSuccess )
+    .catch( apiFail );
 }

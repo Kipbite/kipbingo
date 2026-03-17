@@ -1,14 +1,16 @@
 import clientPromise from "@/app/lib/mongodb";
+import { apiSuccess } from "@/app/lib/utilities";
 import { ObjectId } from "bson";
-import { NextResponse } from "next/server";
+import { Filter, Document, OptionalId } from "mongodb";
+import { NextRequest, NextResponse } from "next/server";
 
-export default async function squaresEndpointPost(request) {
+export default async function squaresEndpointPost( request: NextRequest ) {
   const client = await clientPromise;
   const db = client.db(process.env.DATABASE);
   const body = await request.json();
   
   let response = {};
-  const insertDoc = {};
+  const insertDoc: OptionalId<Document> = {};
 
   insertDoc.game = body.game ? body.game.toString() : 'Unknown Game';
   insertDoc.text = body.text ? body.text.toString() : '';
@@ -26,15 +28,14 @@ export default async function squaresEndpointPost(request) {
         { $set: {
           active: true
         } }
-      )
+      );
   } else {
     insertDoc.active = true;
   
     response = await db
       .collection( 'squares' )
-      .insertOne( insertDoc )
+      .insertOne( insertDoc );
   }
 
-
-  return NextResponse.json( response );
+  return apiSuccess( response );
 } 
