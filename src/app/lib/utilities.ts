@@ -1,6 +1,6 @@
-import { error } from "console";
 import { NextResponse } from "next/server";
-import { json } from "stream/consumers";
+import { ApiMethod, Grid, GridRef, Sheet, Square, TickedSquare } from "../types";
+import { Dispatch } from "react";
 
 /**
  * Returns the character immediately after the passed character
@@ -55,25 +55,18 @@ export function isJsonString(str) {
 
 /**
  * Send a request to this site's API
- * 
- * @param {string} method
- * @param {string} endpoint 
- * @param {Object} [urlParams] 
- * @param {Object} [body] 
- * @param {Object} [options] 
- * @returns {NextResponse}
  */
 export async function sendApiRequest(
-  method,
-  endpoint,
-  urlParams = null,
-  body = null,
-  options = {}
+  method: ApiMethod,
+  endpoint: `/${ string }`,
+  urlParams: Record<string, string> = null,
+  body: RequestInit['body'] = null,
+  options: RequestInit = {}
 ) {
-  urlParams = urlParams ? new URLSearchParams( urlParams ) : '';
+  const queryParams = urlParams ? new URLSearchParams( urlParams ) : '';
 
   options = {
-    cache: "no-store",
+    cache: 'no-store',
     method,
     ...options
   };
@@ -83,21 +76,24 @@ export async function sendApiRequest(
   }
 
   return await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/api${endpoint}?${urlParams}`,
+    `${ process.env.NEXT_PUBLIC_SITE_URL }/api${ endpoint }?${ queryParams }`,
     options
   )
-    .then((res) => res.json())
-    .catch((e) => console.error(e))
+    .then( res => res.json() )
+    .catch( e => console.error( e ) )
 }
 
-export async function winChecker( setGoldenSquares, squares ) {
-  let tempGoldenSquares = [];
+export async function winChecker(
+  setGoldenSquares: Dispatch<GridRef[]>,
+  squares: Sheet['squares']
+) {
+  let tempGoldenSquares: GridRef[] = [];
   let hasBingo = false;
 
-  function checkForBingo( gridRefs ) {
+  function checkForBingo( gridRefs: GridRef[] ) {
     let bingo = true;
-    for (const gridRef of gridRefs) {
-      if (!squares[gridRef]?.ticked) {
+    for ( const gridRef of gridRefs ) {
+      if ( ! squares[ gridRef ]?.ticked ) {
         bingo = false;
       }
     }
@@ -113,47 +109,47 @@ export async function winChecker( setGoldenSquares, squares ) {
     0: false, 1: false, 2: false, 3: false, 4: false
   };
 
-  const diagonals = [
+  const diagonals: GridRef[][] = [
     [ 'A0', 'B1', 'C2', 'D3', 'E4' ],
     [ 'E0', 'D1', 'C2', 'B3', 'A4' ]
   ]
 
-  for (let row in rows) {
-    let gridRefs = [];
-    for (let column in columns) {
-      gridRefs.push(`${row}${column}`);
+  for ( let row in rows ) {
+    let gridRefs: GridRef[] = [];
+    for ( let column in columns ) {
+      gridRefs.push( `${ row }${ column }` as GridRef );
     }
 
-    if (checkForBingo(gridRefs)) {
+    if ( checkForBingo( gridRefs ) ) {
       hasBingo = true;
-      gridRefs.forEach((gridRef) => {
-        tempGoldenSquares.push(gridRef);
-      })
+      gridRefs.forEach( gridRef =>
+        tempGoldenSquares.push( gridRef )
+      );
     }
   }
 
-  for (let column in columns) {
-    let gridRefs = [];
-    for (let row in rows) {
-      gridRefs.push(`${row}${column}`);
+  for ( let column in columns ) {
+    let gridRefs: GridRef[] = [];
+    for ( let row in rows ) {
+      gridRefs.push( `${ row }${ column }` as GridRef );
     }
 
-    if (checkForBingo(gridRefs)) {
+    if ( checkForBingo( gridRefs ) ) {
       hasBingo = true;
-      gridRefs.forEach((gridRef) => {
-        tempGoldenSquares.push(gridRef);
-      })
+      gridRefs.forEach( gridRef =>
+        tempGoldenSquares.push( gridRef )
+      );
     }
   }
 
-  for (let diagonal in diagonals) {
-    const gridRefs = diagonals[diagonal]
+  for ( let diagonal in diagonals ) {
+    const gridRefs = diagonals[ diagonal ];
 
-    if (checkForBingo(gridRefs)) {
+    if ( checkForBingo( gridRefs ) ) {
       hasBingo = true;
-      gridRefs.forEach((gridRef) => {
-        tempGoldenSquares.push(gridRef);
-      })
+      gridRefs.forEach( gridRef => 
+        tempGoldenSquares.push( gridRef )
+      )
     }
   }
 
@@ -163,28 +159,29 @@ export async function winChecker( setGoldenSquares, squares ) {
     }
     // fireMixitupWebhook(mixitupData);
   }
-  setGoldenSquares([ ...tempGoldenSquares ]);
+
+  setGoldenSquares( [ ...tempGoldenSquares ] );
 }
 
-export async function fireMixitupWebhook(data) {
-  const url = `${process.env.NEXT_PUBLIC_SITE_URL}/api/mixitup`;
+export async function fireMixitupWebhook( data: any ) {
+  const url = `${ process.env.NEXT_PUBLIC_SITE_URL }/api/mixitup`;
 
   return await fetch(
     url,
     {
       cache: "no-store",
       method: "POST",
-      body: JSON.stringify(data)
+      body: JSON.stringify( data )
     }
   )
-    .then((res) => res.text())
-    .catch((e) => console.error(e))
+    .then( res => res.text() )
+    .catch( e => console.error( e ) )
 }
 
-export function apiFail( message ) {
+export function apiFail<T>( message: T ) {
   return NextResponse.json( { success: false, message } );
 }
 
-export function apiSuccess( message ) {
+export function apiSuccess<T>( message: T ) {
   return NextResponse.json( { success: true, message } );
 }
