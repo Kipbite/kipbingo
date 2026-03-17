@@ -1,7 +1,7 @@
 import clientPromise from "@/app/lib/mongodb";
 import { apiSuccess } from "@/app/lib/utilities";
 import { ObjectId } from "bson";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
 export default async function sheetsEndpointPatch( request: NextRequest ) {
   const client = await clientPromise;

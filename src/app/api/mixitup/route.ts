@@ -1,7 +1,7 @@
 import { apiFail, apiSuccess } from "@/app/lib/utilities";
-import { NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
-export async function POST( request: NextResponse ) {
+export async function POST( request: NextRequest ) {
   const body = await request.json();
   const formBody = `data=${ JSON.stringify( body ) }`;
 

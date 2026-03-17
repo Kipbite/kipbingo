@@ -1,8 +1,8 @@
 import clientPromise from "@/app/lib/mongodb";
 import { apiSuccess } from "@/app/lib/utilities";
 import { ObjectId } from "bson";
-import { Filter, Document, OptionalId } from "mongodb";
-import { NextRequest, NextResponse } from "next/server";
+import { Document, OptionalId } from "mongodb";
+import { NextRequest } from "next/server";
 
 export default async function squaresEndpointPost( request: NextRequest ) {
   const client = await clientPromise;

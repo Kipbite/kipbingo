@@ -1,7 +1,7 @@
 import clientPromise from "@/app/lib/mongodb";
 import { apiFail, apiSuccess } from "@/app/lib/utilities";
 import { Db, MongoClient } from "mongodb";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
 export default async function gamesEndpointPost( request: NextRequest ) {
   let client: MongoClient;

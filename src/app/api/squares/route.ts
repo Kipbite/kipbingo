@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import squaresEndpointGet from "./GET";
 import squaresEndpointPost from "./POST";
 import squaresEndpointPatch from "./PATCH";
