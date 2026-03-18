@@ -33,7 +33,7 @@
     "**/*.mts",
     "**/*.ts",
     "**/*.tsx"
-, "src/app/api/games/GET.js"  ],
+  ],
   "exclude": [
     "node_modules"
   ]

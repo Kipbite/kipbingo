@@ -1,5 +1,22 @@
-import NextAuth from "next-auth"
+import NextAuth, { DefaultSession } from "next-auth"
 import Discord from "next-auth/providers/discord"
+
+declare module "next-auth" {
+	interface User {
+		id: string
+	}
+	interface Session {
+		user: {
+			id: string
+		} & DefaultSession["user"]
+	}
+}
+
+declare module "next-auth/providers/discord" {
+	interface DiscordProfile {
+		id: string
+	}
+}
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
 	providers: [
@@ -15,8 +32,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 							: parseInt(profile.discriminator) % 5
 					profile.image_url = `https://cdn.discordapp.com/embed/avatars/${defaultAvatarNumber}.png?foo=1`
 				} else {
-					const format = profile.avatar.startsWith("a_") ? "gif" : "png"
-					profile.image_url = `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.${format}?foo=2`
+					const format = profile.avatar.startsWith( "a_" ) ? "gif" : "png"
+					profile.image_url = `https://cdn.discordapp.com/avatars/${ profile.id }/${ profile.avatar }.${ format }`
 				}
 
 				return { ...profile };
@@ -26,8 +43,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 	callbacks: {
 		async session( { session, token } ) {
 			if ( token ) {
-				session.user.id = token.id;
-				session.user.token = token;
+				session.user.id = token.id as string;
 			}
 
 			return session;

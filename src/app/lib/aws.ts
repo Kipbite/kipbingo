@@ -1,5 +1,5 @@
 // Step 1: Import the S3Client object and all necessary SDK commands.
-import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { PutObjectCommand, PutObjectCommandInput, S3Client } from '@aws-sdk/client-s3';
 
 
 // Step 2: The s3Client function validates your request and directs it to your Space's specified endpoint using the AWS SDK.
@@ -13,9 +13,9 @@ const s3Client = new S3Client({
     }
 });
 
-export function uploadImage(file) {
+export function uploadImage(file: File) {
   // Step 3: Define the parameters for the object you want to upload.
-  const params = {
+  const params: PutObjectCommandInput = {
     Bucket: "kipbite-assets", // The path to the directory you want to upload the object to, starting with your Space name.
     Key: `kipbingo/${file.name}`, // Object key, referenced whenever you want to access this file later.
   Body: file, // The object's contents. This variable is an object, not a string.
