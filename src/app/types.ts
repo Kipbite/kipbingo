@@ -27,7 +27,7 @@ export interface Sheet {
 	updatedTime: number
 	game: Game
 	name: string
-  squares: Record<GridRef, Square>
+  squares: Grid
 }
 
 export interface Game {

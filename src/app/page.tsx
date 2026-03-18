@@ -5,17 +5,18 @@ import { emptyGridRefs, sendApiRequest, winChecker } from "./lib/utilities";
 import Grid from "./components/Grid";
 import GameHeader from "./components/GameHeader";
 import SheetSwitcher from "./components/SheetSwitcher";
-import AdminContext from "./context";
+import AdminContext, { HomepageContext } from "./context";
+import { Grid as GridType, GridRef, Sheet } from "./types";
 
-export default function HomePage({}) {
-  const [ sheet, setSheet ] = useState({ squares: emptyGridRefs });
-  const [ goldenSquares, setGoldenSquares ] = useState([]);
+export default function HomePage() {
+  const [ sheet, setSheet ] = useState<Sheet>();
+  const [ goldenSquares, setGoldenSquares ] = useState<GridRef[]>( [] );
 
-  useEffect(() => {
+  useEffect( () => {
     const refreshTime = 1000 * 60 // 1 min
 
     const refreshData = async function() {
-      const response = await sendApiRequest(
+      const response = await sendApiRequest<Sheet>(
         'GET',
         '/sheets/unfolded'
       );
@@ -25,40 +26,42 @@ export default function HomePage({}) {
         return;
       }
 
-      if (!response.success) {
-        console.error('Error fetching unfolded sheets: ', response.message);
+      if ( ! response.success ) {
+        console.error( `Error fetching unfolded sheets: ${ response.message }` );
         return;
       }
 
-      setSheet(response.message);
+      setSheet( response.message );
 
       setTimeout(() => {
         refreshData();
-      }, refreshTime);
+      }, refreshTime );
     }
 
     refreshData();
-  }, []);
+  }, [] );
 
-  useEffect(() => {
-    if (sheet?.squares) {
+  useEffect( () => {
+    if ( sheet?.squares ) {
       winChecker( setGoldenSquares, sheet.squares );
     }
-  }, [ sheet ]);
+  }, [ sheet ] );
   
-  if (!sheet?.squares) {
+  if ( ! sheet?.squares ) {
     return <main className="container">Loading...</main>;
   }
 
+  const contextOptions: HomepageContext = {
+    isAdmin: false,
+    setSheet,
+    goldenSquares
+  }
+
   return (
-    <AdminContext.Provider value={{
-      isAdmin: false,
-      setSheet,
-      goldenSquares
-    }}>
+    <AdminContext.Provider value={ contextOptions }>
       <main>
         <GameHeader game={sheet.game} />
-        <Grid squares={sheet.squares} />
+        <Grid squares={ sheet.squares } variant='play' />
         <SheetSwitcher sheet={sheet} />
       </main>
     </AdminContext.Provider>

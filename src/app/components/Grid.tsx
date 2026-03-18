@@ -5,7 +5,7 @@ import PlayableGridSquare from "./PlayableGridSquare";
 
 interface Props {
   squares: GridType
-  variant: 'play' | 'edit' | 'viewer'
+  variant?: 'play' | 'edit' | 'viewer'
 }
 
 export default function Grid( {

@@ -1,13 +1,12 @@
-import { createContext, Dispatch, ReactNode } from 'react';
+import { createContext, Dispatch } from 'react';
 import { Grid, GridRef, Sheet, Square } from './types';
-import { Document, WithId } from 'mongodb';
 import EditableGridSquare from './components/EditableGridSquare';
 
 export interface HomepageContext {
 	isAdmin: false
 	setSheet: Dispatch<Sheet>
 	goldenSquares: GridRef[]
-	setGoldenSquares: Dispatch<GridRef[]>
+	setGoldenSquares?: Dispatch<GridRef[]>
 }
 
 export interface NewContext {
