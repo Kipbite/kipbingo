@@ -20,10 +20,6 @@ export default async function unfoldedSheetsEndpointGet( request: NextRequest ) 
   const sheetId = searchParams.get( 'sheetId' );
   const fields  = searchParams.get( 'fields' ) ?? 'all';
 
-  if ( ! game || ! sheetId ) {
-    return apiFail( 'Missing required fields in unfolded GET request' );
-  }
-
   let findParams =
     sheetId ? { _id: new ObjectId( sheetId ) } :
     game ? { game: game } :
@@ -44,7 +40,6 @@ export default async function unfoldedSheetsEndpointGet( request: NextRequest ) 
     data = response[0];
   } catch ( error ) {
     return apiFail( error );
-
   }
 
   if (

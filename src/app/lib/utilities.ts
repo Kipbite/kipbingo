@@ -1,22 +1,19 @@
 import { NextResponse } from "next/server";
-import { ApiMethod, Grid, GridRef, Sheet, Square, TickedSquare } from "../types";
+import { ApiMethod, ApiResponse, GridRef, Sheet } from "../types";
 import { Dispatch } from "react";
 
 /**
  * Returns the character immediately after the passed character
- * 
- * @param {string} letter 
- * @returns {string}
  */
-export function nextLetter(letter) {
+export function nextLetter( letter: string ) {
   letter = letter.toString();
-  return String.fromCharCode(letter.charCodeAt(0) + 1);
+  return String.fromCharCode( letter.charCodeAt(0) + 1 );
 }
 
 /**
- * @description An object containing every grid reference as an object with id: null and ticked: {bool}
+ * An object containing every grid reference as an object with id: null and ticked: {bool}
  */
-export const emptyGridRefs = {
+export const emptyGridRefs: Sheet['squares'] = {
   A0: { id: null, ticked: false }, A1: { id: null, ticked: false }, A2: { id: null, ticked: false }, A3: { id: null, ticked: false }, A4: { id: null, ticked: false },
   B0: { id: null, ticked: false }, B1: { id: null, ticked: false }, B2: { id: null, ticked: false }, B3: { id: null, ticked: false }, B4: { id: null, ticked: false },
   C0: { id: null, ticked: false }, C1: { id: null, ticked: false }, C2: { id: null, ticked: false }, C3: { id: null, ticked: false }, C4: { id: null, ticked: false },
@@ -26,11 +23,8 @@ export const emptyGridRefs = {
 
 /**
  * Converts a Date to a human-readable string
- * 
- * @param {Date} date 
- * @returns {string}
  */
-export function formatDate(date = new Date) {
+export function formatDate( date: Date = new Date ) {
   const dd = String(date.getDate()).padStart(2, '0');
   const mm = String(date.getMonth() + 1).padStart(2, '0');
   const yyyy = date.getFullYear();
@@ -40,29 +34,27 @@ export function formatDate(date = new Date) {
 
 /**
  * Is the passed string valid JSON or not
- * 
- * @param {string} str 
- * @returns {boolean}
  */
-export function isJsonString(str) {
+export function isJsonString( string: string ) {
   try {
-      JSON.parse(str);
-  } catch (e) {
-      return false;
+    JSON.parse( string );
+  } catch ( e ) {
+    return false;
   }
+
   return true;
 }
 
 /**
  * Send a request to this site's API
  */
-export async function sendApiRequest(
+export async function sendApiRequest<T>(
   method: ApiMethod,
   endpoint: `/${ string }`,
   urlParams: Record<string, string> = null,
-  body: RequestInit['body'] = null,
+  body: any = null,
   options: RequestInit = {}
-) {
+): Promise<ApiResponse<T>> {
   const queryParams = urlParams ? new URLSearchParams( urlParams ) : '';
 
   options = {
@@ -83,6 +75,10 @@ export async function sendApiRequest(
     .catch( e => console.error( e ) )
 }
 
+/**
+ * Sets the golden squares if there's a straight line
+ * of 5 ticked squares
+ */
 export async function winChecker(
   setGoldenSquares: Dispatch<GridRef[]>,
   squares: Sheet['squares']

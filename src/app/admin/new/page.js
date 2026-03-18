@@ -88,7 +88,7 @@ export default function AdminPage({}) {
         </div>
         
         <div>
-          <SquarePickerList game={gameType} />
+          <SquarePickerList />
           <GamePicker />
           <RandomiseButton />
         </div>

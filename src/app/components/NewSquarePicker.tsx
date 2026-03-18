@@ -1,10 +1,10 @@
 import { useContext, useState } from "react";
-import AdminContext from "../context";
+import AdminContext, { NewContext } from "../context";
 import { sendApiRequest } from "../lib/utilities";
 
-export default function NewSquarePicker({}) {
-  const { updateSquares, setUpdateSquares, gameType } = useContext(AdminContext);
-  const [ newSquare, setNewSquare ] = useState('');
+export default function NewSquarePicker() {
+  const { updateSquares, setUpdateSquares, gameType } = useContext<NewContext>( AdminContext );
+  const [ newSquare, setNewSquare ] = useState( '' );
 
   async function submitNewSquare() {
     await sendApiRequest(
@@ -16,10 +16,12 @@ export default function NewSquarePicker({}) {
         text: newSquare,
       }
     );
-    
+
     setNewSquare('');
     setUpdateSquares(updateSquares + 1);
-    document.querySelector('.new-possibility-input').focus();
+
+    const newInput: HTMLInputElement = document.querySelector( '.new-possibility-input' );
+    newInput.focus();
   }
 
   return (
@@ -28,10 +30,8 @@ export default function NewSquarePicker({}) {
         className="new-possibility-input"
         type="text"
         placeholder="New square"
-        onChange={(e) => {
-          setNewSquare(e.target.value);
-        }}
-        onKeyUp={(e) => {
+        onChange={ e => setNewSquare( e.target.value ) }
+        onKeyUp={ e => {
           let isEnter = false;
 
           if ( e.key !== undefined ) {
@@ -43,13 +43,11 @@ export default function NewSquarePicker({}) {
           if ( isEnter ) {
             submitNewSquare()
           }
-        }}
-        value={newSquare}
+        } }
+        value={ newSquare }
       />
 
-      <button onClick={() => {
-        submitNewSquare()
-      }}>
+      <button onClick={ () => submitNewSquare() }>
         Add
       </button>
     </div>

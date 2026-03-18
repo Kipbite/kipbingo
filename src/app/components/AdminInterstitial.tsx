@@ -1,9 +1,14 @@
 import AdminMenu from "./AdminMenu";
-import AdminLogin from "../components/AdminLogin";
+import AdminLogin from "./AdminLogin";
 import { auth } from "../auth";
 import SignIn from "./SignIn";
+import { ChildElement } from "../types";
 
-export default async function AdminInterstitial({ children }) {
+interface Props {
+  children: ChildElement[]
+}
+
+export default async function AdminInterstitial( { children }: Props ) {
   const session = await auth();
 
   if ( ! session ) {

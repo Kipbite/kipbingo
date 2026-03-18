@@ -1,5 +1,5 @@
-export default function FreeSpace({}) {
-  return(
+export default function FreeSpace() {
+  return (
     <div className="cell-text free-space">
       <div>
         FREE
@@ -9,5 +9,5 @@ export default function FreeSpace({}) {
         SPACE
       </div>
     </div>
-  )
+  );
 }

@@ -2,7 +2,7 @@ import Link from "next/link";
 import SignOut from "./SignOut";
 import { auth } from "../auth";
 
-export default async function AdminMenu({}) {
+export default async function AdminMenu() {
   const session = await auth();
 
   return (
