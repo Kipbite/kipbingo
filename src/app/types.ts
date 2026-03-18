@@ -1,11 +1,10 @@
-import { ObjectId } from "mongodb";
 import { ReactNode } from "react";
 
 export type ChildElement = ReactNode | ReactNode[];
 
 export interface ApiResponse<T = unknown> {
-	success: boolean
-	message: T
+  success: boolean
+  message: T
 }
 
 export type ApiMethod = 'GET'|'POST'|'PATCH'|'DELETE';
@@ -15,26 +14,24 @@ export type GridRef = 'A0'|'A1'|'A2'|'A3'|'A4'|'B0'|'B1'|'B2'|'B3'|'B4'|'C0'|'C1
 export type Grid = Record<GridRef, Square>;
 
 export interface Square {
-	_id: string
-	text: string
-	game: string
-	active: boolean
-	ticked: boolean
-	gridRef?: GridRef
-}
-
-export interface LightweightSquare {
-	id: string
-	ticked: boolean
+  _id: string
+  text: string
+  game: string
+  active: boolean
+  ticked: boolean
+  gridRef?: GridRef
 }
 
 export interface Sheet {
-	_id: string
-	squares: Record<GridRef, LightweightSquare>
+  _id: string
+	updatedTime: number
+	game: Game
+	name: string
+  squares: Record<GridRef, Square>
 }
 
 export interface Game {
-	_id: string
-	name: string
-	header: `https://${ string }.${ 'jpg' | 'jpeg' | 'png' | 'gif' | 'webp' }`
+  _id: string
+  name: string
+  header: `https://${ string }.${ 'jpg'|'jpeg'|'png'|'gif'|'webp' }`
 }

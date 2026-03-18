@@ -21,6 +21,7 @@ export default function EditableGridSquare( { square }: Props ) {
 
     const newActiveSquares = { ...activeSquares };
     newActiveSquares[ square.gridRef ] = newValue ? {
+      gridRef: square.gridRef,
       ticked: false,
       ...newValue
     } : null;

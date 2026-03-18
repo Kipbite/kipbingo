@@ -1,18 +1,19 @@
 import { useContext } from "react";
 import AdminContext, { NewContext } from "../context";
 import { emptyGridRefs } from "../lib/utilities";
-import { Grid, GridRef, LightweightSquare, Square } from "../types";
+import { Grid, GridRef, Square } from "../types";
 
 export default function RandomiseButton() {
   const { squares, setActiveSquares } = useContext<NewContext>( AdminContext );
 
   function handleRandomise() {
     const usableSquares = [ ...squares ];
-    const newSquares: Record<GridRef, Square|LightweightSquare> = { ...emptyGridRefs };
+    const newSquares: Grid = { ...emptyGridRefs };
     
-    Object.keys( emptyGridRefs ).forEach( ( key: GridRef ) => {
-      if ( key === 'C2' ) {
+    Object.keys( emptyGridRefs ).forEach( ( gridRef: GridRef ) => {
+      if ( gridRef === 'C2' ) {
         const newSquare: Square = {
+          gridRef: 'C2',
           _id: '6550ed5c40169af275977fdb',
           text: "free-space",
           game: 'any',
@@ -20,13 +21,14 @@ export default function RandomiseButton() {
           ticked: false,
         };
 
-        newSquares[ key ] = newSquare;
+        newSquares[ gridRef ] = newSquare;
       } else if ( usableSquares.length > 0 ) {
         const rand = Math.floor(
           Math.random() * usableSquares.length
         );
-    
-        newSquares[ key ] = {
+
+        newSquares[ gridRef ] = {
+          gridRef,
           ticked: false,
           ...usableSquares[ rand ].props.square
         }
@@ -35,7 +37,7 @@ export default function RandomiseButton() {
       }
     } );
 
-    setActiveSquares( newSquares as Grid );
+    setActiveSquares( newSquares );
   }
 
   return (

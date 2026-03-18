@@ -1,4 +1,4 @@
-import { GridRef, Grid as GridType } from "../types";
+import { Grid as GridType, GridRef, Square } from "../types";
 import EditableGridSquare from "./EditableGridSquare";
 import GridSquare from "./GridSquare";
 import PlayableGridSquare from "./PlayableGridSquare";
@@ -16,12 +16,16 @@ export default function Grid( {
     <div className="table">
       { Object.keys( squares ).map(
         ( gridRef: GridRef ) => {
+          const square: Square = squares[ gridRef ] ?? {
+            gridRef, ...squares[ gridRef ]
+          };
+
           switch ( variant ) {
             case 'play':
               return (
                 <PlayableGridSquare
                   key={ gridRef }
-                  square={ { gridRef, ...squares[ gridRef ] } }
+                  square={ square }
                 />
               );
 
@@ -29,7 +33,7 @@ export default function Grid( {
               return (
                 <EditableGridSquare
                   key={ gridRef }
-                  square={ { gridRef, ...squares[ gridRef ] } }
+                  square={ square }
                 />
               );
 
@@ -38,7 +42,7 @@ export default function Grid( {
               return (
                 <GridSquare
                   key={ gridRef }
-                  square={ { gridRef, ...squares[ gridRef ] } }
+                  square={ square }
                 />
               );
           }

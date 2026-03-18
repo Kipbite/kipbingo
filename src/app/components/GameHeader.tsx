@@ -6,6 +6,8 @@ interface Props {
 }
 
 export default function GameHeader( { game = null }: Props ) {
+  console.log( 'game: ', game );
+
   return (
     <>
       { ! game &&

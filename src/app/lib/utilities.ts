@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { ApiMethod, ApiResponse, GridRef, Sheet } from "../types";
+import { ApiMethod, ApiResponse, Grid, GridRef, Sheet } from "../types";
 import { Dispatch } from "react";
 
 /**
@@ -7,26 +7,26 @@ import { Dispatch } from "react";
  */
 export function nextLetter( letter: string ) {
   letter = letter.toString();
-  return String.fromCharCode( letter.charCodeAt(0) + 1 );
+  return String.fromCharCode( letter.charCodeAt( 0 ) + 1 );
 }
 
 /**
  * An object containing every grid reference as an object with id: null and ticked: {bool}
  */
-export const emptyGridRefs: Sheet['squares'] = {
-  A0: { id: null, ticked: false }, A1: { id: null, ticked: false }, A2: { id: null, ticked: false }, A3: { id: null, ticked: false }, A4: { id: null, ticked: false },
-  B0: { id: null, ticked: false }, B1: { id: null, ticked: false }, B2: { id: null, ticked: false }, B3: { id: null, ticked: false }, B4: { id: null, ticked: false },
-  C0: { id: null, ticked: false }, C1: { id: null, ticked: false }, C2: { id: null, ticked: false }, C3: { id: null, ticked: false }, C4: { id: null, ticked: false },
-  D0: { id: null, ticked: false }, D1: { id: null, ticked: false }, D2: { id: null, ticked: false }, D3: { id: null, ticked: false }, D4: { id: null, ticked: false },
-  E0: { id: null, ticked: false }, E1: { id: null, ticked: false }, E2: { id: null, ticked: false }, E3: { id: null, ticked: false }, E4: { id: null, ticked: false },
+export const emptyGridRefs: Grid = {
+  A0: null, A1: null, A2: null, A3: null, A4: null,
+  B0: null, B1: null, B2: null, B3: null, B4: null,
+  C0: null, C1: null, C2: null, C3: null, C4: null,
+  D0: null, D1: null, D2: null, D3: null, D4: null,
+  E0: null, E1: null, E2: null, E3: null, E4: null,
 };
 
 /**
  * Converts a Date to a human-readable string
  */
 export function formatDate( date: Date = new Date ) {
-  const dd = String(date.getDate()).padStart(2, '0');
-  const mm = String(date.getMonth() + 1).padStart(2, '0');
+  const dd = String( date.getDate() ).padStart( 2, '0' );
+  const mm = String( date.getMonth() + 1 ).padStart( 2, '0' );
   const yyyy = date.getFullYear();
 
   return mm + '/' + dd + '/' + yyyy;
@@ -63,8 +63,8 @@ export async function sendApiRequest<T>(
     ...options
   };
 
-  if ([ 'POST', 'PATCH' ].includes(method) && body) {
-    options.body = JSON.stringify(body);
+  if ( [ 'POST', 'PATCH' ].includes( method ) && body ) {
+    options.body = JSON.stringify( body );
   }
 
   return await fetch(

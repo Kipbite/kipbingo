@@ -30,12 +30,12 @@ export interface PlayContext {
 	isAdmin: true
 	sheet: Sheet
 	setSheet: Dispatch<Sheet>
-	squares: Square[]
-	setSquares: Dispatch<Square[]>
+	squares: Grid
+	setSquares: Dispatch<Grid>
 	draggedSquare: Square
 	setDraggedSquare: Dispatch<Square>
 	goldenSquares: GridRef[]
-	setGoldenSquares: Dispatch<GridRef[]>
+	setGoldenSquares?: Dispatch<GridRef[]>
 }
 
 type AdminContextOptions = HomepageContext | NewContext | PlayContext;

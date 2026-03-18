@@ -5,7 +5,7 @@ import SignIn from "./SignIn";
 import { ChildElement } from "../types";
 
 interface Props {
-  children: ChildElement[]
+  children: ChildElement
 }
 
 export default async function AdminInterstitial( { children }: Props ) {

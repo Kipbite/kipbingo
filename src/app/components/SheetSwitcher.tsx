@@ -9,10 +9,8 @@ export default function SheetSwitcher({ sheet }) {
   const [ sheetList, setSheetList ] = useState<Sheet[]>();
   const [ selectorOpen, setSelectorOpen ] = useState( false );
 
-  console.log( 'sheetList: ', sheetList );
-
   useEffect(() => {
-    (async () => {
+    ( async () => {
       const response = await sendApiRequest<Sheet[]>(
         'GET',
         '/sheets',

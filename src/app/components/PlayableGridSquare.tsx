@@ -5,12 +5,12 @@ import { fireMixitupWebhook, sendApiRequest } from "../lib/utilities";
 import { GridRef, Square } from "../types";
 
 interface Props {
-  square: Square
+  square?: Square
 }
 
 export default function PlayableGridSquare( { square }: Props ) {
   const { squares, setSquares, sheet, goldenSquares } = useContext<PlayContext>( AdminContext );
-  const isGold = goldenSquares.includes( square.gridRef );
+  const isGold = goldenSquares.includes( square.gridRef ?? null );
 
   return (
     <div
