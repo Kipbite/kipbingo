@@ -4,7 +4,7 @@ import { ObjectId } from "bson";
 import { Document, OptionalId } from "mongodb";
 import { NextRequest } from "next/server";
 
-export default async function squaresEndpointPost( request: NextRequest ) {
+export default async function POST( request: NextRequest ) {
   const client = await clientPromise;
   const db = client.db(process.env.DATABASE);
   const body = await request.json();

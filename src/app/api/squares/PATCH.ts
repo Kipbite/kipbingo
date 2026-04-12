@@ -3,7 +3,7 @@ import { apiFail, apiSuccess } from "@/app/lib/utilities";
 import { ObjectId } from "bson";
 import { NextRequest } from "next/server";
 
-export default async function squaresEndpointPatch( request: NextRequest ) {
+export default async function PATCH( request: NextRequest ) {
   const client = await clientPromise;
   const db = client.db( process.env.DATABASE );
   const body = await request.json();

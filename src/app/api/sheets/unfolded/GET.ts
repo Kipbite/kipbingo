@@ -4,7 +4,7 @@ import { Db, MongoClient, WithId, Document } from "mongodb";
 import { NextRequest } from "next/server";
 import { apiFail, apiSuccess } from "@/app/lib/utilities";
 
-export default async function unfoldedSheetsEndpointGet( request: NextRequest ) {
+export default async function GET( request: NextRequest ) {
   let client: MongoClient;
   let db: Db;
 

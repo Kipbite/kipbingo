@@ -3,7 +3,7 @@ import { apiFail, apiSuccess } from "@/app/lib/utilities";
 import { Db, MongoClient } from "mongodb";
 import { NextRequest } from "next/server";
 
-export default async function gamesEndpointGet( request: NextRequest ) {
+export default async function GET( request: NextRequest ) {
   let client: MongoClient;
   let db: Db;
 

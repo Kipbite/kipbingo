@@ -3,7 +3,7 @@ import { apiFail, apiSuccess } from "@/app/lib/utilities";
 import { MongoClient, Db, Filter, Document } from "mongodb";
 import { NextRequest } from "next/server";
 
-export default async function squaresEndpointGet( request: NextRequest ) {
+export default async function GET( request: NextRequest ) {
   let client: MongoClient;
   let db: Db;
 
