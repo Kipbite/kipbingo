@@ -59,7 +59,7 @@ export default function SquarePickerList() {
             { sure ? 'Are you sure?' : 'Delete All' }
           </span>
         </button>
-
+        {/* @ts-ignore */}
         <button command="show-modal" commandfor="deleted-squares" onClick={ updateDeleted }>
           Previously deleted
         </button>
