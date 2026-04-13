@@ -1,11 +1,30 @@
 import { useContext, useState } from "react";
 import AdminContext, { NewContext } from "../context";
-import NewSquarePicker from "./NewSquarePicker";
 import { sendApiRequest } from "../lib/utilities";
+import NewSquarePicker from "./NewSquarePicker";
+import DeletedSquares from "./DeletedSquares";
+import { Square } from "../types";
 
 export default function SquarePickerList() {
-  const { squares, updateSquares, setUpdateSquares } = useContext<NewContext>( AdminContext );
+  const { squares, updateSquares, setUpdateSquares, gameType, setDeletedSquares } = useContext<NewContext>( AdminContext );
   const [ sure, setSure ] = useState( false );
+
+  async function updateDeleted() {
+    const response = await sendApiRequest<Square[]>(
+      'GET',
+      '/squares',
+      {
+        game: gameType,
+        active: 'false'
+      }
+    );
+
+    if ( response.success ) {
+      setDeletedSquares( response.message );
+    } else {
+      alert( 'Something went wrong' );
+    }
+  };
 
   function handleDeleteAll() {
     if ( ! sure ) {
@@ -40,11 +59,17 @@ export default function SquarePickerList() {
             { sure ? 'Are you sure?' : 'Delete All' }
           </span>
         </button>
+
+        <button command="show-modal" commandfor="deleted-squares" onClick={ updateDeleted }>
+          Previously deleted
+        </button>
       </div>
       <ul>
         { squares || 'Loading...' }
         <NewSquarePicker />
       </ul>
+
+      <DeletedSquares updateDeleted={ updateDeleted } />
     </div>
   );
 }

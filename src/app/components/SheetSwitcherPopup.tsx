@@ -1,6 +1,7 @@
 import { Dispatch } from "react";
 import { Sheet } from "../types";
 import SheetSwitcherOption from "./SheetSwitcherOption";
+import CloseButton from "./CloseButton";
 
 interface Props {
   sheets: Sheet[]
@@ -15,12 +16,7 @@ export default function SheetSwitcherPopup( {
 }: Props ) {
   return (
     <div className="sheet-selector">
-      <button
-        onClick={ () => { setSelectorOpen( false ) } }
-        className="close-button"
-      >
-        X
-      </button>
+      <CloseButton onClick={ () => { setSelectorOpen( false ) } }/>
 
       { sheets.map( sheet => 
         <SheetSwitcherOption

@@ -21,6 +21,7 @@ export default function AdminPage({}) {
   const [ draggedSquare, setDraggedSquare ] = useState<Square>( null );
   const [ sheetName, setSheetName ] = useState( '' );
   const [ updateSquares, setUpdateSquares ] = useState( 0 );
+  const [ deletedSquares, setDeletedSquares ] = useState<Square[]>( [] );
 
   useEffect( () => {
     ( async () => {
@@ -76,6 +77,7 @@ export default function AdminPage({}) {
     sheetName, setSheetName,
     gameType, setGameType,
     updateSquares, setUpdateSquares,
+    deletedSquares, setDeletedSquares,
   }
 
   return (

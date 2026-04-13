@@ -15,6 +15,8 @@ export interface NewContext {
 	setSquares: Dispatch<ReturnType<typeof EditableGridSquare>[]>
 	activeSquares: Grid
 	setActiveSquares: Dispatch<Grid>
+	deletedSquares: Square[]
+	setDeletedSquares: Dispatch<Square[]>
 	draggedSquare: Square
 	setDraggedSquare: Dispatch<Square>
 	sheetName: string
