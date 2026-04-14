@@ -5,7 +5,7 @@ import { fireMixitupWebhook, sendApiRequest } from "../lib/utilities";
 import { GridRef, Square } from "../types";
 
 interface Props {
-  square?: Square
+  square: Square
 }
 
 export default function PlayableGridSquare( { square }: Props ) {
@@ -52,6 +52,8 @@ export default function PlayableGridSquare( { square }: Props ) {
 
           // TODO: Handle response properly
           // console.log(response);
+        } else {
+          console.error( `Could not find square at ${ square.gridRef }` );
         }
       } }
     >

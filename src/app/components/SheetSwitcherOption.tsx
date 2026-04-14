@@ -42,8 +42,8 @@ export default function SheetSwitcherOption({ sheet, active }) {
   }
 
   return ( ! deleted &&
-    <div className={ `sheet-switcher-option ${ active ? 'active' : '' }` }>
-      <span onClick={ handleSelect }>
+    <div className={ `sheet-switcher-option ${ active ? 'active' : '' }` } onClick={ handleSelect }>
+      <span>
         { sheet.name }
       </span>
 

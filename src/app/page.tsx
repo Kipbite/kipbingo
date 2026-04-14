@@ -61,7 +61,7 @@ export default function HomePage() {
     <AdminContext.Provider value={ contextOptions }>
       <main>
         <GameHeader game={sheet.game} />
-        <Grid squares={ sheet.squares } variant='play' />
+        <Grid squares={ sheet.squares } variant='viewer' />
         <SheetSwitcher sheet={sheet} />
       </main>
     </AdminContext.Provider>

@@ -6,25 +6,21 @@ import CloseButton from "./CloseButton";
 interface Props {
   sheets: Sheet[]
   selectedSheet: Sheet
-  setSelectorOpen: Dispatch<boolean>
 }
 
-export default function SheetSwitcherPopup( {
-  sheets,
-  selectedSheet,
-  setSelectorOpen
-}: Props ) {
+export default function SheetSwitcherPopup( { sheets, selectedSheet }: Props ) {
   return (
-    <div className="sheet-selector">
-      <CloseButton onClick={ () => { setSelectorOpen( false ) } }/>
+    <dialog id="sheet-selector" closedby="any">
+      <CloseButton command="close" commandfor="sheet-selector" />
+      <h2>Pick a bingo sheet</h2>
 
-      { sheets.map( sheet => 
+      { sheets && sheets.map( sheet => 
         <SheetSwitcherOption
           key={ sheet._id }
           sheet={ sheet }
           active={ sheet._id === selectedSheet._id }
         />
       ) }
-    </div>
+    </dialog>
   );
 }

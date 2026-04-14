@@ -16,7 +16,12 @@ export default function Grid( {
     <div className="table">
       { Object.keys( squares ).map(
         ( gridRef: GridRef ) => {
-          const square: Square = squares[ gridRef ] ?? {
+          if ( ! squares[ gridRef ] ) {
+            console.error( `Nothing found at ${ gridRef }` );
+            return;
+          }
+
+          const square: Square = squares[ gridRef ].gridRef ? squares[ gridRef ] : {
             gridRef, ...squares[ gridRef ]
           };
 
