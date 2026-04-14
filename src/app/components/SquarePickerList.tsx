@@ -5,6 +5,7 @@ import NewSquarePicker from "./NewSquarePicker";
 import DeletedSquares from "./DeletedSquares";
 import { Square } from "../types";
 import DeleteAll from "./DeleteAll";
+import Button from "./Button";
 
 export default function SquarePickerList() {
   const { squares, gameType, setDeletedSquares } = useContext<NewContext>( AdminContext );
@@ -30,16 +31,14 @@ export default function SquarePickerList() {
     <div className="possibilities">
       <div className="title">
         <h2>Options</h2>
-        {/* @ts-ignore */}
-        <button command="show-modal" commandfor="deleted-squares" onClick={ updateDeleted }>
+        <Button command="show-modal" commandfor="deleted-squares" onClick={ updateDeleted }>
           Previously deleted
-        </button>
-        {/* @ts-ignore */}
-        <button command="show-modal" commandfor="delete-all">
+        </Button>
+        <Button command="show-modal" commandfor="delete-all">
           <span>
             Delete All
           </span>
-        </button>
+        </Button>
       </div>
       <ul>
         { squares || 'Loading...' }

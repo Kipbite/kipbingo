@@ -4,6 +4,7 @@ import { useContext } from "react";
 import AdminContext, { NewContext } from "../context";
 import { sendApiRequest } from "../lib/utilities";
 import CloseButton from "./CloseButton";
+import Button from "./Button";
 
 export default function DeleteAll() {
   const { squares, updateSquares, setUpdateSquares } = useContext<NewContext>( AdminContext );
@@ -36,9 +37,9 @@ export default function DeleteAll() {
 		<dialog id="delete-all" closedby="any">
 			<CloseButton command="close" commandfor="delete-all" />
 			<h2>Are you sure you want to delete { squares?.length } options?</h2>
-			<button onClick={ handleDeleteAll } className="confirm" command="close" commandfor="delete-all">
+			<Button onClick={ handleDeleteAll } className="confirm" command="close" commandfor="delete-all">
 				Yes, delete them
-			</button>
+			</Button>
 		</dialog>
 	);
 }
