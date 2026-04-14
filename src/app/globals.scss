@@ -9,8 +9,7 @@ $background-color_4: #f1d885;
 $background-color_5: #e4fde4;
 $background-color_6: $color_1;
 
-@mixin button-like {
-	cursor: pointer;
+@mixin button-like( $with-border: true, $with-interactive: true ) {
   padding: 5px 10px;
   background-color: #ffffff;
   border-radius: 5px;
@@ -20,9 +19,22 @@ $background-color_6: $color_1;
   color: #000;
   overflow: hidden;
 
-  &:hover {
-    background-color: #f5f5f5;
-  }
+	@if $with-interactive {
+		cursor: pointer;
+
+		&:hover {
+			background-color: #f5f5f5;
+		}
+
+		@if $with-border {
+			border: #fff 3px solid;
+	
+			&:hover {
+				border-color: #000;
+			}
+		}
+	}
+	
 }
 
 * {
@@ -156,7 +168,7 @@ img {
 }
 
 .game-type {
-  @include button-like();
+  @include button-like( false, false );
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -225,7 +237,7 @@ img {
 }
 
 .possibility {
-  @include button-like();
+  @include button-like( false );
   -webkit-column-break-inside: avoid;
   page-break-inside: avoid;
   break-inside: avoid;
@@ -615,7 +627,7 @@ select {
 }
 
 .filesize-label {
-  @include button-like();
+  @include button-like( false, false );
   width: fit-content;
   font-size: 12px;
   font-style: italic;
@@ -681,7 +693,7 @@ dialog {
 	}
 }
 
-#deleted-squares {
+dialog {
 	overflow: scroll;
 	padding-top: 0;
 
@@ -706,6 +718,13 @@ dialog {
 	button {
 		@include button-like();
 		width: 100%;
-		max-width: 66px;
+		max-width: 72px;
 	}
+}
+
+
+.confirm {
+	@include button-like();
+	display: block;
+	margin: 10px auto;
 }
