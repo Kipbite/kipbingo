@@ -16,9 +16,8 @@ export default function DeletedSquares( { updateDeleted }: Props ) {
 
 	return (
 		<dialog id="deleted-squares" closedby="any">
-			<CloseButton onClick={ e => {
-				( e.target as HTMLElement ).closest( 'dialog' ).close();
-			} } />
+			{/* @ts-ignore */}
+			<CloseButton commandFor="deleted-squares" command="close" />
 			<h2>Deleted Squares</h2>
 			<ul>
 				{ deletedSquares.length < 1 && <div>

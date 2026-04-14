@@ -1,10 +1,6 @@
-interface Props {
-	onClick: ( e?: React.MouseEvent<HTMLButtonElement> ) => void
-};
-
-export default function CloseButton( { onClick }: Props ) {
+export default function CloseButton( props ) {
 	return (
-		<button onClick={ onClick } className="close-button">
+		<button { ...props } className="close-button">
 			X
 		</button>
 	);
