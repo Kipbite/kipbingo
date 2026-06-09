@@ -26,7 +26,8 @@ export default async function POST( request: NextRequest ) {
       .updateOne(
         { _id: new ObjectId( getResponse[0]._id ) },
         { $set: {
-          active: true
+          active: true,
+          deleted: false,
         } }
       );
   } else {

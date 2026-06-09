@@ -16,7 +16,8 @@ export default function SquarePickerList() {
       '/squares',
       {
         game: gameType,
-        active: 'false'
+        active: 'false',
+        deleted: '{"$ne": true}',
       }
     );
 

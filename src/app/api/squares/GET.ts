@@ -22,6 +22,10 @@ export default async function GET( request: NextRequest ) {
     findParams.active = JSON.parse( searchParams.get( 'active' ) );
   }
 
+  if ( searchParams.get( 'deleted' ) !== null ) {
+    findParams.deleted = JSON.parse( searchParams.get( 'deleted' ) );
+  }
+
   try {
     const response = await db
       .collection('squares')
