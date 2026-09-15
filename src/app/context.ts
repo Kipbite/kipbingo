@@ -37,6 +37,7 @@ export interface PlayContext {
 	setDraggedSquare: Dispatch<Square>
 	goldenSquares: GridRef[]
 	setGoldenSquares?: Dispatch<GridRef[]>
+	sendSupabaseBroadcast: (sheet: Sheet) => void
 }
 
 type AdminContextOptions = HomepageContext | NewContext | PlayContext;
