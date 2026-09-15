@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function PlayableGridSquare( { square }: Props ) {
-  const { squares, setSquares, sheet, goldenSquares } = useContext<PlayContext>( AdminContext );
+  const { squares, setSquares, sheet, goldenSquares, sendSupabaseBroadcast } = useContext<PlayContext>( AdminContext );
   const isGold = goldenSquares.includes( square.gridRef ?? null );
 
   return (
@@ -49,6 +49,8 @@ export default function PlayableGridSquare( { square }: Props ) {
               squares: newSheetSquares
             }
           );
+
+          sendSupabaseBroadcast( sheet );
 
           // TODO: Handle response properly
           // console.log(response);

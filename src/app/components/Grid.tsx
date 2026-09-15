@@ -8,22 +8,16 @@ interface Props {
   variant?: 'play' | 'edit' | 'viewer'
 }
 
-export default function Grid( {
-  squares,
-  variant = 'viewer'
-}: Props ) {
-  return (
-    <div className="table">
-      { Object.keys( squares ).map(
-        ( gridRef: GridRef ) => {
-          if ( ! squares[ gridRef ] ) {
-            console.error( `Nothing found at ${ gridRef }` );
-            return;
-          }
-
-          const square: Square = squares[ gridRef ].gridRef ? squares[ gridRef ] : {
-            gridRef, ...squares[ gridRef ]
-          };
+export default function Grid({ squares, variant = "viewer" }: Props) {
+	return (
+		<div className="table">
+			{Object.keys(squares).map((gridRef: GridRef) => {
+				const square: Square = squares[gridRef]?.gridRef
+					? squares[gridRef]
+					: {
+							gridRef,
+							...squares[gridRef],
+						};
 
           switch ( variant ) {
             case 'play':

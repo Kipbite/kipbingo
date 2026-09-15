@@ -22,8 +22,6 @@ export function uploadImage(file: File) {
     ACL: "public-read", // Defines ACL permissions, such as private or public.
     Metadata: {} // Defines metadata tags.
   };
-
-  console.log(params);
   
   // Step 4: Define a function that uploads your object using SDK's PutObjectCommand object and catches any errors.
   const uploadObject = async () => {

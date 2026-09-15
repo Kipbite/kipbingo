@@ -8,6 +8,7 @@ import GameHeader from "../../components/GameHeader";
 import SheetSwitcher from "@/app/components/SheetSwitcher";
 import { useSearchParams } from "next/navigation";
 import { GridRef, Sheet, Square } from "@/app/types";
+import useSupabase from "@/app/hooks/useSupabase";
 
 export default function PlayPage() {
   const searchParams = useSearchParams();
@@ -17,6 +18,16 @@ export default function PlayPage() {
   const [ squares, setSquares ] = useState( emptyGridRefs );
   const [ draggedSquare, setDraggedSquare ] = useState<Square>( null );
   const [ goldenSquares, setGoldenSquares ] = useState<GridRef[]>( [] );
+
+  const [ channel ] = useSupabase('bingo');
+
+  function sendSupabaseBroadcast(sheet: Sheet) {
+    channel.send({
+      type: 'broadcast',
+      event: 'update',
+      payload: sheet,
+    });
+  }
 
   useEffect( () => {
     ( async () => {
@@ -53,10 +64,8 @@ export default function PlayPage() {
     sheet, setSheet,
     squares, setSquares,
     draggedSquare, setDraggedSquare,
-    goldenSquares,
+    goldenSquares, sendSupabaseBroadcast
   };
-
-  console.log( 'sheet: ', sheet );
 
   return (
     <AdminContext.Provider value={ contextOptions }>

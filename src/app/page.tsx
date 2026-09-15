@@ -1,44 +1,50 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { emptyGridRefs, sendApiRequest, winChecker } from "./lib/utilities";
+import { sendApiRequest, winChecker } from "./lib/utilities";
 import Grid from "./components/Grid";
 import GameHeader from "./components/GameHeader";
 import SheetSwitcher from "./components/SheetSwitcher";
 import AdminContext, { HomepageContext } from "./context";
-import { Grid as GridType, GridRef, Sheet } from "./types";
+import { GridRef, Sheet } from "./types";
+import useSupabase from "./hooks/useSupabase";
 
 export default function HomePage() {
   const [ sheet, setSheet ] = useState<Sheet>();
   const [ goldenSquares, setGoldenSquares ] = useState<GridRef[]>( [] );
+  const [ channel ] = useSupabase('bingo');
 
   useEffect( () => {
-    const refreshTime = 1000 * 60 // 1 min
+    if ( !channel ) {
+      return;
+    }
 
-    const refreshData = async function() {
+    channel.on(
+      'broadcast',
+      { event: 'update' },
+      ( { payload } ) => setSheet( payload )
+    ).subscribe();
+  }, [ sheet, channel ] );
+
+  useEffect( () => {
+    (async () => {
       const response = await sendApiRequest<Sheet>(
         'GET',
         '/sheets/unfolded'
       );
-
+    
       if ( ! response ) {
         console.error( 'Error fetching unfolded sheets: No response from /sheets/unfolded API endpoint' );
         return;
       }
-
+    
       if ( ! response.success ) {
         console.error( `Error fetching unfolded sheets: ${ response.message }` );
         return;
       }
-
+    
       setSheet( response.message );
-
-      setTimeout(() => {
-        refreshData();
-      }, refreshTime );
-    }
-
-    refreshData();
+    })();
   }, [] );
 
   useEffect( () => {
